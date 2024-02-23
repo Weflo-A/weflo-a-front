@@ -1,27 +1,36 @@
-name: weflo-a-front
+name: Deploy to s3
 on:
   push:
     branches:
-      - main
+    - main
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: 'ap-northeast-2'
-    steps:
-      - name: Checkout source code.
-        uses: actions/checkout@master
-      - name: Upload binary to S3 bucket
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --exclude '*' --include 'index.html'
-        env:
-          AWS_S3_BUCKET: ${{ secrets.BUCKET_NAME }}
-      - name: Invalidate cache CloudFront
-        uses: chetan/invalidate-cloudfront-action@master
-        env:
-          DISTRIBUTION: ${{ secrets.DISTRIBUTION_ID }}
-          PATHS: '/index.html'
-        continue-on-error: true
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+      
+    steps: 
+    - uses: actions/checkout@main
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        
+    - name: npm install, build
+      run: |
+        cd frontend
+        npm install --legacy-peer-deps
+        CI='' npm run build
+        
+    - name: Deploy
+      uses: reggionick/s3-deploy@v3
+      with:
+        folder: frontend/build
+        bucket: ${{ secrets.S3_BUCKET }}
+        bucket-region: ${{ secrets.S3_BUCKET_REGION }}
+        invalidation: /
+        delete-removed: true
+        no-cache: true
+        private: true
