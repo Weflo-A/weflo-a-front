@@ -1,5 +1,5 @@
 const Home = () => {
-  return <h1>cICD</h1>;
+  return <h1>CICD</h1>;
 };
 
 export default Home;
