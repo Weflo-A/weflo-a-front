@@ -1,4 +1,4 @@
-name: weflow deploy
+name: weflo deploy
 on:
   push:
     branches:
