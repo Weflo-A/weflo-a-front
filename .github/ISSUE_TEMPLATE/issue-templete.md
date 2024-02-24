@@ -1,7 +1,7 @@
 ---
-name: "[type]: 작업 내용"
+name: issue templete
 about: issue templete
-title: ''
+title: "[type]: 작업 내용"
 labels: ''
 assignees: ''
 
@@ -16,5 +16,9 @@ assignees: ''
 - [ ] TODO
 - [ ] TODO
 - [ ] TODO
+
+<br />
+
+## 📃 참고할만한 자료 (선택)
 
 <br />
