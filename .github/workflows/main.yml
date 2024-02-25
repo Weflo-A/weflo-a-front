@@ -1,4 +1,4 @@
-name: weflo deploy
+name: Weflo S3 Deploy
 on:
   push:
     branches:
@@ -18,13 +18,13 @@ jobs:
       with:
         node-version: 18
         
-    - name: npm install, build
+    - name: Install & Build
       run: |
         npm install --legacy-peer-deps
         CI='' npm run build
         
     - name: Deploy
-      uses: reggionick/s3-deploy@v3
+      uses: reggionick/s3-deploy@v4
       with:
         folder: build
         bucket: ${{ secrets.S3_BUCKET }}
