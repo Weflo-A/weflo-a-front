@@ -1,5 +1,23 @@
+import { Button, useTheme } from '@mui/material';
+
 const Test = () => {
-  return <h1>this is test!</h1>;
+  const theme = useTheme();
+
+  return (
+    <h1>
+      this is test!
+      <Button color='primary' variant='contained'>
+        test
+      </Button>
+      <button
+        style={{
+          background: theme.palette.warning.light,
+        }}
+      >
+        경고
+      </button>
+    </h1>
+  );
 };
 
 export default Test;
