@@ -1,5 +1,11 @@
+import NavBar from '../components/NavBar';
+
 const Home = () => {
-  return <h1>CICD TEST222</h1>;
+  return (
+    <>
+      <NavBar />
+    </>
+  );
 };
 
 export default Home;
