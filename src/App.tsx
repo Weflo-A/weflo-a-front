@@ -1,14 +1,13 @@
-import { ThemeProvider } from "styled-components";
 import "./App.css";
 import Router from "./Router";
 import GlobalStyles from "./styles/GlobalStyles";
-import { lightTheme } from "./styles/theme";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./styles/theme";
 
 function App() {
-
   return (
     <>
-      <ThemeProvider theme={lightTheme}>
+      <ThemeProvider theme={theme}>
         <GlobalStyles />
         <Router />
       </ThemeProvider>

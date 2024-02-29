@@ -1,4 +1,4 @@
-name: weflo deploy
+name: Weflo S3 Deploy
 on:
   push:
     branches:
@@ -18,19 +18,10 @@ jobs:
       with:
         node-version: 18
         
-    - name: npm install, build
+    - name: Install & Build
       run: |
-        cd frontend
         npm install --legacy-peer-deps
         CI='' npm run build
         
     - name: Deploy
-      uses: reggionick/s3-deploy@v3
-      with:
-        folder: frontend/build
-        bucket: ${{ secrets.S3_BUCKET }}
-        bucket-region: ${{ secrets.S3_BUCKET_REGION }}
-        invalidation: /
-        delete-removed: true
-        no-cache: true
-        private: true
+      run: aws s3 sync ./build s3://${{ secrets.S3_BUCKET }} --profile=weflow-a
