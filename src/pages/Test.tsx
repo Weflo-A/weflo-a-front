@@ -1,4 +1,4 @@
-import { Button, useTheme } from "@mui/material";
+import { Button, useTheme } from '@mui/material';
 
 const Test = () => {
   const theme = useTheme();
@@ -6,7 +6,7 @@ const Test = () => {
   return (
     <h1>
       this is test!
-      <Button color="primary" variant="contained">
+      <Button color='primary' variant='contained'>
         test
       </Button>
       <button
