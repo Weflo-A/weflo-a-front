@@ -1,6 +1,7 @@
 // import { createGlobalStyle } from 'styled-components';
 import { Global, css } from '@emotion/react';
 import colors from 'src/constants/colors';
+import 'src/fonts/Font.css';
 
 const globalStyles = css`
   * {
