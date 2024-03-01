@@ -1,3 +1,4 @@
+import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
 interface Props {
@@ -19,7 +20,7 @@ const Group = styled.div`
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  background: var(--Basic-B-700, #334155);
+  background: ${colors.basic700};
   color: var(--White, #fff);
   font-size: 12px;
   font-style: normal;

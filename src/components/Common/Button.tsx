@@ -23,6 +23,7 @@ interface ButtonProps extends ButtonTypes {
   buttonType?: buttonType;
   children?: React.ReactNode;
   onClick: () => void;
+  style?: React.CSSProperties & { fontSize?: string };
 }
 
 type buttonColorType = {
@@ -77,7 +78,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 //
 
 const Button = (props: ButtonProps) => {
-  const { text, buttonType, onClick } = props;
+  const { text, buttonType, onClick, style } = props;
   const [buttonColor, setButtonColor] = React.useState(initalButtonColors);
 
   /* handle button color type */
@@ -122,7 +123,7 @@ const Button = (props: ButtonProps) => {
   }, []);
 
   return (
-    <StyledButton colorType={buttonColor} onClick={onClick}>
+    <StyledButton style={style} colorType={buttonColor} onClick={onClick}>
       {text}
     </StyledButton>
   );
