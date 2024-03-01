@@ -1,5 +1,5 @@
 import colors from 'src/constants/colors';
-import wefloLogo from 'asset/weflo-logo.png';
+import wefloLogo from 'src/asset/weflo-logo.png';
 import styled from 'styled-components';
 
 //
