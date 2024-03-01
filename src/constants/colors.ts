@@ -17,7 +17,7 @@ const colors = {
   accentOpacity20: '#ff35cc',
   accentOpacity10: '#fff2e6',
   accentHover: '#d35d00',
-  accentpressed: '#c2410c',
+  accentPressed: '#c2410c',
   primary100: '#5797ff',
   primary50: '#7eb1ff',
   primary40: '#a5c7ff',
