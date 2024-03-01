@@ -58,6 +58,9 @@ const StyledButton = styled.button<StyledButtonProps>`
   border-radius: 0.5rem;
   color: ${(props) => props.colorType?.color};
   background: ${(props) => props.colorType?.bgColor};
+  transition:
+    color 200ms,
+    background-color 200ms;
   &:hover {
     color: ${(props) => props.colorType?.hoverColor};
     background: ${(props) => props.colorType?.hoverBgColor};
