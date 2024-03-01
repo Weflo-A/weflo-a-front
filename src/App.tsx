@@ -3,6 +3,7 @@ import Router from './Router';
 import GlobalStyles from './styles/GlobalStyles';
 import { ThemeProvider } from '@mui/material';
 import { theme } from './styles/theme';
+import NavBar from './components/NavBar';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <span style={{ fontWeight: '700', fontSize: '140px' }}>
           Pretendard B 700
         </span>
+        <NavBar />
         <Router />
       </ThemeProvider>
     </>
