@@ -7,11 +7,16 @@ import NavBar from './components/NavBar';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <NavBar />
-      <Router />
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <span style={{ fontWeight: '700', fontSize: '140px' }}>
+          Pretendard B 700
+        </span>
+        <NavBar />
+        <Router />
+      </ThemeProvider>
+    </>
   );
 }
 

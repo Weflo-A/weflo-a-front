@@ -1,4 +1,4 @@
-// import { createGlobalStyle } from "styled-components";
+// import { createGlobalStyle } from 'styled-components';
 import { Global, css } from '@emotion/react';
 import colors from 'src/constants/colors';
 
@@ -7,6 +7,7 @@ const globalStyles = css`
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Pretendard';
   }
   body {
     background-color: ${colors.basic100};
