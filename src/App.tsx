@@ -9,6 +9,9 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
+        <span style={{ fontWeight: '700', fontSize: '140px' }}>
+          Pretendard B 700
+        </span>
         <Router />
       </ThemeProvider>
     </>
