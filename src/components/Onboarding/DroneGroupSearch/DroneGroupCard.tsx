@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 import { Drone1, GroupOut } from '../../../assets';
-
-// interface Props {
-//   num: number;
-// }
+import colors from 'src/constants/colors';
 
 const DroneGroupCard = () => {
   return (
@@ -17,11 +14,26 @@ const DroneGroupCard = () => {
       <Bottom>
         <Drone1 />
         <Info>
-          <Box>모델명</Box>
-          <Box>사용 용도</Box>
-          <Box>생산연도</Box>
-          <Box>투입 비용</Box>
-          <Box>그룹 설정 일자</Box>
+          <Box>
+            <Name>모델명</Name>
+            <Value>Eagle</Value>
+          </Box>
+          <Box>
+            <Name>사용용도</Name>
+            <Value>편의점 배달</Value>
+          </Box>
+          <Box>
+            <Name>생산연도</Name>
+            <Value>50,620원</Value>
+          </Box>
+          <Box>
+            <Name>투입 비용</Name>
+            <Value>50,620원</Value>
+          </Box>
+          <Box>
+            <Name>그룹 설정 일자</Name>
+            <Value>2022.11.11</Value>
+          </Box>
         </Info>
       </Bottom>
     </Card>
@@ -39,7 +51,6 @@ const Card = styled.div`
   align-items: center;
   border-radius: 12px;
   background: var(--White, #fff);
-  border: 1px solid #000;
   gap: 12px;
 `;
 
@@ -56,10 +67,9 @@ const Top = styled.div`
 `;
 
 const Title = styled.div`
-  color: var(--Basic-B-700, #334155);
+  color: ${colors.basic700};
 
   /* Body/B3/Bold */
-  font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
@@ -70,10 +80,9 @@ const Delete = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--Basic-B-400, #94a3b8);
+  color: ${colors.basic400};
 
   /* Caption/C2/Regular */
-  font-family: Pretendard;
   font-size: 11px;
   font-style: normal;
   font-weight: 400;
@@ -97,8 +106,33 @@ const Info = styled.div`
 const Box = styled.div`
   width: 210px;
   height: 28px;
-  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0px 10px;
   border-radius: 8px;
-  border: 1px solid var(--Basic-B-100, #f1f5f9);
-  background: var(--Basic-B-50, #f8fafc);
+  border: 1px solid ${colors.basic100};
+  background: ${colors.basic50};
+`;
+
+const Name = styled.div`
+  color: ${colors.basic500};
+  text-align: left;
+
+  /* Caption/C1/Regular */
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%; /* 18px */
+`;
+
+const Value = styled.div`
+  color: ${colors.basic700};
+  text-align: left;
+
+  /* Caption/C1/Medium */
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 18px */
 `;

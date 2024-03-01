@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 import { droneListData } from '../../../assets/data/droneListData';
 import { DroneGroupBox } from './DroneGroupBox';
+import colors from 'src/constants/colors';
+import Button from 'src/components/common/Button';
+import { Bigger } from 'src/assets';
 
-function DroneList() {
+function DroneLists() {
   return (
     <Container>
       <Wrapper>
@@ -25,13 +28,22 @@ function DroneList() {
                       <DroneGroupBox key={num} num={num} />
                     ))}
                   </Groups>
+                  <Button
+                    text={
+                      <>
+                        대시보드 <Bigger />
+                      </>
+                    }
+                    buttonType='accentLight'
+                    onClick={() => alert('대시보드 이동')}
+                  />
                 </Drone>
               );
             })}
           </Drones>
         ) : (
           <NoData>
-            <span>데이터 없음</span>
+            <span>결과 없음</span>
           </NoData>
         )}
       </Wrapper>
@@ -39,7 +51,7 @@ function DroneList() {
   );
 }
 
-export { DroneList };
+export { DroneLists };
 
 const Container = styled.div`
   display: flex;
@@ -49,21 +61,21 @@ const Container = styled.div`
   align-items: flex-start;
   gap: 8px;
   border-radius: 12px;
-  border: 1px solid var(--Basic-B-200, #e2e8f0);
+  border: 1px solid ${colors.basic200};
   background: #fff;
-  font-family: 'Pretendard';
 `;
 
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 `;
 
 const Columns = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 3fr;
+  grid-template-columns: 1fr 1fr 1fr 3fr 0.5fr;
   gap: 12px;
   padding-right: 15px;
   box-sizing: border-box;
@@ -77,10 +89,9 @@ const Column = styled.span`
   border-radius: 34px;
   padding: 0px 15px;
 
-  color: var(--Basic-B-400, #94a3b8);
+  color: ${colors.basic400};
 
   /* Body/B3/Medium */
-  /* font-family: 'Pretendard'; */
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -115,16 +126,16 @@ const Drone = styled.div`
   flex-shrink: 0;
   padding: 0px 15px;
   border-radius: 8px;
-  border: 1px solid var(--Basic-B-100, #f1f5f9);
-  background: var(--Basic-B-50, #f8fafc);
+  border: 1px solid ${colors.basic100};
+  background: ${colors.basic50};
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 3fr;
+  grid-template-columns: 1fr 1fr 1fr 2.5fr 0.8fr;
   gap: 12px;
   cursor: pointer;
   padding-right: 15px;
 
-  color: var(--Basic-B-700, #334155);
+  color: ${colors.basic700};
 
   /* Body/B3/Medium */
   font-family: 'Pretendard';
