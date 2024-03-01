@@ -9,8 +9,6 @@ const globalStyles = css`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Pretendard';
-    font-weight: 500;
-    line-height: 150%;
   }
   body {
     background-color: ${colors.basic100};
