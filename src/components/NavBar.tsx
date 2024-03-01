@@ -9,10 +9,9 @@ import styled from 'styled-components';
 const NavContainer = styled.div`
   width: 100%;
   height: 3.25rem;
-  position: 'absolute';
+  position: fixed;
   top: 0;
   left: 0;
-  box-sizing: border-box;
   background: ${colors.secondary};
   padding: 0rem 5rem;
 `;
@@ -22,7 +21,6 @@ const NavStack = styled.div`
   flexdirection: row;
   align-items: center;
   justify-content: space-between;
-  box-sizing: border-box;
 `;
 const RightWrapper = styled.div`
   height: 100%;
