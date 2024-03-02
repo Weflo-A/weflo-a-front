@@ -27,7 +27,8 @@ const FilterLine: React.FC<FilterLineProps> = ({ filterData }) => {
 export default FilterLine;
 
 const Line = styled.div`
-  width: 981px;
+  /* width: 981px; */
+  width: 100%;
   height: 40px;
   border-radius: 8px;
   background: var(--Primary-Transparent-10, rgba(87, 151, 255, 0.1));

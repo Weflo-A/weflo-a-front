@@ -55,7 +55,7 @@ export { DroneLists };
 
 const Container = styled.div`
   display: flex;
-  width: 1020px;
+  width: 100%;
   padding: 20px;
   flex-direction: column;
   align-items: flex-start;
@@ -75,7 +75,7 @@ const Wrapper = styled.div`
 const Columns = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 3fr 0.5fr;
+  grid-template-columns: 1fr 1fr 1fr 2.5fr 0.8fr;
   gap: 12px;
   padding-right: 15px;
   box-sizing: border-box;
@@ -121,7 +121,7 @@ const NoData = styled.div`
 const Drone = styled.div`
   display: flex;
   align-items: center;
-  width: 980px;
+  width: 100%;
   height: 52px;
   flex-shrink: 0;
   padding: 0px 15px;

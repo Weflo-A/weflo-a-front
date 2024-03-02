@@ -51,7 +51,7 @@ export default DroneSearch;
 
 const Container = styled.div`
   display: flex;
-  width: 1020px;
+  width: 100%;
   padding: 20px;
   flex-direction: column;
   align-items: flex-start;
