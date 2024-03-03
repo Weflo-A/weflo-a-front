@@ -4,6 +4,8 @@ import colors from 'src/constants/colors';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //
 //
@@ -28,12 +30,28 @@ const TabItem = styled.div`
     color: ${colors.primary100};
     background-color: ${colors.primaryOpacity10};
   }
+  &.active {
+    color: ${colors.primary100};
+    background-color: ${colors.primaryOpacity10};
+  }
 `;
 //
 //
 //
 
 const MenuTab = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isSearchTab = location.pathname.includes('/drone-search');
+  const [activeTab, setActiveTab] = React.useState(
+    isSearchTab ? '드론조회' : '드론 그룹 1'
+  );
+
+  const handleTabMenu = (name: string, url: string) => {
+    navigate(url);
+    setActiveTab(name);
+  };
   /* 드론 조회하기 탭 */
   const renderDroneSearchTab = () => {
     return (
@@ -47,7 +65,12 @@ const MenuTab = () => {
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          <TabItem>
+          <TabItem
+            className={activeTab === '드론조회' ? 'active' : ''}
+            onClick={() =>
+              handleTabMenu('드론조회', '/monitoring/drone-search')
+            }
+          >
             <Typography fontSize='14px' fontWeight={400}>
               드론 조회하기
             </Typography>
@@ -70,12 +93,22 @@ const MenuTab = () => {
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          <TabItem>
+          <TabItem
+            className={activeTab === '드론 그룹 1' ? 'active' : ''}
+            onClick={() =>
+              handleTabMenu('드론 그룹 1', '/monitoring/drone-group/1')
+            }
+          >
             <Typography fontSize='14px' fontWeight={400}>
               드론 그룹1
             </Typography>
           </TabItem>
-          <TabItem>
+          <TabItem
+            className={activeTab === '드론 그룹 2' ? 'active' : ''}
+            onClick={() =>
+              handleTabMenu('드론 그룹 2', '/monitoring/drone-group/1')
+            }
+          >
             <Typography fontSize='14px' fontWeight={400}>
               드론 그룹2
             </Typography>
