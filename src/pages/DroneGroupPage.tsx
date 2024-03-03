@@ -62,7 +62,7 @@ const LabelSquare = styled.div<{ color: string }>`
 //
 //
 
-const DroneGroup = () => {
+const DroneGroupPage = () => {
   const [groupYear, setGroupYear] = React.useState('2024년');
   const [droneYear, setDroneYear] = React.useState('2024년');
 
@@ -233,4 +233,4 @@ const DroneGroup = () => {
   );
 };
 
-export default DroneGroup;
+export default DroneGroupPage;
