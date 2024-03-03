@@ -11,6 +11,7 @@ import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
 import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 import Chip from 'src/components/common/Chip';
+import CheckBox from 'src/components/common/CheckBox';
 
 //
 //
@@ -232,9 +233,21 @@ const DroneGroupPage = () => {
           {renderDroneGroupInfo()}
           {renderDroneStateInfo()}
         </Stack>
-        <SectionHeader title='드롭 목록' sx={{ paddingTop: '2.5rem' }}>
+        <SectionHeader
+          title='드론 목록'
+          sx={{ paddingTop: '2.5rem', marginBottom: '0' }}
+        >
           <Chip text='6개' />
         </SectionHeader>
+        <Stack
+          flexDirection='row'
+          justifyContent='flex-end'
+          marginBottom='1rem'
+        >
+          {['투입 비용 순', '등록 순', '연식 순'].map((item, index) => (
+            <CheckBox key={index} label={item} />
+          ))}
+        </Stack>
         <DroneGroupList />
       </div>
     </>
