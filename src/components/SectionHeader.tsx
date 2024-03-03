@@ -1,17 +1,22 @@
-import { Stack, Typography } from '@mui/material';
+import { Stack, StackProps, Typography } from '@mui/material';
 
-interface SectionHeaderProp {
+interface SectionHeaderProp extends StackProps {
   title: string;
   children?: React.ReactElement;
 }
 
-const SectionHeader = ({ title, children }: SectionHeaderProp) => {
+const SectionHeader = ({
+  title,
+  children,
+  ...stackProps
+}: SectionHeaderProp) => {
   return (
     <Stack
       direction='row'
       gap='1.25rem'
       alignItems='center'
       marginBottom='1rem'
+      {...stackProps}
     >
       <Typography variant='h3' fontWeight='bold'>
         {title}
