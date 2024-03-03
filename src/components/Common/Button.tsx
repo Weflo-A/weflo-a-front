@@ -1,5 +1,5 @@
 import colors from 'src/constants/colors';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
 //
@@ -19,10 +19,11 @@ type ButtonTypes = React.DetailedHTMLProps<
 >;
 
 interface ButtonProps extends ButtonTypes {
-  text: string;
+  text: ReactNode;
   buttonType?: buttonType;
   children?: React.ReactNode;
   onClick: () => void;
+  style?: React.CSSProperties & { fontSize?: string };
 }
 
 type buttonColorType = {
@@ -50,7 +51,8 @@ const initalButtonColors = {
 };
 
 const StyledButton = styled.button<StyledButtonProps>`
-  padding: 0.5rem 1rem;
+  display: flex;
+  padding: 0.3rem 1rem;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -76,7 +78,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 //
 
 const Button = (props: ButtonProps) => {
-  const { text, buttonType, onClick } = props;
+  const { text, buttonType, onClick, style } = props;
   const [buttonColor, setButtonColor] = React.useState(initalButtonColors);
 
   /* handle button color type */
@@ -121,7 +123,7 @@ const Button = (props: ButtonProps) => {
   }, []);
 
   return (
-    <StyledButton colorType={buttonColor} onClick={onClick}>
+    <StyledButton style={style} colorType={buttonColor} onClick={onClick}>
       {text}
     </StyledButton>
   );

@@ -1,7 +1,7 @@
 import colors from 'src/constants/colors';
-import wefloLogo from 'src/asset/weflo-logo.png';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
+import { WefloLogo } from 'src/assets';
 
 //
 //
@@ -19,7 +19,7 @@ const NavContainer = styled.div`
 const NavStack = styled.div`
   height: 100%;
   display: flex;
-  flexdirection: row;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
 `;
@@ -68,7 +68,7 @@ const NavBar = () => {
   return (
     <NavContainer>
       <NavStack>
-        <img src={wefloLogo} alt='weflo-logo-img' />
+        <WefloLogo />
         <RightWrapper>
           <MenuList>
             <MenuItem>

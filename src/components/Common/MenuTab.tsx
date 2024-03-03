@@ -1,8 +1,9 @@
 import { Divider, Typography } from '@mui/material';
 import styled from 'styled-components';
-import ItemContainer from './ItemContainer';
 import colors from 'src/constants/colors';
+import ItemContainer from './ItemContainer';
 import Button from './Button';
+import { Plus } from 'src/assets';
 
 //
 //
@@ -92,7 +93,11 @@ const MenuTab = () => {
         {renderDroneSearchTab()}
         {renderDroneGroupTab()}
         <Button
-          text='그룹 생성하기'
+          text={
+            <>
+              <Plus /> 그룹 생성하기
+            </>
+          }
           buttonType='accentLight'
           onClick={() => alert('클릭')}
         />
