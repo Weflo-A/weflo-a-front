@@ -46,6 +46,7 @@ const DroneSearch: React.FC = () => {
           text={<>검색하기</>}
           buttonType='accent'
           onClick={() => alert('검색하기 성공')}
+          style={{ width: '122px', height: '44px', fontSize: '18px' }}
         />
       </Bottom>
     </Container>
