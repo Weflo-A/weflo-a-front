@@ -39,8 +39,8 @@ const MenuTab = () => {
     return (
       <TabWrapper>
         <Typography
-          variant='h6'
-          fontWeight={700}
+          variant='body2'
+          fontWeight='bold'
           sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
         >
           드론
@@ -48,7 +48,9 @@ const MenuTab = () => {
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
           <TabItem>
-            <Typography variant='body2'>드론 조회하기</Typography>
+            <Typography fontSize='14px' fontWeight={400}>
+              드론 조회하기
+            </Typography>
           </TabItem>
         </TabList>
       </TabWrapper>
@@ -60,7 +62,8 @@ const MenuTab = () => {
     return (
       <TabWrapper>
         <Typography
-          variant='h6'
+          variant='body2'
+          fontWeight='bold'
           sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
         >
           드론 그룹
@@ -68,10 +71,14 @@ const MenuTab = () => {
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
           <TabItem>
-            <Typography variant='body2'>드론 그룹1</Typography>
+            <Typography fontSize='14px' fontWeight={400}>
+              드론 그룹1
+            </Typography>
           </TabItem>
           <TabItem>
-            <Typography variant='body2'>드론 그룹2</Typography>
+            <Typography fontSize='14px' fontWeight={400}>
+              드론 그룹2
+            </Typography>
           </TabItem>
         </TabList>
       </TabWrapper>

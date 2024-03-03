@@ -21,7 +21,6 @@ const globalStyles = css`
     width: 100%;
     padding-top: 3.25rem;
     padding-left: 16.25rem;
-    padding-right: 5rem;
   }
 `;
 const GlobalStyles = () => {

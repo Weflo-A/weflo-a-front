@@ -1,5 +1,6 @@
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
+import { Typography } from '@mui/material';
 import { WefloLogo } from 'src/assets';
 
 //
@@ -70,10 +71,22 @@ const NavBar = () => {
         <WefloLogo />
         <RightWrapper>
           <MenuList>
-            <MenuItem>모니터링</MenuItem>
-            <MenuItem>중고거래</MenuItem>
+            <MenuItem>
+              <Typography fontSize='14px' fontWeight='regular'>
+                모니터링
+              </Typography>
+            </MenuItem>
+            <MenuItem>
+              <Typography fontSize='14px' fontWeight='regular'>
+                중고거래
+              </Typography>
+            </MenuItem>
           </MenuList>
-          <EmailBox>jjung0259@gmail.com</EmailBox>
+          <EmailBox>
+            <Typography variant='caption' fontWeight='regular'>
+              jjung0259@gmail.com
+            </Typography>
+          </EmailBox>
         </RightWrapper>
       </NavStack>
     </NavContainer>
