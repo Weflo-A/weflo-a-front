@@ -10,6 +10,7 @@ import MenuTab from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
 import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
+import Chip from 'src/components/common/Chip';
 
 //
 //
@@ -232,11 +233,7 @@ const DroneGroupPage = () => {
           {renderDroneStateInfo()}
         </Stack>
         <SectionHeader title='드롭 목록' sx={{ paddingTop: '2.5rem' }}>
-          <Button
-            text='해당 그룹에 드론 등록'
-            buttonType='accentLight'
-            onClick={() => alert('gg')}
-          />
+          <Chip text='6개' />
         </SectionHeader>
         <DroneGroupList />
       </div>
