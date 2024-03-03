@@ -1,8 +1,8 @@
 import { Divider, Typography } from '@mui/material';
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
-import ItemContainer from './ItemContainer';
-import Button from './Button';
+import ItemContainer from 'src/components/common/ItemContainer';
+import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
 
 //
