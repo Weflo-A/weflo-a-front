@@ -9,6 +9,9 @@ import LineColumnChart from 'src/components/LineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
+import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
+import Chip from 'src/components/common/Chip';
+import CheckBox from 'src/components/common/CheckBox';
 
 //
 //
@@ -69,7 +72,7 @@ const DroneGroupPage = () => {
   /* Drone group info */
   const renderDroneGroupInfo = () => {
     return (
-      <ItemContainer style={{ padding: '0rem 1.25rem', minWidth: '850px' }}>
+      <ItemContainer style={{ padding: '0rem 1.25rem' }}>
         <DroneInfoWrapper>
           <Typography variant='body1' fontWeight='bold'>
             드론 그룹 1 정보
@@ -147,7 +150,7 @@ const DroneGroupPage = () => {
   /*Drone state info */
   const renderDroneStateInfo = () => {
     return (
-      <ItemContainer style={{ padding: '0rem 1.25rem', minWidth: '850px' }}>
+      <ItemContainer style={{ padding: '0rem 1.25rem' }}>
         <DroneInfoWrapper>
           <Typography variant='body1' fontWeight='bold'>
             드론 평균 상태
@@ -226,8 +229,26 @@ const DroneGroupPage = () => {
             onClick={() => alert('gg')}
           />
         </SectionHeader>
-        {renderDroneGroupInfo()}
-        {renderDroneStateInfo()}
+        <Stack flexDirection='column' gap='1rem'>
+          {renderDroneGroupInfo()}
+          {renderDroneStateInfo()}
+        </Stack>
+        <SectionHeader
+          title='드론 목록'
+          sx={{ paddingTop: '2.5rem', marginBottom: '0' }}
+        >
+          <Chip text='6개' />
+        </SectionHeader>
+        <Stack
+          flexDirection='row'
+          justifyContent='flex-end'
+          marginBottom='1rem'
+        >
+          {['투입 비용 순', '등록 순', '연식 순'].map((item, index) => (
+            <CheckBox key={index} label={item} />
+          ))}
+        </Stack>
+        <DroneGroupList />
       </div>
     </>
   );

@@ -1,9 +1,15 @@
+import { Stack } from '@mui/material';
 import { DroneGroupCard } from './DroneGroupCard';
 import { droneListData } from 'src/assets/data/droneListData';
 
 const DroneGroupList = () => {
   return (
-    <div>
+    <Stack
+      display='grid'
+      gridTemplateRows='1fr'
+      gridTemplateColumns='1fr 1fr'
+      gap='1rem'
+    >
       {droneListData.map((drone, index) => (
         <DroneGroupCard
           key={index}
@@ -17,7 +23,7 @@ const DroneGroupList = () => {
           }}
         />
       ))}
-    </div>
+    </Stack>
   );
 };
 
