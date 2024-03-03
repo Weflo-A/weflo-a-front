@@ -9,6 +9,7 @@ import LineColumnChart from 'src/components/LineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
+import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 
 //
 //
@@ -69,7 +70,7 @@ const DroneGroupPage = () => {
   /* Drone group info */
   const renderDroneGroupInfo = () => {
     return (
-      <ItemContainer style={{ padding: '0rem 1.25rem', minWidth: '850px' }}>
+      <ItemContainer style={{ padding: '0rem 1.25rem' }}>
         <DroneInfoWrapper>
           <Typography variant='body1' fontWeight='bold'>
             드론 그룹 1 정보
@@ -147,7 +148,7 @@ const DroneGroupPage = () => {
   /*Drone state info */
   const renderDroneStateInfo = () => {
     return (
-      <ItemContainer style={{ padding: '0rem 1.25rem', minWidth: '850px' }}>
+      <ItemContainer style={{ padding: '0rem 1.25rem' }}>
         <DroneInfoWrapper>
           <Typography variant='body1' fontWeight='bold'>
             드론 평균 상태
@@ -226,8 +227,18 @@ const DroneGroupPage = () => {
             onClick={() => alert('gg')}
           />
         </SectionHeader>
-        {renderDroneGroupInfo()}
-        {renderDroneStateInfo()}
+        <Stack flexDirection='column' gap='1rem'>
+          {renderDroneGroupInfo()}
+          {renderDroneStateInfo()}
+        </Stack>
+        <SectionHeader title='드롭 목록' sx={{ paddingTop: '2.5rem' }}>
+          <Button
+            text='해당 그룹에 드론 등록'
+            buttonType='accentLight'
+            onClick={() => alert('gg')}
+          />
+        </SectionHeader>
+        <DroneGroupList />
       </div>
     </>
   );
