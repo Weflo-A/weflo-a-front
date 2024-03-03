@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
-import arrowImg from 'src/asset/arrow-down.png';
+import arrowImg from 'src/assets/icon/arrow-down.png';
 
 interface YearSelectProp {
   value: string;

@@ -1,15 +1,14 @@
 import { Plus } from 'src/assets';
 import Button from 'src/components/common/Button';
 import MenuTab from 'src/components/common/MenuTab';
-import { DroneGroupCard } from 'src/components/Onboarding/DroneGroupSearch/DroneGroupCard';
-import { DroneLists } from 'src/components/Onboarding/DroneSearch/DroneLists';
-import DroneSearch from 'src/components/Onboarding/DroneSearch/DroneSearch';
+import { DroneLists } from 'src/components/onboarding/droneSearch/DroneLists';
+import DroneSearch from 'src/components/onboarding/droneSearch/DroneSearch';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { useState } from 'react';
-import Popup from 'src/components/Onboarding/Popup';
+import Popup from 'src/components/onboarding/Popup';
 import colors from 'src/constants/colors';
-import { DroneGroupList } from 'src/components/Onboarding/DroneGroupSearch/DroneGroupList';
+import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 
 const Home = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

@@ -8,7 +8,7 @@ import SectionHeader from 'src/components/SectionHeader';
 import LineColumnChart from 'src/components/LineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
-import ItemContainer from 'src/components/Common/ItemContainer';
+import ItemContainer from 'src/components/common/ItemContainer';
 
 //
 //
