@@ -62,7 +62,7 @@ const Container = styled.div`
   gap: 8px;
   border-radius: 12px;
   border: 1px solid ${colors.basic200};
-  background: #fff;
+  background: white;
 `;
 
 const Wrapper = styled.div`
@@ -93,8 +93,6 @@ const Column = styled.span`
 
   /* Body/B3/Medium */
   font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
   line-height: 150%; /* 21px */
 `;
 
@@ -138,9 +136,6 @@ const Drone = styled.div`
   color: ${colors.basic700};
 
   /* Body/B3/Medium */
-  font-family: 'Pretendard';
   font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
   line-height: 150%; /* 21px */
 `;

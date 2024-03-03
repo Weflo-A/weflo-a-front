@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
@@ -6,7 +7,13 @@ interface Props {
 }
 
 const DroneGroupBox: React.FC<Props> = ({ num }) => {
-  return <Group>드론 그룹 {num}</Group>;
+  return (
+    <Group>
+      <Typography variant='caption' color='white'>
+        드론 그룹 {num}
+      </Typography>
+    </Group>
+  );
 };
 
 export { DroneGroupBox };
@@ -21,9 +28,4 @@ const Group = styled.div`
   gap: 10px;
   border-radius: 8px;
   background: ${colors.basic700};
-  color: var(--White, #fff);
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 18px */
 `;

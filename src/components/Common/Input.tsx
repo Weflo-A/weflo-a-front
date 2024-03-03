@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
@@ -14,12 +15,14 @@ const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => {
   };
 
   return (
-    <StyledInput
-      type='text'
-      value={value}
-      onChange={handleChange}
-      placeholder={placeholder}
-    />
+    <Typography variant='caption' color={colors.basic700}>
+      <StyledInput
+        type='text'
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+      />
+    </Typography>
   );
 };
 
@@ -35,13 +38,6 @@ const StyledInput = styled.input`
   border: 1px solid ${colors.basic200};
   background: ${colors.basic50};
   outline: none;
-
-  color: ${colors.basic700};
-  /* Caption/C1/Medium */
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 18px */
 
   &::placeholder {
     color: #aaa;

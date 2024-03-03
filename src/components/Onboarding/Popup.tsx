@@ -4,6 +4,7 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import Button from '../common/Button';
 import Input from '../common/Input';
+import { MenuItem, Select } from '@mui/material';
 
 interface PopupProps {
   onClose: () => void;
@@ -39,11 +40,12 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <PopupText>드론 모델</PopupText>
               <Essential>필수</Essential>
             </Row>
-            <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Drone Model'
-            />
+            <StyledSelect>
+              <StyledMenuItem>EAGLE</StyledMenuItem>
+              <StyledMenuItem>MDT-1600</StyledMenuItem>
+              <StyledMenuItem>SHIFT</StyledMenuItem>
+              <StyledMenuItem>VL-2240R</StyledMenuItem>
+            </StyledSelect>
           </Line>
           <Line>
             <Row>
@@ -72,11 +74,12 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <PopupText>드론 그룹</PopupText>
               <Essential>선택</Essential>
             </Row>
-            <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Drone Group'
-            />
+            <StyledSelect>
+              <StyledMenuItem>그룹 1</StyledMenuItem>
+              <StyledMenuItem>그룹 2</StyledMenuItem>
+              <StyledMenuItem>그룹 3</StyledMenuItem>
+              <StyledMenuItem>그룹 4</StyledMenuItem>
+            </StyledSelect>
           </Line>
         </Content>
         <RightAlignedButton>
@@ -181,4 +184,20 @@ const RightAlignedButton = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-top: 20px;
+`;
+
+const StyledSelect = styled(Select)`
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid ${colors.basic200};
+  background: ${colors.basic50};
+  outline: none;
+`;
+
+const StyledMenuItem = styled(MenuItem)`
+  width: 100%;
+  height: 40px;
+  font-size: 16px;
+  padding: 10px;
 `;

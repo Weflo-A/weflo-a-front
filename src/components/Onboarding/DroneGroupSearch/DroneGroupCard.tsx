@@ -1,38 +1,78 @@
 import styled from 'styled-components';
 import { Drone1, GroupOut } from '../../../assets';
 import colors from 'src/constants/colors';
+import { Typography } from '@mui/material';
 
-const DroneGroupCard = () => {
+interface DroneGroupCardProps {
+  data: {
+    name: string;
+    model: string;
+    year: number;
+    usage: string;
+    cost: string;
+    groupSetupDate: string;
+  };
+}
+
+const DroneGroupCard: React.FC<DroneGroupCardProps> = ({ data }) => {
   return (
     <Card>
       <Top>
-        <Title>Drone No.04</Title>
+        <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
+          {data.name}
+        </Typography>
         <Delete>
-          그룹에서 제외하기 <GroupOut />
+          <Typography
+            fontSize='11px'
+            fontWeight='regular'
+            color={colors.basic400}
+          >
+            그룹에서 제외하기 <GroupOut />
+          </Typography>
         </Delete>
       </Top>
       <Bottom>
         <Drone1 />
         <Info>
           <Box>
-            <Name>모델명</Name>
-            <Value>Eagle</Value>
+            <Typography variant='caption' color={colors.basic500}>
+              모델명
+            </Typography>
+            <Typography variant='caption' color={colors.basic500}>
+              {data.model}
+            </Typography>
           </Box>
           <Box>
-            <Name>사용용도</Name>
-            <Value>편의점 배달</Value>
+            <Typography variant='caption' color={colors.basic500}>
+              사용용도
+            </Typography>
+            <Typography variant='caption' color={colors.basic500}>
+              {data.usage}
+            </Typography>
           </Box>
           <Box>
-            <Name>생산연도</Name>
-            <Value>50,620원</Value>
+            <Typography variant='caption' color={colors.basic500}>
+              생산연도
+            </Typography>
+            <Typography variant='caption' color={colors.basic500}>
+              {data.year}
+            </Typography>
           </Box>
           <Box>
-            <Name>투입 비용</Name>
-            <Value>50,620원</Value>
+            <Typography variant='caption' color={colors.basic500}>
+              투입 비용
+            </Typography>
+            <Typography variant='caption' color={colors.basic500}>
+              {data.cost}
+            </Typography>
           </Box>
           <Box>
-            <Name>그룹 설정 일자</Name>
-            <Value>2022.11.11</Value>
+            <Typography variant='caption' color={colors.basic500}>
+              그룹 설정 일자
+            </Typography>
+            <Typography variant='caption' color={colors.basic500}>
+              {data.groupSetupDate}
+            </Typography>
           </Box>
         </Info>
       </Bottom>
@@ -50,7 +90,7 @@ const Card = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  background: var(--White, #fff);
+  background: white;
   gap: 12px;
 `;
 
@@ -62,31 +102,14 @@ const Top = styled.div`
   align-items: center;
   padding: 0px 10px;
   border-radius: 8px;
-  border: 1px solid var(--Primary-Blue-30, #cbdfff);
-  background: var(--Primary-Transparent-10, rgba(87, 151, 255, 0.1));
-`;
-
-const Title = styled.div`
-  color: ${colors.basic700};
-
-  /* Body/B3/Bold */
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%; /* 21px */
+  border: 1px solid ${colors.primary30};
+  background: ${colors.primaryOpacity10};
 `;
 
 const Delete = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
-  color: ${colors.basic400};
-
-  /* Caption/C2/Regular */
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 16.5px */
 `;
 
 const Bottom = styled.div`
@@ -113,26 +136,5 @@ const Box = styled.div`
   border-radius: 8px;
   border: 1px solid ${colors.basic100};
   background: ${colors.basic50};
-`;
-
-const Name = styled.div`
-  color: ${colors.basic500};
   text-align: left;
-
-  /* Caption/C1/Regular */
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 18px */
-`;
-
-const Value = styled.div`
-  color: ${colors.basic700};
-  text-align: left;
-
-  /* Caption/C1/Medium */
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 18px */
 `;

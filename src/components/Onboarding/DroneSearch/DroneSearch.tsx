@@ -9,6 +9,7 @@ import {
 } from 'src/assets/data/filterData';
 import colors from 'src/constants/colors';
 import { Search } from 'src/assets';
+import { Typography } from '@mui/material';
 
 const DroneSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -21,7 +22,9 @@ const DroneSearch: React.FC = () => {
   return (
     <Container>
       <SearchContainer>
-        <SearchLabel>드론 ID로 검색</SearchLabel>
+        <Typography fontSize='14px' color={colors.basic700}>
+          드론 ID로 검색
+        </Typography>
         <SearchInputContainer>
           <SearchInput
             type='text'
@@ -36,7 +39,9 @@ const DroneSearch: React.FC = () => {
       <FilterLine filterData={yearFilterData} />
       <FilterLine filterData={groupFilterData} />
       <Bottom>
-        <Reset>설정값 초기화</Reset>
+        <Typography variant='body2' color={colors.basic400}>
+          설정값 초기화
+        </Typography>
         <Button
           text={<>검색하기</>}
           buttonType='accent'
@@ -57,8 +62,8 @@ const Container = styled.div`
   align-items: flex-start;
   gap: 8px;
   border-radius: 12px;
-  border: 1px solid var(--Basic-B-200, #e2e8f0);
-  background: #fff;
+  border: 1px solid ${colors.basic200};
+  background: white;
   font-family: 'Pretendard';
 `;
 
@@ -67,16 +72,6 @@ const SearchContainer = styled.div`
   align-items: center;
   gap: 20px;
   margin-bottom: 10px;
-`;
-
-const SearchLabel = styled.div`
-  color: ${colors.basic700};
-  /* Body/B3/Medium */
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 21px */
 `;
 
 const SearchInputContainer = styled.div`
@@ -95,22 +90,14 @@ const SearchInputContainer = styled.div`
 
 const SearchInput = styled.input`
   width: 100%;
-  color: ${colors.basic500};
-  /* Caption/C2/Regular */
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 16.5px */
   background: none;
   border: none;
   outline: none;
 
   &::placeholder {
     color: ${colors.basic400};
-
     /* Caption/C2/Regular */
     font-size: 11px;
-    font-style: normal;
     font-weight: 400;
     line-height: 150%; /* 16.5px */
   }
@@ -123,14 +110,4 @@ const Bottom = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
-`;
-
-const Reset = styled.div`
-  color: ${colors.basic400};
-
-  /* Body/B2/Medium */
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 24px */
 `;
