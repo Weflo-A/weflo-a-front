@@ -36,6 +36,7 @@ function DroneLists() {
                     }
                     buttonType='accentLight'
                     onClick={() => alert('대시보드 이동')}
+                    style={{ width: '110px', height: '32px', fontSize: '14px' }}
                   />
                 </Drone>
               );
