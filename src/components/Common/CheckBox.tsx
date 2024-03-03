@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React, { useState } from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
@@ -20,7 +21,9 @@ const CheckBox: React.FC<CheckBoxProps> = ({ label }) => {
         checked={checked}
         onChange={toggleChecked}
       />
-      <CheckboxLabel>{label}</CheckboxLabel>
+      <Typography variant='caption' color={colors.basic500}>
+        {label}
+      </Typography>
     </CheckboxContainer>
   );
 };
@@ -43,6 +46,7 @@ const CheckboxInput = styled.input`
   border: 2px solid ${colors.primary100};
   background-color: #fff;
   border-radius: 0.35rem;
+  margin-right: 0.5rem;
 
   &:hover {
     box-shadow: 0 0 0 max(2px, 0.4em) ${colors.primary20};
@@ -57,15 +61,4 @@ const CheckboxInput = styled.input`
     background-repeat: no-repeat;
     background-color: ${colors.primary100};
   }
-`;
-
-const CheckboxLabel = styled.span`
-  margin-left: 0.5rem;
-  color: ${colors.basic500};
-
-  /* Caption/C1/Medium */
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 18px */
 `;

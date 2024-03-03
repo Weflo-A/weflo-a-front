@@ -6,15 +6,31 @@ import { DroneLists } from 'src/components/Onboarding/DroneSearch/DroneLists';
 import DroneSearch from 'src/components/Onboarding/DroneSearch/DroneSearch';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
+import { useState } from 'react';
+import Popup from 'src/components/Onboarding/Popup';
+import colors from 'src/constants/colors';
+import { DroneGroupList } from 'src/components/Onboarding/DroneGroupSearch/DroneGroupList';
 
 const Home = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
   return (
     <>
       <MenuTab />
       <div className='page'>
         <Page>
           <Header>
-            <PageTitle>드론 조회</PageTitle>
+            <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
+              드론 조회
+            </Typography>
             <Button
               text={
                 <>
@@ -22,12 +38,13 @@ const Home = () => {
                 </>
               }
               buttonType='accentLight'
-              onClick={() => alert('신규 등록 완료')}
+              onClick={handleButtonClick}
             />
           </Header>
           <DroneSearch />
           <DroneLists />
-          <DroneGroupCard />
+          <DroneGroupList />
+          {isPopupOpen && <Popup onClose={handleClosePopup} />}
           <>
             <Typography variant='h1' fontWeight='bold'>
               H1 Bold
@@ -41,8 +58,8 @@ const Home = () => {
             <Typography variant='h3'>H3</Typography>
             <Typography variant='body1'>body1</Typography>
             <Typography variant='body2'>body2</Typography>
-        <Typography variant='caption'>caption</Typography>
-            </>
+            <Typography variant='caption'>caption</Typography>
+          </>
         </Page>
       </div>
     </>
@@ -62,14 +79,4 @@ const Header = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 20px;
-`;
-
-const PageTitle = styled.div`
-  color: var(--Basic-B-700, #334155);
-
-  /* Heading/H3/Bold */
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 150%; /* 36px */
 `;
