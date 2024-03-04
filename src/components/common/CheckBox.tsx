@@ -4,7 +4,7 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
 interface CheckBoxProps {
-  label: string;
+  label?: string;
 }
 
 const CheckBox: React.FC<CheckBoxProps> = ({ label }) => {

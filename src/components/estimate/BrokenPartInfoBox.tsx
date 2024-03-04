@@ -30,7 +30,7 @@ const BrokenPartInfoBox = ({
     <PartBox className={warning ? 'warning' : ''}>
       <Typography fontSize='14px'>{part}</Typography>
       <Typography fontSize='14px'>{location}</Typography>
-      <Stack direction='row'>
+      <Stack direction='row' alignItems='center' gap='0.25rem'>
         <Typography fontSize='14px' color={colors.accent100}>
           {score}점
         </Typography>

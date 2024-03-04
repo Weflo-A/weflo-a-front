@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Box, Slider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import CheckBox from 'src/components/common/CheckBox';
 import ItemContainer from 'src/components/common/ItemContainer';
@@ -6,8 +6,50 @@ import MenuTab from 'src/components/common/MenuTab';
 import Search from 'src/components/common/Search';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import colors from 'src/constants/colors';
-import styled from 'styled-components';
 import { brokenParts } from 'src/assets/data/estimateDummy';
+import styled from 'styled-components';
+import NewPartInfoBox from 'src/components/estimate/NewPartsInfoBox';
+import partsImg from 'src/assets/images/drone-parts.png';
+
+//
+//
+//
+
+const DroneInfoItemBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.5rem;
+  border: 1px solid ${colors.primary30};
+  background: ${colors.primaryOpacity10};
+  padding: 0.6875rem;
+`;
+
+//
+//
+//
+
+const scoreMarks = [
+  {
+    value: 0,
+    label: '0점',
+  },
+  {
+    value: 100,
+    label: '100점',
+  },
+];
+
+const primceMarks = [
+  {
+    value: 0,
+    label: '0원',
+  },
+  {
+    value: 1000000,
+    label: '100만원',
+  },
+];
 
 //
 //
@@ -15,7 +57,17 @@ import { brokenParts } from 'src/assets/data/estimateDummy';
 
 const EstimatePage = () => {
   const [partsSearch, setPartsSearch] = React.useState('');
+  const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
+  const [priceRange, setPriceRange] = React.useState<number[]>([20, 37]);
 
+  const handleScoreChange = (event: Event, newValue: number | number[]) => {
+    setScoreRange(newValue as number[]);
+  };
+  const handlePriceChange = (event: Event, newValue: number | number[]) => {
+    setPriceRange(newValue as number[]);
+  };
+
+  /* 페이지 헤더 */
   const renderPageHeader = () => {
     return (
       <Stack
@@ -35,49 +87,199 @@ const EstimatePage = () => {
       </Stack>
     );
   };
+
+  const renderBrokenPartsInfo = () => {
+    return (
+      <ItemContainer
+        style={{
+          flexDirection: 'column',
+          width: '100%',
+          padding: '1.25rem',
+        }}
+      >
+        <Typography variant='body1' fontWeight='bold'>
+          교체가 필요한 부품
+        </Typography>
+        <Stack display='grid' gridTemplateColumns='1fr 1fr 1fr 1fr'>
+          <Typography variant='caption' color={colors.basic400}>
+            부품
+          </Typography>
+          <Typography variant='caption' color={colors.basic400}>
+            부품위치
+          </Typography>
+          <Typography variant='caption' color={colors.basic400}>
+            점수
+          </Typography>
+        </Stack>
+        <Stack direction='column' gap='0.25rem'>
+          {brokenParts.map((item) => (
+            <BrokenPartInfoBox
+              part={item.parts}
+              location={item.loc}
+              score={item.score}
+              warning={item.warning}
+            />
+          ))}
+        </Stack>
+      </ItemContainer>
+    );
+  };
+
+  const renderScoreChart = () => {
+    return (
+      <ItemContainer
+        style={{
+          flexDirection: 'column',
+          width: '100%',
+          padding: '1.25rem',
+        }}
+      >
+        <Typography variant='body1' fontWeight='bold'>
+          총 점수
+        </Typography>
+        <Stack direction='row' gap='1rem'>
+          <Stack direction='column' gap='0.5rem'>
+            <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
+              <Typography variant='caption' color={colors.basic500}>
+                주행시 사고 확률
+              </Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                11%
+              </Typography>
+            </DroneInfoItemBox>
+            <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
+              <Typography variant='caption' color={colors.basic500}>
+                예상 부품 교체일
+              </Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                06월 15일
+              </Typography>
+            </DroneInfoItemBox>
+            <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
+              <Typography variant='caption' color={colors.basic500}>
+                이전 부품 교체일
+              </Typography>
+              <Typography variant='body2' fontWeight='bold'>
+                02월 04일
+              </Typography>
+            </DroneInfoItemBox>
+          </Stack>
+        </Stack>
+      </ItemContainer>
+    );
+  };
+
+  const renderRangeBox = () => {
+    return (
+      <DroneInfoItemBox style={{ gap: '2.25rem', minWidth: '19rem' }}>
+        <Stack
+          direction='column'
+          gap='0.5rem'
+          alignItems='center'
+          justifyContent='center'
+        >
+          <Typography width='100%' fontSize='14px'>
+            점수 범위
+          </Typography>
+          <Box width='90%'>
+            <Slider
+              value={scoreRange}
+              onChange={handleScoreChange}
+              valueLabelDisplay='auto'
+              marks={scoreMarks}
+            />
+          </Box>
+          <Stack direction='row' alignItems='center' gap='1rem'>
+            <Typography
+              fontSize='14px'
+              color={colors.primary100}
+              fontWeight='bold'
+            >
+              최소
+            </Typography>
+            <Stack direction='row' alignItems='center' gap='0.5rem'>
+              <RangeInput value={scoreRange[0]} />
+              <Typography fontSize='14px'>점</Typography>
+            </Stack>
+          </Stack>
+          <Stack direction='row' alignItems='center' gap='1rem'>
+            <Typography
+              fontSize='14px'
+              color={colors.primary100}
+              fontWeight='bold'
+            >
+              최대
+            </Typography>
+            <Stack direction='row' alignItems='center' gap='0.5rem'>
+              <RangeInput value={scoreRange[1]} />
+              <Typography fontSize='14px'>점</Typography>
+            </Stack>
+          </Stack>
+        </Stack>
+        <Stack
+          direction='column'
+          gap='0.5rem'
+          alignItems='center'
+          justifyContent='center'
+        >
+          <Typography width='100%' fontSize='14px'>
+            가격 범위
+          </Typography>
+          <Box width='90%'>
+            <Slider
+              value={priceRange}
+              onChange={handlePriceChange}
+              valueLabelDisplay='auto'
+              min={0}
+              max={1000000}
+              marks={primceMarks}
+            />
+          </Box>
+          <Stack direction='row' alignItems='center' gap='1rem'>
+            <Typography
+              fontSize='14px'
+              color={colors.primary100}
+              fontWeight='bold'
+            >
+              최소
+            </Typography>
+            <Stack direction='row' alignItems='center' gap='0.5rem'>
+              <RangeInput value={priceRange[0]} />
+              <Typography fontSize='14px'>원</Typography>
+            </Stack>
+          </Stack>
+          <Stack direction='row' alignItems='center' gap='1rem'>
+            <Typography
+              fontSize='14px'
+              color={colors.primary100}
+              fontWeight='bold'
+            >
+              최대
+            </Typography>
+            <Stack direction='row' alignItems='center' gap='0.5rem'>
+              <RangeInput value={priceRange[1]} />
+              <Typography fontSize='14px'>원</Typography>
+            </Stack>
+          </Stack>
+        </Stack>
+      </DroneInfoItemBox>
+    );
+  };
+
+  //
+  //
+  //
+
   return (
     <>
       <MenuTab />
       <div className='page'>
         {renderPageHeader()}
+
+        {/* 교체가 피필요한 부품 및 총 점수 */}
         <Stack direction='row' gap='1rem'>
-          <ItemContainer
-            style={{
-              flexDirection: 'column',
-              width: '100%',
-              padding: '1.25rem',
-            }}
-          >
-            <Typography variant='body1' fontWeight='bold'>
-              교체가 필요한 부품
-            </Typography>
-            <Stack display='grid' gridTemplateColumns='1fr 1fr 1fr 1fr'>
-              <Typography variant='caption' color={colors.basic400}>
-                부품
-              </Typography>
-              <Typography variant='caption' color={colors.basic400}>
-                부품위치
-              </Typography>
-              <Typography variant='caption' color={colors.basic400}>
-                점수
-              </Typography>
-            </Stack>
-            <Stack direction='column' gap='0.25rem'>
-              {brokenParts.map((item) => (
-                <BrokenPartInfoBox
-                  part={item.parts}
-                  location={item.loc}
-                  score={item.score}
-                  warning={item.warning}
-                />
-              ))}
-            </Stack>
-          </ItemContainer>
-          <ItemContainer style={{ width: '100%', padding: '1.25rem' }}>
-            <Typography variant='body1' fontWeight='bold'>
-              총 점수
-            </Typography>
-          </ItemContainer>
+          {renderBrokenPartsInfo()}
+          {renderScoreChart()}
         </Stack>
 
         {/* 교체용 부품 구매 섹션*/}
@@ -120,6 +322,30 @@ const EstimatePage = () => {
                 )}
               </Stack>
             </Stack>
+            <Stack direction='row' gap='1rem' height='28rem'>
+              {renderRangeBox()}
+              <NewPartsBox>
+                <Stack width='100%' direction='column' gap='0.5rem'>
+                  {Array(5)
+                    .fill(0)
+                    .map((_, index) => (
+                      <NewPartInfoBox
+                        id={index}
+                        name='X2814 900KV 3-5S Brushless Motor'
+                        imgUrl={partsImg}
+                        loc='구동부 01'
+                        parts='모터'
+                        score={2}
+                        price={135000}
+                        detail='하이파워 사양의 소형 멀티콥터를 위한 아웃러너 모터(920KV)
+DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 쿼드, 헥사콥터에 적합한 모터
+프롭은 3S/4S 공히 동사의 9x4.5in Self-Lock Propeller (DJI/Universal Type)사용'
+                        checked={false}
+                      />
+                    ))}
+                </Stack>
+              </NewPartsBox>
+            </Stack>
           </ItemContainer>
         </Stack>
       </div>
@@ -128,3 +354,22 @@ const EstimatePage = () => {
 };
 
 export default EstimatePage;
+
+const RangeInput = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.375rem;
+  border: 1px solid ${colors.basic200};
+  background: ${colors.basic50};
+`;
+
+const NewPartsBox = styled.div`
+  height: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid ${colors.basic100});
+  background: ${colors.basic100};
+  overflow-y: scroll;
+`;
