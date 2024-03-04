@@ -3,6 +3,7 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import RecyclePartBox from './RecyclePartBox';
 import { recycleParts } from 'src/assets/data/estimateDummy';
+import CheckBox from '../common/CheckBox';
 
 const PartsBox = styled.div`
   widdth: 100%;
@@ -15,7 +16,7 @@ const PartsBox = styled.div`
 const PartsHeader = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 2fr 5fr 1fr 2fr 1fr;
+  grid-template-columns: 3fr 3fr 7fr 1.5fr 3fr 2fr;
   padding: 0.75rem 1.6875rem;
   width: 100%;
   border: 1px solid ${colors.basic100};
@@ -54,6 +55,7 @@ const RecyclePartsList = () => {
         <Typography fontSize='14px' color={colors.basic400}>
           가격
         </Typography>
+        <CheckBox />
       </PartsHeader>
       <PartsBody>
         {recycleParts.map((item, index) => (
