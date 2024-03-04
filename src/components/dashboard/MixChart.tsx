@@ -84,7 +84,7 @@ const MixChart: React.FC = () => {
   };
 
   const options = {
-    responsive: false,
+    responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {

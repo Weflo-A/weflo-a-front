@@ -243,8 +243,9 @@ const LabelSquare = styled.div<{ color: string }>`
 `;
 
 const ChartBottom = styled.div`
+  width: 95%;
   display: grid;
-  grid-template-columns: repeat(8, 60px);
+  grid-template-columns: repeat(7, 1fr);
   margin-left: 30px;
 `;
 
