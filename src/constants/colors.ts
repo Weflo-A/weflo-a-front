@@ -51,6 +51,9 @@ const colors = {
   error: '#ed0d00',
   background: white,
   darkBackground: '#17171c',
+  green100: '#3BAE2B',
+  yellow100: '#FFC107',
+  red100: '#ED0D00',
 };
 
 export default colors;

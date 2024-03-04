@@ -2,6 +2,12 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": [
+      "node",
+      "react",
+      "react-dom",
+      "@types/apexcharts"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
