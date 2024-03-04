@@ -2,7 +2,7 @@ name: Weflo S3 Deploy
 on:
   push:
     branches:
-    - main
+    - develop
 
 jobs:
   build-and-deploy:
