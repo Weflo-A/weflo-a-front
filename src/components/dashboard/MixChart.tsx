@@ -38,10 +38,10 @@ const MixChart: React.FC = () => {
       '24.03.02',
       '24.04.20',
     ],
-    motorScores: [85 / 3, 88 / 3, 90 / 3, 92 / 3, 95 / 3],
-    bladeScores: [75 / 3, 78 / 3, 80 / 3, 82 / 3, 85 / 3],
+    motorScores: [85 / 3, 88 / 3, 90 / 3, 92 / 3, 65 / 3],
+    bladeScores: [75 / 3, 78 / 3, 80 / 3, 82 / 3, 65 / 3],
     escScores: [90 / 3, 92 / 3, 95 / 3, 97 / 3, 78 / 3],
-    total: [250 / 3, 258 / 3, 265 / 3, 271 / 3, 258 / 3],
+    total: [250 / 3, 258 / 3, 265 / 3, 271 / 3, 208 / 3],
   };
 
   const barData = {
@@ -75,37 +75,56 @@ const MixChart: React.FC = () => {
         backgroundColor: colors.accent100,
         borderColor: colors.accent100,
         fill: false,
-        pointHoverRadius: 20,
-        pointHoverBorderWidth: 5,
+        pointHoverRadius: 8,
+        pointHoverBorderWidth: 1,
         order: 0,
+        tension: 0.5,
       },
     ],
   };
 
   const options = {
     responsive: false,
-    scale: {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      interaction: {
+        mode: 'index',
+      },
+    },
+    maxBarThickness: 40,
+    scales: {
       x: {
         stacked: true,
+        grid: {
+          display: false,
+        },
       },
       y: {
         stacked: true,
         min: 0,
         max: 100,
         ticks: {
-          stepSize: 25, // y축의 간격을 조정하여 비율로 조정
+          stepSize: 25,
         },
       },
     },
   };
 
   return (
-    <StyleChart>
+    <StyledChart>
       <Chart type='bar' data={barData} options={options} />
-    </StyleChart>
+    </StyledChart>
   );
 };
 
 export default MixChart;
 
-const StyleChart = styled.div``;
+const StyledChart = styled.div`
+  canvas {
+    width: 100% !important;
+    height: 240px !important;
+  }
+`;

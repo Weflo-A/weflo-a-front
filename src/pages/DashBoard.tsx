@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { BackBlue } from 'src/assets';
 import { groups } from 'src/assets/data/menuData';
@@ -39,14 +39,73 @@ const DashBoard = () => {
           </Top>
           <Component>
             <TimeLine>
-              <Typography
-                variant='body1'
-                fontWeight='bold'
-                color={colors.basic700}
-              >
-                타임라인
-              </Typography>
-              <MixChart />
+              <ChartTop>
+                <Typography
+                  variant='body1'
+                  fontWeight='bold'
+                  color={colors.basic700}
+                >
+                  타임라인
+                </Typography>
+                <ChartLabelBox>
+                  <Stack
+                    flexDirection='row'
+                    gap='0.3125rem'
+                    alignItems='center'
+                  >
+                    <LabelSquare color={colors.accent100} />
+                    <Typography
+                      variant='caption'
+                      fontWeight='regular'
+                      color={colors.basic500}
+                    >
+                      모터
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    flexDirection='row'
+                    gap='0.3125rem'
+                    alignItems='center'
+                  >
+                    <LabelSquare color={colors.accent50} />
+                    <Typography
+                      variant='caption'
+                      fontWeight='regular'
+                      color={colors.basic500}
+                    >
+                      블레이드
+                    </Typography>
+                  </Stack>
+                  <Stack
+                    flexDirection='row'
+                    gap='0.3125rem'
+                    alignItems='center'
+                  >
+                    <LabelSquare color={colors.accent30} />
+                    <Typography
+                      variant='caption'
+                      fontWeight='regular'
+                      color={colors.basic500}
+                    >
+                      ESC
+                    </Typography>
+                  </Stack>
+                </ChartLabelBox>
+                <Typography
+                  variant='caption'
+                  fontWeight='regular'
+                  color={colors.basic400}
+                >
+                  2023년 12월 - 2024년 04월
+                </Typography>
+              </ChartTop>
+              <div>
+                <MixChart />
+                <ChartBottom>
+                  <BlockOrange>부품 교체일</BlockOrange>
+                  <BlockPrimary>예상 진단일</BlockPrimary>
+                </ChartBottom>
+              </div>
             </TimeLine>
             <Drone>
               <DroneDetail />
@@ -80,7 +139,7 @@ const DashBoard = () => {
 export default DashBoard;
 
 const Page = styled.div`
-  min-width: 1-00px;
+  min-width: 1020px;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -109,6 +168,9 @@ const TimeLine = styled.div`
   background: white;
   padding: 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Drone = styled.div`
@@ -147,4 +209,75 @@ const Breakdown = styled.div`
   border: 1px solid ${colors.basic200};
   background: white;
   padding: 20px;
+`;
+
+const ChartTop = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 20px;
+  white-space: nowrap;
+`;
+
+const ChartLabelBox = styled.div`
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: ${colors.basic100};
+  gap: 1.5rem;
+`;
+
+const LabelSquare = styled.div<{ color: string }>`
+  display: flex;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  background-color: ${(props) => props.color};
+`;
+
+const ChartBottom = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, 60px);
+  margin-left: 30px;
+`;
+
+const BlockOrange = styled.div`
+  width: 85px;
+  display: inline-flex;
+  padding: 2px 12px 2px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  border: 1px solid ${colors.accent100};
+  background: var(--Accent-Transparent-20, rgba(255, 124, 0, 0.2));
+  color: ${colors.accent100};
+  font-size: 12px;
+  line-height: 150%; /* 18px */
+  grid-column: 4;
+  white-space: nowrap;
+`;
+
+const BlockPrimary = styled.div`
+  width: 85px;
+  display: inline-flex;
+  padding: 2px 12px 2px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 8px;
+  border: 1px solid ${colors.basic300};
+  background: ${colors.basic200};
+  color: ${colors.basic600};
+  font-size: 12px;
+  line-height: 150%; /* 18px */
+  grid-column: 7;
+  white-space: nowrap;
 `;

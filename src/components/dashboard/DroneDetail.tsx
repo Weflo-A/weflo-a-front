@@ -93,9 +93,8 @@ const DroneDetail = () => {
         </Typography>
         <Circle>
           <CircleSize>
-            <CircularProgressbar
+            <CircularProgressbarWithChildren
               value={60}
-              text={`60%`}
               strokeWidth={10}
               styles={buildStyles({
                 rotation: 0,
@@ -108,12 +107,23 @@ const DroneDetail = () => {
                 textColor: `${colors.yellow100}`,
                 trailColor: `${colors.basic700}`,
               })}
-            />
+            >
+              <Typography variant='caption' color='white' lineHeight='120%'>
+                총 점수
+              </Typography>
+              <Typography
+                variant='body2'
+                fontWeight='bold'
+                color={colors.yellow100}
+                lineHeight='120%'
+              >
+                60%
+              </Typography>
+            </CircularProgressbarWithChildren>
           </CircleSize>
           <CircleSize>
             <CircularProgressbarWithChildren
               value={80}
-              text={`80%`}
               strokeWidth={10}
               styles={buildStyles({
                 rotation: 0,
@@ -127,8 +137,17 @@ const DroneDetail = () => {
                 trailColor: `${colors.basic700}`,
               })}
             >
-              <div>총 점수</div>
-              <div>80%</div>
+              <Typography variant='caption' color='white' lineHeight='120%'>
+                총 점수
+              </Typography>
+              <Typography
+                variant='body2'
+                fontWeight='bold'
+                color={colors.green100}
+                lineHeight='120%'
+              >
+                80%
+              </Typography>
             </CircularProgressbarWithChildren>
           </CircleSize>
         </Circle>
@@ -221,7 +240,6 @@ const Block = styled.div`
   align-items: center;
   padding: 13px;
   width: 100%;
-  /* height: 149px; */
   height: 100%;
   border-radius: 8px;
   border: 1px solid ${colors.basic700};
@@ -237,7 +255,7 @@ const Row = styled.div`
 `;
 
 const Row2 = styled(Row)`
-  gap: 20px;
+  gap: 30px;
 `;
 
 const Column = styled.div`

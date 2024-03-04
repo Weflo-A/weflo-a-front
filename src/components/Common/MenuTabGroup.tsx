@@ -2,8 +2,8 @@ import { Divider, Typography } from '@mui/material';
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import ItemContainer from './ItemContainer';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 interface Group {
   name: string;
@@ -45,7 +45,15 @@ const TabItem = styled.div<{ selected: boolean }>`
 
 const MenuTabGroup: React.FC<MenuTabGroupProps> = ({ groups }) => {
   const navigate = useNavigate();
+  const params = useParams<{ id: string }>();
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
+
+  // URL 파라미터에서 받아온 id로 선택된 탭을 설정
+  useEffect(() => {
+    if (params.id) {
+      setSelectedTab(Number(params.id));
+    }
+  }, [params.id]);
 
   const handleTabClick = (id: number) => {
     navigate(`/drone/${id}/dashboard`);
