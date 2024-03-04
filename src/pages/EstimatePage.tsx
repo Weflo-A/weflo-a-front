@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import NewPartInfoBox from 'src/components/estimate/NewPartsInfoBox';
 import partsImg from 'src/assets/images/drone-parts.png';
 import RepairCompanyList from 'src/components/estimate/RepairCompanyList';
+import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
 
 //
 //
@@ -396,6 +397,7 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
               width: '100%',
               padding: '1.25rem',
               flexDirection: 'column',
+              gap: '1rem',
             }}
           >
             <Stack direction='column'>
@@ -426,6 +428,7 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
                 )}
               </Stack>
             </Stack>
+            <RecyclePartsBox />
           </ItemContainer>
         </Stack>
       </div>
