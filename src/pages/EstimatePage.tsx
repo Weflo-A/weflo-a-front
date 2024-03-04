@@ -10,6 +10,7 @@ import { brokenParts } from 'src/assets/data/estimateDummy';
 import styled from 'styled-components';
 import NewPartInfoBox from 'src/components/estimate/NewPartsInfoBox';
 import partsImg from 'src/assets/images/drone-parts.png';
+import RepairCompanyList from 'src/components/estimate/RepairCompanyList';
 
 //
 //
@@ -276,19 +277,20 @@ const EstimatePage = () => {
       <div className='page'>
         {renderPageHeader()}
 
-        {/* 교체가 피필요한 부품 및 총 점수 */}
-        <Stack direction='row' gap='1rem'>
-          {renderBrokenPartsInfo()}
-          {renderScoreChart()}
-        </Stack>
+        <Stack direction='column' gap='3.25rem'>
+          {/* 교체가 피필요한 부품 및 총 점수 */}
+          <Stack direction='row' gap='1rem'>
+            {renderBrokenPartsInfo()}
+            {renderScoreChart()}
+          </Stack>
 
-        {/* 교체용 부품 구매 섹션*/}
-        <Stack direction='column'>
+          {/* 교체용 부품 구매 섹션*/}
           <ItemContainer
             style={{
               width: '100%',
               padding: '1.25rem',
               flexDirection: 'column',
+              gap: '1rem',
             }}
           >
             <Stack direction='column'>
@@ -347,6 +349,84 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
               </NewPartsBox>
             </Stack>
           </ItemContainer>
+
+          {/* 수리 업체 정보 */}
+          <ItemContainer
+            style={{
+              width: '100%',
+              padding: '1.25rem',
+              flexDirection: 'column',
+              gap: '1rem',
+            }}
+          >
+            <Stack direction='column'>
+              <Typography variant='body2' color={colors.accent100}>
+                자가 수리가 어렵다면?
+              </Typography>
+              <Typography variant='h3' fontWeight='bold'>
+                수리 업체 정보
+              </Typography>
+            </Stack>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <CalloutBox>
+                <Typography variant='body1' color={colors.basic700}>
+                  <span color={colors.accent100}>Eagle</span>의
+                  <span color={colors.accent100}>모터</span>와
+                  <span color={colors.accent100}>블레이드</span>를 수리할 수
+                  있는 업체는 총 <span color={colors.accent100}>9</span>곳이
+                  있습니다.
+                </Typography>
+              </CalloutBox>
+              <Stack direction='row' gap='1.25rem'>
+                {['추천 순', '가격 낮은 순', '가까운 순'].map((item, index) => (
+                  <CheckBox key={index} label={item} />
+                ))}
+              </Stack>
+            </Stack>
+            <RepairCompanyList />
+          </ItemContainer>
+
+          {/* 폐기 전 재사용 가능 부품 */}
+          <ItemContainer
+            style={{
+              width: '100%',
+              padding: '1.25rem',
+              flexDirection: 'column',
+            }}
+          >
+            <Stack direction='column'>
+              <Typography variant='body2' color={colors.accent100}>
+                수리가 불가능하다면?
+              </Typography>
+              <Typography variant='h3' fontWeight='bold'>
+                폐기 전 재사용 가능 부품
+              </Typography>
+            </Stack>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              alignItems='center'
+            >
+              <CalloutBox>
+                <Typography variant='body1' color={colors.basic700}>
+                  재사용 가능 부품이 총
+                  <span color={colors.accent100}>12개</span>
+                  있습니다.
+                </Typography>
+              </CalloutBox>
+              <Stack direction='row' gap='1.25rem'>
+                {['구동부 순', '점수 높은 순', '가격 높은 순'].map(
+                  (item, index) => (
+                    <CheckBox key={index} label={item} />
+                  )
+                )}
+              </Stack>
+            </Stack>
+          </ItemContainer>
         </Stack>
       </div>
     </>
@@ -372,4 +452,10 @@ const NewPartsBox = styled.div`
   border: 1px solid ${colors.basic100});
   background: ${colors.basic100};
   overflow-y: scroll;
+`;
+
+const CalloutBox = styled.div`
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: ${colors.basic100};
 `;

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import Chip from '../common/Chip';
@@ -51,7 +51,7 @@ const NewPartInfoBox = ({
 }: NewPartsProp) => {
   return (
     <PartsInfoBox style={{ gap: '1rem' }}>
-      <img src={imgUrl} alt={name} style={{ objectFit: 'cover' }} />
+      <img src={imgUrl} alt={name} style={{ objectFit: 'contain' }} />
       <Stack direction='column' justifyContent='center' gap='1rem'>
         <Stack
           direction='row'
