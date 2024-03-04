@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Drone1, GroupOut } from '../../../assets';
+import { GroupOut } from '../../../assets';
+import droneImg from 'src/assets/images/Drone1.svg';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
 
@@ -21,18 +22,20 @@ const DroneGroupCard: React.FC<DroneGroupCardProps> = ({ data }) => {
         <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
           {data.name}
         </Typography>
-        <Delete>
-          <Typography
-            fontSize='11px'
-            fontWeight='regular'
-            color={colors.basic400}
-          >
-            그룹에서 제외하기 <GroupOut />
-          </Typography>
-        </Delete>
+        <Typography
+          fontSize='11px'
+          fontWeight='regular'
+          color={colors.basic400}
+          display='flex'
+          alignItems='center'
+          gap='0.375rem'
+        >
+          그룹에서 제외하기 <GroupOut />
+        </Typography>
       </Top>
       <Bottom>
-        <Drone1 />
+        {/* 화면 크기에 따른 비율 변경을 위해 img 태그로 감싸서 사용했습니다 */}
+        <img src={droneImg} style={{ objectFit: 'cover', width: '50%' }} />
         <Info>
           <Box>
             <Typography variant='caption' color={colors.basic500}>
@@ -83,19 +86,19 @@ const DroneGroupCard: React.FC<DroneGroupCardProps> = ({ data }) => {
 export { DroneGroupCard };
 
 const Card = styled.div`
-  width: 502px;
-  height: 240px;
+  width: 100%;
+  padding: 0.75rem 0.75rem 1.5rem 0.75rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 0.75rem;
   background: white;
   gap: 12px;
 `;
 
 const Top = styled.div`
-  width: 478px;
+  width: 100%;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -106,28 +109,24 @@ const Top = styled.div`
   background: ${colors.primaryOpacity10};
 `;
 
-const Delete = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-`;
-
 const Bottom = styled.div`
-  width: 478px;
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
+  gap: 1.5rem;
 `;
 
 const Info = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 5px;
+  box-sizing: 'border-box';
 `;
 
 const Box = styled.div`
-  width: 210px;
+  width: 100%;
   height: 28px;
   display: grid;
   grid-template-columns: 1fr 1fr;

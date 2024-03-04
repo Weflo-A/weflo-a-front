@@ -1,6 +1,9 @@
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
+import { Typography } from '@mui/material';
 import { WefloLogo } from 'src/assets';
+import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 
 //
 //
@@ -14,6 +17,7 @@ const NavContainer = styled.div`
   left: 0;
   background: ${colors.secondary};
   padding: 0rem 5rem;
+  z-index: 1000;
 `;
 const NavStack = styled.div`
   height: 100%;
@@ -47,6 +51,11 @@ const MenuItem = styled.div`
     padding: 1rem 1rem 0.75rem 1rem;
     border-bottom: 0.25rem solid ${colors.primary100};
   }
+  &.active {
+    color: ${colors.primary100};
+    padding: 1rem 1rem 0.75rem 1rem;
+    border-bottom: 0.25rem solid ${colors.primary100};
+  }
 `;
 const EmailBox = styled.div`
   display: flex;
@@ -64,16 +73,84 @@ const EmailBox = styled.div`
 //
 
 const NavBar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const [activeMenu, setActiveMenu] = React.useState('모니터링');
+  const isMonitoringNav = location.pathname.includes('/monitoring');
+
+  const handleMenu = (name: string, url: string) => {
+    navigate(url);
+    setActiveMenu(name);
+  };
+
+  //
+  //
+  //
+
   return (
     <NavContainer>
       <NavStack>
         <WefloLogo />
         <RightWrapper>
           <MenuList>
-            <MenuItem>모니터링</MenuItem>
-            <MenuItem>중고거래</MenuItem>
+            {isMonitoringNav ? (
+              <>
+                <MenuItem
+                  className={activeMenu === '모니터링' ? 'active' : ''}
+                  onClick={() =>
+                    handleMenu('모니터링', '/monitoring/drone-search')
+                  }
+                >
+                  <Typography fontSize='14px' fontWeight='regular'>
+                    모니터링
+                  </Typography>
+                </MenuItem>
+              </>
+            ) : (
+              <>
+                <MenuItem
+                  className={activeMenu === '대시보드' ? 'active' : ''}
+                  onClick={() => handleMenu('대시보드', '/drone/:id/dashboard')}
+                >
+                  <Typography fontSize='14px' fontWeight='regular'>
+                    대시보드
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  className={activeMenu === '견적서' ? 'active' : ''}
+                  onClick={() => handleMenu('견적서', '/drone/:id/estimate')}
+                >
+                  <Typography fontSize='14px' fontWeight='regular'>
+                    견적서
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  className={activeMenu === '부품' ? 'active' : ''}
+                  onClick={() => handleMenu('부품', '/drone/:id/parts')}
+                >
+                  <Typography fontSize='14px' fontWeight='regular'>
+                    부품
+                  </Typography>
+                </MenuItem>
+              </>
+            )}
+            <MenuItem
+              className={activeMenu === '중고거래' ? 'active' : ''}
+              onClick={() =>
+                handleMenu('중고거래', '/monitoring/drone-group/1')
+              }
+            >
+              <Typography fontSize='14px' fontWeight='regular'>
+                중고거래
+              </Typography>
+            </MenuItem>
           </MenuList>
-          <EmailBox>jjung0259@gmail.com</EmailBox>
+          <EmailBox>
+            <Typography variant='caption' fontWeight='regular'>
+              jjung0259@gmail.com
+            </Typography>
+          </EmailBox>
         </RightWrapper>
       </NavStack>
     </NavContainer>

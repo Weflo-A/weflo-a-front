@@ -1,9 +1,11 @@
 import { Divider, Typography } from '@mui/material';
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
-import ItemContainer from './ItemContainer';
-import Button from './Button';
+import ItemContainer from 'src/components/common/ItemContainer';
+import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //
 //
@@ -28,27 +30,50 @@ const TabItem = styled.div`
     color: ${colors.primary100};
     background-color: ${colors.primaryOpacity10};
   }
+  &.active {
+    color: ${colors.primary100};
+    background-color: ${colors.primaryOpacity10};
+  }
 `;
 //
 //
 //
 
 const MenuTab = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const isSearchTab = location.pathname.includes('/drone-search');
+  const [activeTab, setActiveTab] = React.useState(
+    isSearchTab ? '드론조회' : '드론 그룹 1'
+  );
+
+  const handleTabMenu = (name: string, url: string) => {
+    navigate(url);
+    setActiveTab(name);
+  };
   /* 드론 조회하기 탭 */
   const renderDroneSearchTab = () => {
     return (
       <TabWrapper>
         <Typography
-          variant='h6'
-          fontWeight={700}
+          variant='body2'
+          fontWeight='bold'
           sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
         >
           드론
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          <TabItem>
-            <Typography variant='body2'>드론 조회하기</Typography>
+          <TabItem
+            className={activeTab === '드론조회' ? 'active' : ''}
+            onClick={() =>
+              handleTabMenu('드론조회', '/monitoring/drone-search')
+            }
+          >
+            <Typography fontSize='14px' fontWeight={400}>
+              드론 조회하기
+            </Typography>
           </TabItem>
         </TabList>
       </TabWrapper>
@@ -60,18 +85,33 @@ const MenuTab = () => {
     return (
       <TabWrapper>
         <Typography
-          variant='h6'
+          variant='body2'
+          fontWeight='bold'
           sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
         >
           드론 그룹
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          <TabItem>
-            <Typography variant='body2'>드론 그룹1</Typography>
+          <TabItem
+            className={activeTab === '드론 그룹 1' ? 'active' : ''}
+            onClick={() =>
+              handleTabMenu('드론 그룹 1', '/monitoring/drone-group/1')
+            }
+          >
+            <Typography fontSize='14px' fontWeight={400}>
+              드론 그룹1
+            </Typography>
           </TabItem>
-          <TabItem>
-            <Typography variant='body2'>드론 그룹2</Typography>
+          <TabItem
+            className={activeTab === '드론 그룹 2' ? 'active' : ''}
+            onClick={() =>
+              handleTabMenu('드론 그룹 2', '/monitoring/drone-group/1')
+            }
+          >
+            <Typography fontSize='14px' fontWeight={400}>
+              드론 그룹2
+            </Typography>
           </TabItem>
         </TabList>
       </TabWrapper>

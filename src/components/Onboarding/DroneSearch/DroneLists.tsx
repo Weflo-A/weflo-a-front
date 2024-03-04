@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 function DroneLists() {
   const navigate = useNavigate();
   const goToDashboard = (id: number) => {
-    navigate(`/dashboard/${id}`);
+    navigate(`/drone/${id}/dashboard`);
   };
 
   return (

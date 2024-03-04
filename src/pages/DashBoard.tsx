@@ -1,20 +1,42 @@
 import { Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { BackBlue } from 'src/assets';
 import { groups } from 'src/assets/data/menuData';
+import Button from 'src/components/common/Button';
 import MenuTabGroup from 'src/components/common/MenuTabGroup';
+import { DroneDetail } from 'src/components/dashboard/DroneDetail';
 import MixChart from 'src/components/dashboard/MixChart';
 import { ResultRecord } from 'src/components/dashboard/ResultRecord';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
 const DashBoard = () => {
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/');
+  };
+
   return (
     <>
       <MenuTabGroup groups={groups} />
       <div className='page'>
         <Page>
-          <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
-            대시보드
-          </Typography>
+          <Top>
+            <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
+              대시보드
+            </Typography>
+            <Button
+              text={
+                <>
+                  <BackBlue /> 모니터링으로 돌아가기
+                </>
+              }
+              buttonType='primaryLight'
+              onClick={handleButtonClick}
+              style={{ width: '180px', height: '32px' }}
+            />
+          </Top>
           <Component>
             <TimeLine>
               <Typography
@@ -26,7 +48,9 @@ const DashBoard = () => {
               </Typography>
               <MixChart />
             </TimeLine>
-            <Drone></Drone>
+            <Drone>
+              <DroneDetail />
+            </Drone>
             <Record>
               <Typography
                 variant='body1'
@@ -56,9 +80,15 @@ const DashBoard = () => {
 export default DashBoard;
 
 const Page = styled.div`
+  min-width: 1-00px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+`;
+
+const Top = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Component = styled.div`
@@ -89,6 +119,7 @@ const Drone = styled.div`
   height: 710px;
   border-radius: 12px;
   border: 1px solid ${colors.basic200};
+  padding: 20px;
   background: linear-gradient(180deg, #09101c 0%, #2e4263 100%);
 `;
 

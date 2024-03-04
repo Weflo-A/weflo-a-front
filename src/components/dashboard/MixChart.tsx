@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bar, Chart } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import colors from 'src/constants/colors';
 import {
   ArcElement,
@@ -13,6 +13,7 @@ import {
   Tooltip,
   registerables,
 } from 'chart.js';
+import styled from 'styled-components';
 
 ChartJS.register(
   ...registerables,
@@ -37,10 +38,10 @@ const MixChart: React.FC = () => {
       '24.03.02',
       '24.04.20',
     ],
-    motorScores: [85, 88, 90, 92, 95],
-    bladeScores: [75, 78, 80, 82, 85],
-    escScores: [90, 92, 95, 97, 98],
-    total: [280, 288, 289, 283],
+    motorScores: [85 / 3, 88 / 3, 90 / 3, 92 / 3, 95 / 3],
+    bladeScores: [75 / 3, 78 / 3, 80 / 3, 82 / 3, 85 / 3],
+    escScores: [90 / 3, 92 / 3, 95 / 3, 97 / 3, 78 / 3],
+    total: [250 / 3, 258 / 3, 265 / 3, 271 / 3, 258 / 3],
   };
 
   const barData = {
@@ -58,14 +59,14 @@ const MixChart: React.FC = () => {
         label: '블레이드',
         backgroundColor: colors.accent50,
         data: data.bladeScores,
-        order: 1,
+        order: 2,
       },
       {
         type: 'bar' as const,
         label: 'ESC',
         backgroundColor: colors.accent30,
         data: data.escScores,
-        order: 1,
+        order: 3,
       },
       {
         type: 'line' as const,
@@ -81,74 +82,30 @@ const MixChart: React.FC = () => {
     ],
   };
 
-  const lineData = {
-    labels: data.labels,
-    datasets: [
-      {
-        label: '모터',
-        borderColor: colors.accent100,
-        data: data.motorScores,
-        fill: false,
-        order: 1,
-      },
-      {
-        label: '블레이드',
-        borderColor: colors.accent50,
-        data: data.bladeScores,
-        fill: false,
-        order: 1,
-      },
-      {
-        label: 'ESC',
-        borderColor: colors.accent30,
-        data: data.escScores,
-        fill: false,
-        order: 1,
-      },
-      {
-        label: 'Total',
-        data: data.total,
-        backgroundColor: colors.accent100,
-        borderColor: colors.accent100,
-        fill: false,
-        // pointHoverRadius: 20,
-        // pointHoverBorderWidth: 5,
-        // type: 'line',
-        order: 0,
-      },
-    ],
-  };
-
   const options = {
-    responsive: true, // canvas 반응형 여부
-    animation: {
-      duration: 3000,
-      // easing: "easeInBounce",
-    },
-    scales: {
+    responsive: false,
+    scale: {
+      x: {
+        stacked: true,
+      },
       y: {
-        // type: 'linear',
+        stacked: true,
         min: 0,
-        max: 300,
+        max: 100,
+        ticks: {
+          stepSize: 25, // y축의 간격을 조정하여 비율로 조정
+        },
       },
     },
   };
-
-  // barData.datasets.forEach((dataset, index) => {
-  //   dataset.data = dataset.data.map((value, i) => {
-  //     let sum = value;
-  //     for (let j = 0; j < index; j++) {
-  //       sum += barData.datasets[j].data[i];
-  //     }
-  //     return sum;
-  //   });
-  // });
 
   return (
-    <div>
+    <StyleChart>
       <Chart type='bar' data={barData} options={options} />
-    </div>
+    </StyleChart>
   );
 };
 
 export default MixChart;
+
+const StyleChart = styled.div``;

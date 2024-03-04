@@ -48,7 +48,7 @@ const MenuTabGroup: React.FC<MenuTabGroupProps> = ({ groups }) => {
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
 
   const handleTabClick = (id: number) => {
-    navigate(`/dashboard/${id}`);
+    navigate(`/drone/${id}/dashboard`);
     setSelectedTab(id);
   };
 
