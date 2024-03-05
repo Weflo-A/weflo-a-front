@@ -11,7 +11,7 @@ import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Chip from 'src/components/common/Chip';
 import CheckBox from 'src/components/common/CheckBox';
-import { DroneGroupList } from 'src/components/Onboarding/DroneGroupSearch/DroneGroupList';
+import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 
 //
 //
