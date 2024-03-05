@@ -9,9 +9,9 @@ import LineColumnChart from 'src/components/LineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
-import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 import Chip from 'src/components/common/Chip';
 import CheckBox from 'src/components/common/CheckBox';
+import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 
 //
 //

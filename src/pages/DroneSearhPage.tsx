@@ -1,13 +1,13 @@
 import { Plus } from 'src/assets';
 import Button from 'src/components/common/Button';
 import MenuTab from 'src/components/common/MenuTab';
-import { DroneLists } from 'src/components/onboarding/droneSearch/DroneLists';
-import DroneSearch from 'src/components/onboarding/droneSearch/DroneSearch';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { useState } from 'react';
-import Popup from 'src/components/onboarding/Popup';
 import colors from 'src/constants/colors';
+import DroneSearch from 'src/components/onboarding/droneSearch/DroneSearch';
+import { DroneLists } from 'src/components/onboarding/droneSearch/DroneLists';
+import Popup from 'src/components/onboarding/Popup';
 
 const DroneSearchPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
