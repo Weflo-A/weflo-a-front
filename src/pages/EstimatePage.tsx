@@ -13,6 +13,7 @@ import partsImg from 'src/assets/images/drone-parts.png';
 import RepairCompanyList from 'src/components/estimate/RepairCompanyList';
 import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
 import Basket from 'src/components/estimate/Basket';
+import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 
 //
 //
@@ -98,6 +99,7 @@ const EstimatePage = () => {
           flexDirection: 'column',
           width: '100%',
           padding: '1.25rem',
+          gap: '0.6875rem',
         }}
       >
         <Typography variant='body1' fontWeight='bold'>
@@ -140,7 +142,8 @@ const EstimatePage = () => {
         <Typography variant='body1' fontWeight='bold'>
           총 점수
         </Typography>
-        <Stack direction='row' gap='1rem'>
+        <Stack direction='row' gap='1rem' alignItems='center'>
+          <TotalScoreChart />
           <Stack direction='column' gap='0.5rem'>
             <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
               <Typography variant='caption' color={colors.basic500}>
