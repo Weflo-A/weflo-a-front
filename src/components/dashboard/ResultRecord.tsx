@@ -6,7 +6,11 @@ import { Bigger } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
 import { droneListData } from 'src/assets/data/droneListData';
 
-function ResultRecord() {
+interface ResultRecordProp {
+  groupId: number;
+  droneId?: number;
+}
+function ResultRecord({ groupId }: ResultRecordProp) {
   const navigate = useNavigate();
 
   const selectedDrone = droneListData[0];
@@ -21,7 +25,7 @@ function ResultRecord() {
   }
 
   const goToDashboard = (id: number) => {
-    navigate(`/견적서/${id}`);
+    navigate(`/drone-group/${groupId}/drone/${id}/estimate`);
   };
 
   return (
