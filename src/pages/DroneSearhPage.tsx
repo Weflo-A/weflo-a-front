@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { useState } from 'react';
 import colors from 'src/constants/colors';
-import DroneSearch from 'src/components/Onboarding/DroneSearch/DroneSearch';
-import { DroneLists } from 'src/components/Onboarding/DroneSearch/DroneLists';
-import Popup from 'src/components/Onboarding/Popup';
+import DroneSearch from 'src/components/onboarding/droneSearch/DroneSearch';
+import { DroneLists } from 'src/components/onboarding/droneSearch/DroneLists';
+import Popup from 'src/components/onboarding/Popup';
 
 const DroneSearchPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
