@@ -48,10 +48,17 @@ const MenuTab = () => {
     isSearchTab ? '드론조회' : '드론 그룹 1'
   );
 
+  // 임시 드론 그룹 리스트
+  const groupList = [
+    { id: 1, name: '드론 그룹 1' },
+    { id: 2, name: '드론 그룹 2' },
+  ];
+
   const handleTabMenu = (name: string, url: string) => {
     navigate(url);
     setActiveTab(name);
   };
+
   /* 드론 조회하기 탭 */
   const renderDroneSearchTab = () => {
     return (
@@ -93,26 +100,18 @@ const MenuTab = () => {
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          <TabItem
-            className={activeTab === '드론 그룹 1' ? 'active' : ''}
-            onClick={() =>
-              handleTabMenu('드론 그룹 1', '/monitoring/drone-group/1')
-            }
-          >
-            <Typography fontSize='14px' fontWeight={400}>
-              드론 그룹1
-            </Typography>
-          </TabItem>
-          <TabItem
-            className={activeTab === '드론 그룹 2' ? 'active' : ''}
-            onClick={() =>
-              handleTabMenu('드론 그룹 2', '/monitoring/drone-group/1')
-            }
-          >
-            <Typography fontSize='14px' fontWeight={400}>
-              드론 그룹2
-            </Typography>
-          </TabItem>
+          {groupList.map((item) => (
+            <TabItem
+              className={activeTab === item.name ? 'active' : ''}
+              onClick={() =>
+                handleTabMenu(item.name, `/monitoring/drone-group/${item.id}`)
+              }
+            >
+              <Typography fontSize='14px' fontWeight={400}>
+                {item.name}
+              </Typography>
+            </TabItem>
+          ))}
         </TabList>
       </TabWrapper>
     );

@@ -1,8 +1,11 @@
 import { Stack } from '@mui/material';
 import { DroneGroupCard } from './DroneGroupCard';
 import { droneListData } from 'src/assets/data/droneListData';
+import { useParams } from 'react-router-dom';
 
 const DroneGroupList = () => {
+  const { groupId } = useParams();
+
   return (
     <Stack
       display='grid'
@@ -14,12 +17,14 @@ const DroneGroupList = () => {
         <DroneGroupCard
           key={index}
           data={{
+            id: drone.id,
             name: drone.name,
             model: drone.model,
             usage: drone.usage,
             year: drone.year,
             cost: drone.cost,
             groupSetupDate: drone.groupSetupDate,
+            groupId: Number(groupId),
           }}
         />
       ))}
