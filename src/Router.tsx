@@ -4,6 +4,7 @@ import DroneSearchPage from './pages/DroneSearhPage';
 import NavBar from './components/common/NavBar';
 import EstimatePage from './pages/EstimatePage';
 import DashBoard from './pages/DashBoard';
+import TestDetailPage from './pages/TestDetailPage';
 
 const Router = () => {
   return (
@@ -26,6 +27,10 @@ const Router = () => {
         <Route
           path='/drone-group/:groupId/drone/:id/dashboard'
           element={<DashBoard />}
+        />
+        <Route
+          path='/drone-group/:groupId/drone/:id/dashboard/test'
+          element={<TestDetailPage />}
         />
         <Route
           path='/drone-group/:groupId/drone/:id/dashboard/test'

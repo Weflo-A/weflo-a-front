@@ -35,7 +35,7 @@ function ResultRecord({ groupId }: ResultRecordProp) {
         <Column>진단 장소</Column>
         <Column>종합 점수</Column>
       </Columns>
-      <Drones>
+      <Drones onClick={() => navigate(`test`)}>
         {selectedDrone.diagnosis.map((data, index) => (
           <Drone key={index}>
             <span>{data.date}</span>
