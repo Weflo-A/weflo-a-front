@@ -7,6 +7,8 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { brokenParts } from 'src/assets/data/estimateDummy';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
+import ScoreTable from 'src/components/dashboard/ScoreTable';
+import ScoreAvgBox from 'src/components/dashboard/ScoreAvgBox';
 
 const DroneInfoItemBox = styled.div`
   display: flex;
@@ -19,6 +21,40 @@ const DroneInfoItemBox = styled.div`
 `;
 
 const TestDetailPage = () => {
+  /* Score List */
+  const renderScoreList = () => {
+    return (
+      <ItemContainer
+        style={{ flexDirection: 'column', gap: '1rem', padding: '1.25rem' }}
+      >
+        <Stack
+          direction='row'
+          justifyContent='space-between'
+          alignItems='center'
+        >
+          <Typography variant='body1' fontWeight='bold'>
+            Score List
+          </Typography>
+          {/* 나중에 커스텀 */}
+          <select>
+            {['총점 순', '모터 점수 순', '블레이드 점수 순', 'ESC 점수 순'].map(
+              (item) => (
+                <option>{item}</option>
+              )
+            )}
+          </select>
+        </Stack>
+        <ScoreTable />
+        <Stack direction='row' gap='0.5rem'>
+          <ScoreAvgBox type='모터' score={70} />
+          <ScoreAvgBox type='모터' score={70} />
+          <ScoreAvgBox type='모터' score={70} />
+          <ScoreAvgBox type='모터' score={70} />
+        </Stack>
+      </ItemContainer>
+    );
+  };
+
   /* 종합 진단 섹션 */
   const renderTotalTest = () => {
     return (
@@ -103,8 +139,7 @@ const TestDetailPage = () => {
       <div className='page'>
         <Stack direction='row' gap='1rem'>
           {/* 점수 도표 */}
-          <ItemContainer></ItemContainer>
-          {/* 점수 리스트 */}
+          {renderScoreList()}
           <ItemContainer></ItemContainer>
         </Stack>
         <Stack direction='row' gap='1rem'>
