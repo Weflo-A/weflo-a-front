@@ -377,10 +377,11 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
             >
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
-                  <span color={colors.accent100}>Eagle</span>의
-                  <span color={colors.accent100}>모터</span>와
-                  <span color={colors.accent100}>블레이드</span>를 수리할 수
-                  있는 업체는 총 <span color={colors.accent100}>9</span>곳이
+                  <span style={{ color: colors.accent100 }}>Eagle</span>의
+                  <span style={{ color: colors.accent100 }}>모터</span>와
+                  <span style={{ color: colors.accent100 }}>블레이드</span>를
+                  수리할 수 있는 업체는 총{' '}
+                  <span style={{ color: colors.accent100 }}>9</span>곳이
                   있습니다.
                 </Typography>
               </CalloutBox>
@@ -418,7 +419,7 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
                   재사용 가능 부품이 총
-                  <span color={colors.accent100}>12개</span>
+                  <span style={{ color: colors.accent100 }}>12개</span>
                   있습니다.
                 </Typography>
               </CalloutBox>
@@ -461,6 +462,8 @@ const NewPartsBox = styled.div`
 `;
 
 const CalloutBox = styled.div`
+  width: 100%;
+  max-width: 35.5rem;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   background: ${colors.basic100};

@@ -13,6 +13,8 @@ interface SearchProp {
 }
 
 const SearchContainer = styled.div`
+  width: 100%;
+  max-width: 35.5rem;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -21,7 +23,7 @@ const SearchContainer = styled.div`
 
 const SearchInputContainer = styled.div`
   display: flex;
-  width: 300px;
+  width: 100%;
   height: 40px;
   padding: 11px 8px 11px 12px;
   justify-content: space-between;
