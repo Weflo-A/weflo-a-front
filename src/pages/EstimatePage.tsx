@@ -14,6 +14,7 @@ import RepairCompanyList from 'src/components/estimate/RepairCompanyList';
 import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
 import Basket from 'src/components/estimate/Basket';
 import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
+import SectionTab from 'src/components/estimate/SectionTab';
 
 //
 //
@@ -289,6 +290,7 @@ const EstimatePage = () => {
             {renderScoreChart()}
           </Stack>
 
+          <SectionTab />
           {/* 교체용 부품 구매 섹션*/}
           <ItemContainer
             style={{
