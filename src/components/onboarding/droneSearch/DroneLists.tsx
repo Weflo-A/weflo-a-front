@@ -4,8 +4,14 @@ import { DroneGroupBox } from './DroneGroupBox';
 import colors from 'src/constants/colors';
 import Button from 'src/components/common/Button';
 import { Bigger } from 'src/assets';
+import { useNavigate } from 'react-router-dom';
 
 function DroneLists() {
+  const navigate = useNavigate();
+  const goToDashboard = (id: number) => {
+    navigate(`/drone/${id}/dashboard`);
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -35,7 +41,7 @@ function DroneLists() {
                       </>
                     }
                     buttonType='accentLight'
-                    onClick={() => alert('대시보드 이동')}
+                    onClick={() => goToDashboard(data.id)}
                     style={{ width: '110px', height: '32px', fontSize: '14px' }}
                   />
                 </Drone>

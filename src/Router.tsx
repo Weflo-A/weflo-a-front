@@ -3,6 +3,7 @@ import DroneGroupPage from './pages/DroneGroupPage';
 import DroneSearchPage from './pages/DroneSearhPage';
 import NavBar from './components/common/NavBar';
 import EstimatePage from './pages/EstimatePage';
+import DashBoard from './pages/DashBoard';
 
 const Router = () => {
   return (
@@ -22,7 +23,7 @@ const Router = () => {
         {/* 드론 [대시보드, 견적서, 부품], 중고거래 */}
         <Route
           path='/drone-group/:groupId/drone/:id/dashboard'
-          element={<DroneSearchPage />}
+          element={<DashBoard />}
         />
         <Route
           path='/drone-group/:groupId/drone/:id/dashboard/test'
