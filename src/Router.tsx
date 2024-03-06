@@ -4,6 +4,7 @@ import DroneSearchPage from './pages/DroneSearhPage';
 import NavBar from './components/common/NavBar';
 import EstimatePage from './pages/EstimatePage';
 import DashBoard from './pages/DashBoard';
+import TestDetailPage from './pages/TestDetailPage';
 
 const Router = () => {
   return (
@@ -20,10 +21,16 @@ const Router = () => {
           path='/monitoring/drone-group/:groupId'
           element={<DroneGroupPage />}
         />
+        <Route path='/monitoring/trade' element={<DroneSearchPage />} />
+        <Route path='/trade' element={<DroneSearchPage />} />
         {/* 드론 [대시보드, 견적서, 부품], 중고거래 */}
         <Route
           path='/drone-group/:groupId/drone/:id/dashboard'
           element={<DashBoard />}
+        />
+        <Route
+          path='/drone-group/:groupId/drone/:id/dashboard/test'
+          element={<TestDetailPage />}
         />
         <Route
           path='/drone-group/:groupId/drone/:id/dashboard/test'
