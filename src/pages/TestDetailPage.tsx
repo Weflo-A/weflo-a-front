@@ -9,6 +9,9 @@ import { brokenParts } from 'src/assets/data/estimateDummy';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import ScoreTable from 'src/components/dashboard/ScoreTable';
 import ScoreAvgBox from 'src/components/dashboard/ScoreAvgBox';
+import MultiplePieChart from 'src/components/dashboard/MultiplePieChart';
+import ScoreRadarChart from 'src/components/dashboard/ScoreRadarChart';
+import droneDefault from 'src/assets/images/test/drone-0.png';
 
 const DroneInfoItemBox = styled.div`
   display: flex;
@@ -20,12 +23,48 @@ const DroneInfoItemBox = styled.div`
   padding: 0.6875rem;
 `;
 
+//
+//
+//
+
 const TestDetailPage = () => {
+  const renderScoreChart = () => {
+    return (
+      <ItemContainer
+        style={{
+          width: '100%',
+          flexDirection: 'row',
+          padding: '1.25rem',
+          alignItems: 'center',
+        }}
+      >
+        <Stack
+          width='100%'
+          direction='row'
+          display='grid'
+          gridTemplateColumns='1fr 1fr'
+        >
+          <ScoreRadarChart />
+          <Stack width='100%' display='grid' gridTemplateColumns='1fr 1fr'>
+            <MultiplePieChart title='구동부 01' series={[50, 30, 70]} />
+            <MultiplePieChart title='구동부 02' series={[40, 30, 50]} />
+            <MultiplePieChart title='구동부 03' series={[70, 30, 50]} />
+            <MultiplePieChart title='구동부 04' series={[90, 80, 70]} />
+          </Stack>
+        </Stack>
+      </ItemContainer>
+    );
+  };
   /* Score List */
   const renderScoreList = () => {
     return (
       <ItemContainer
-        style={{ flexDirection: 'column', gap: '1rem', padding: '1.25rem' }}
+        style={{
+          minWidth: '20rem',
+          flexDirection: 'column',
+          gap: '1rem',
+          padding: '1.25rem',
+        }}
       >
         <Stack
           direction='row'
@@ -136,18 +175,18 @@ const TestDetailPage = () => {
   return (
     <>
       <MenuTabGroup groups={groups} />
-      <div className='page'>
+      <div
+        className='page'
+        style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
+      >
         <Stack direction='row' gap='1rem'>
-          {/* 점수 도표 */}
+          {renderScoreChart()}
           {renderScoreList()}
-          <ItemContainer></ItemContainer>
         </Stack>
         <Stack direction='row' gap='1rem'>
           {renderTotalTest()}
           {renderBrokenPartsInfo()}
-          <ItemContainer></ItemContainer>
-          {/* 드론 이미지*/}
-          <DroneTestImage />
+          <DroneTestImage imgUrl={droneDefault} />
         </Stack>
       </div>
     </>
