@@ -1,49 +1,38 @@
 import styled from 'styled-components';
-import { droneListData } from '../../../assets/data/droneListData';
 import colors from 'src/constants/colors';
-import Button from 'src/components/common/Button';
-import { Bigger } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
-import { DroneGroupBox } from './DroneGroupBox';
+import { Typography } from '@mui/material';
+import { droneListData } from 'src/assets/data/droneListData';
 
-function DroneLists() {
-  const navigate = useNavigate();
-  const goToDashboard = (id: number) => {
-    navigate(`/drone/${id}/dashboard`);
-  };
-
+function PartCostList() {
   return (
     <Container>
       <Wrapper>
         <Columns>
-          <Column>드론 ID</Column>
-          <Column>드론 모델</Column>
-          <Column>연식</Column>
-          <Column>드론 그룹</Column>
+          <Column>순위</Column>
+          <Column>부품별</Column>
+          <Column>주요 모델</Column>
+          <Column>누적 사용 개수</Column>
+          <Column>부품 단가</Column>
+          <Column>누적 투입 비용</Column>
         </Columns>
         {droneListData.length > 0 ? (
           <Drones>
             {droneListData.map((data) => {
               return (
                 <Drone key={data.id}>
-                  <span>{data.name}</span>
+                  <span>1</span>
+                  <span>부품명</span>
                   <span>{data.model}</span>
-                  <span>{data.year}</span>
-                  <Groups>
-                    {data.group.map((num) => (
-                      <DroneGroupBox key={num} num={num} />
-                    ))}
-                  </Groups>
-                  <Button
-                    text={
-                      <>
-                        대시보드 <Bigger />
-                      </>
-                    }
-                    buttonType='accentLight'
-                    onClick={() => goToDashboard(data.id)}
-                    style={{ width: '110px', height: '32px', fontSize: '14px' }}
-                  />
+                  <span>부적사용개수</span>
+                  <span>572,000원</span>
+                  <Typography
+                    variant='h4'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    123,000원
+                  </Typography>
                 </Drone>
               );
             })}
@@ -58,7 +47,7 @@ function DroneLists() {
   );
 }
 
-export { DroneLists };
+export { PartCostList };
 
 const Container = styled.div`
   display: flex;

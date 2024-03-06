@@ -1,26 +1,18 @@
 import { Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
 interface CheckBoxProps {
   label: string;
+  checked: boolean;
+  onChange: () => void;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({ label }) => {
-  const [checked, setChecked] = useState(false); // 체크 여부를 관리하는 상태
-
-  const toggleChecked = () => {
-    setChecked(!checked);
-  };
-
+const CheckBox: React.FC<CheckBoxProps> = ({ label, checked, onChange }) => {
   return (
     <CheckboxContainer>
-      <CheckboxInput
-        type='checkbox'
-        checked={checked}
-        onChange={toggleChecked}
-      />
+      <CheckboxInput type='checkbox' checked={checked} onChange={onChange} />
       <Typography variant='caption' color={colors.basic500}>
         {label}
       </Typography>

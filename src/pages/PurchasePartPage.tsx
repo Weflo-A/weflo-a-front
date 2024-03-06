@@ -5,11 +5,14 @@ import { parts } from 'src/assets/data/menuData';
 import { productData } from 'src/assets/data/productData';
 import Button from 'src/components/common/Button';
 import MenuTabGroup from 'src/components/common/MenuTabGroup';
+import CategoryFilter from 'src/components/purchasepart/CategoryFilter';
+import { HeightCard } from 'src/components/purchasepart/HeightCard';
+import { SquareCard } from 'src/components/purchasepart/SquareCard';
 import { WidthCard } from 'src/components/purchasepart/WidthCard';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
-const PurchasePart = () => {
+const PurchasePartPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -79,14 +82,50 @@ const PurchasePart = () => {
               </Center>
             </Row>
           </Orange>
-          <SoonNeed></SoonNeed>
+          <SoonNeed>
+            <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
+              곧 사용자 님께서 필요로 하실 제품들
+            </Typography>
+            {productData.map((data, index) => (
+              <HeightCard
+                key={index}
+                data={{
+                  id: data.id,
+                  store: data.store,
+                  name: data.name,
+                  price: data.price,
+                  rank: data.rank,
+                  image: data.image,
+                }}
+              />
+            ))}
+          </SoonNeed>
+          <CategoryPart>
+            <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
+              곧 사용자 님께서 필요로 하실 제품들
+            </Typography>
+            {productData.map((data, index) => (
+              <SquareCard
+                key={index}
+                data={{
+                  id: data.id,
+                  store: data.store,
+                  name: data.name,
+                  price: data.price,
+                  rank: data.rank,
+                  image: data.image,
+                }}
+              />
+            ))}
+            <CategoryFilter productData={productData} />
+          </CategoryPart>
         </Page>
       </div>
     </>
   );
 };
 
-export default PurchasePart;
+export default PurchasePartPage;
 
 const Page = styled.div`
   min-width: 1020px;
@@ -161,4 +200,12 @@ const SoonNeed = styled.div`
   border-radius: 12px;
   border: 1px solid ${colors.basic200};
   background: white;
+`;
+
+const CategoryPart = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
 `;
