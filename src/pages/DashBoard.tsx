@@ -19,7 +19,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <MenuTabGroup groups={groups} type='dashboard' />
+      <MenuTabGroup groups={groups} />
       <div className='page'>
         <Page>
           <Top>

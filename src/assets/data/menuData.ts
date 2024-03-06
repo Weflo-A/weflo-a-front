@@ -25,14 +25,3 @@ export const groups: Group[] = [
     ],
   },
 ];
-
-export const parts: Group[] = [
-  {
-    name: '부품',
-    drones: [
-      { id: 1, name: '투입 비용 현황' },
-      { id: 2, name: '부품 예측 관리' },
-      { id: 3, name: '부품 구매' },
-    ],
-  },
-];

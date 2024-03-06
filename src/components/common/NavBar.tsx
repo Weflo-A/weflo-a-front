@@ -112,7 +112,10 @@ const NavBar = () => {
                 <MenuItem
                   className={activeMenu === '대시보드' ? 'active' : ''}
                   onClick={() =>
-                    handleMenu('대시보드', '/drone-group/drone/1/dashboard')
+                    handleMenu(
+                      '대시보드',
+                      '/drone-group/:groupId/drone/:id/dashboard'
+                    )
                   }
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
@@ -135,7 +138,7 @@ const NavBar = () => {
                 <MenuItem
                   className={activeMenu === '부품' ? 'active' : ''}
                   onClick={() =>
-                    handleMenu('부품', 'drone-group/drone/1/parts')
+                    handleMenu('부품', '/drone-group/:groupId/drone/:id/parts')
                   }
                 >
                   <Typography fontSize='14px' fontWeight='regular'>

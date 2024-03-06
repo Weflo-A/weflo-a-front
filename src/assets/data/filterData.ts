@@ -1,7 +1,7 @@
 interface FilterDataType {
   id: string;
   label: string;
-  filterName: string;
+  filterName: string; // 필터명 추가
 }
 
 export const modelFilterData: FilterDataType[] = [

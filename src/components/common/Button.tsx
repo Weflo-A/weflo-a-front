@@ -22,7 +22,7 @@ interface ButtonProps extends ButtonTypes {
   text: ReactNode;
   buttonType?: buttonType;
   children?: React.ReactNode;
-  onClick?: () => void;
+  onClick: () => void;
   style?: React.CSSProperties & { fontSize?: string };
 }
 
