@@ -5,6 +5,7 @@ import { groups } from 'src/assets/data/menuData';
 import Button from 'src/components/common/Button';
 import MenuTabGroup from 'src/components/common/MenuTabGroup';
 import { DroneDetail } from 'src/components/dashboard/DroneDetail';
+import FailurePieChart from 'src/components/dashboard/FailurePieChart';
 import MixChart from 'src/components/dashboard/MixChart';
 import { ResultRecord } from 'src/components/dashboard/ResultRecord';
 import colors from 'src/constants/colors';
@@ -129,6 +130,7 @@ const DashBoard = () => {
               >
                 고장 유형
               </Typography>
+              <FailurePieChart />
             </Breakdown>
           </Component>
         </Page>
