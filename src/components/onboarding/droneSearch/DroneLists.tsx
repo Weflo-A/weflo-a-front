@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 import { droneListData } from '../../../assets/data/droneListData';
+import { DroneGroupBox } from './DroneGroupBox';
 import colors from 'src/constants/colors';
 import Button from 'src/components/common/Button';
 import { Bigger } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
-import { DroneGroupBox } from './DroneGroupBox';
 
 function DroneLists() {
   const navigate = useNavigate();
   const goToDashboard = (id: number) => {
-    navigate(`/drone-group/drone/${id}/dashboard`);
+    navigate(`/drone/${id}/dashboard`);
   };
 
   return (

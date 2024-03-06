@@ -12,7 +12,6 @@ interface Group {
 
 interface MenuTabGroupProps {
   groups: Group[];
-  type: 'dashboard' | 'parts';
 }
 
 const TabContainer = styled.div`
@@ -21,7 +20,6 @@ const TabContainer = styled.div`
   flex-direction: column;
   padding: 1rem 0.5rem;
   gap: 1.5rem;
-  z-index: 100;
 `;
 
 const TabWrapper = styled.div``;
@@ -45,12 +43,12 @@ const TabItem = styled.div<{ selected: boolean }>`
   }
 `;
 
-const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
+const MenuTabGroup: React.FC<MenuTabGroupProps> = ({ groups }) => {
   const navigate = useNavigate();
   const params = useParams<{ id: string }>();
   const [selectedTab, setSelectedTab] = useState<number | null>(null);
 
-  // URL 파라미터에서 받아온 선택된 탭을 설정
+  // URL 파라미터에서 받아온 id로 선택된 탭을 설정
   useEffect(() => {
     if (params.id) {
       setSelectedTab(Number(params.id));
@@ -58,17 +56,12 @@ const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
   }, [params.id]);
 
   const handleTabClick = (id: number) => {
-    const basePath = '/drone-group/drone/' + id;
-    const path =
-      props.type === 'dashboard'
-        ? basePath + '/dashboard'
-        : basePath + '/parts';
-    navigate(path);
+    navigate(`/drone/${id}/dashboard`);
     setSelectedTab(id);
   };
 
   const renderGroupTabs = () => {
-    return props.groups.map((group, index) => (
+    return groups.map((group, index) => (
       <TabWrapper key={index}>
         <Typography
           variant='body2'
