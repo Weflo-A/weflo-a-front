@@ -26,11 +26,31 @@ interface ButtonProps extends ButtonTypes {
   style?: React.CSSProperties & { fontSize?: string };
 }
 
+type buttonColorType = {
+  color: string;
+  bgColor: string;
+  hoverColor: string;
+  hoverBgColor: string;
+  activeBgColor: string;
+};
+
+interface StyledButtonProps extends ButtonTypes {
+  colorType?: buttonColorType;
+}
+
 //
 //
 //
 
-const StyledButton = styled.button`
+const initalButtonColors = {
+  color: 'white',
+  bgColor: colors.accent100,
+  hoverColor: 'white',
+  hoverBgColor: colors.accentHover,
+  activeBgColor: colors.accentPressed,
+};
+
+const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
   padding: 0.3rem 1rem;
   justify-content: center;
@@ -38,63 +58,18 @@ const StyledButton = styled.button`
   flex-shrink: 0;
   border: none;
   border-radius: 0.5rem;
+  color: ${(props) => props.colorType?.color};
+  background: ${(props) => props.colorType?.bgColor};
   transition:
     color 200ms,
     background-color 200ms;
-  &.accent {
-    color: white;
-    background: ${colors.accent100};
-    &:hover {
-      color: white;
-      background: ${colors.accentHover};
-    }
-    &:active {
-      background: ${colors.accentPressed};
-    }
+  &:hover {
+    color: ${(props) => props.colorType?.hoverColor};
+    background: ${(props) => props.colorType?.hoverBgColor};
   }
-  &.accentLight {
-    color: ${colors.accent100};
-    background: ${colors.accent20};
-    &:hover {
-      color: white;
-      background: ${colors.accentHover};
-    }
-    &:active {
-      background: ${colors.accentPressed};
-    }
-  }
-  &.primary {
-    color: white;
-    background: ${colors.primary100};
-    &:hover {
-      color: white;
-      background: ${colors.primaryHover};
-    }
-    &:active {
-      background: ${colors.primaryPressed};
-    }
-  }
-  &.primaryLight {
-    color: ${colors.primary100};
-    background: ${colors.primary20};
-    &:hover {
-      color: white;
-      background: ${colors.primaryHover};
-    }
-    &:active {
-      background: ${colors.primaryPressed};
-    }
-  }
-  &.basic {
-    color: ${colors.basic400};
-    background: ${colors.basic200};
-    &:hover {
-      color: white;
-      background: ${colors.basic400};
-    }
-    &:active {
-      background: ${colors.basic400};
-    }
+  &:active {
+    color: ${(props) => props.colorType?.hoverColor};
+    background: ${(props) => props.colorType?.activeBgColor};
   }
 `;
 
@@ -103,10 +78,52 @@ const StyledButton = styled.button`
 //
 
 const Button = (props: ButtonProps) => {
-  const { text, buttonType = 'accent', onClick, style } = props;
+  const { text, buttonType, onClick, style } = props;
+  const [buttonColor, setButtonColor] = React.useState(initalButtonColors);
+
+  /* handle button color type */
+  const handleButtonColor = () => {
+    if (buttonType === 'primary') {
+      setButtonColor((prev) => ({
+        ...prev,
+        bgColor: colors.primary100,
+        hoverBgColor: colors.primaryHover,
+        activeBgColor: colors.primaryPressed,
+      }));
+    } else if (buttonType === 'primaryLight') {
+      setButtonColor(() => ({
+        color: colors.primary100,
+        bgColor: colors.primary20,
+        hoverColor: 'white',
+        hoverBgColor: colors.primaryHover,
+        activeBgColor: colors.primaryPressed,
+      }));
+    } else if (buttonType === 'accentLight') {
+      setButtonColor((prev) => ({
+        ...prev,
+        color: colors.accent100,
+        hoverColor: 'white',
+        bgColor: colors.accent20,
+      }));
+    } else if (buttonType === 'basic') {
+      setButtonColor(() => ({
+        color: colors.basic400,
+        bgColor: colors.basic200,
+        hoverColor: colors.basic400,
+        hoverBgColor: colors.basic400,
+        activeBgColor: colors.basic400,
+      }));
+    } else {
+      setButtonColor(initalButtonColors);
+    }
+  };
+
+  React.useEffect(() => {
+    handleButtonColor();
+  }, []);
 
   return (
-    <StyledButton className={buttonType} style={style} onClick={onClick}>
+    <StyledButton style={style} colorType={buttonColor} onClick={onClick}>
       {text}
     </StyledButton>
   );
