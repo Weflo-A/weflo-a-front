@@ -12,6 +12,12 @@ import ScoreAvgBox from 'src/components/dashboard/ScoreAvgBox';
 import MultiplePieChart from 'src/components/dashboard/MultiplePieChart';
 import ScoreRadarChart from 'src/components/dashboard/ScoreRadarChart';
 import droneDefault from 'src/assets/images/test/drone-0.png';
+import Button from 'src/components/common/Button';
+import { BackBlue } from 'src/assets';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import Select from 'src/components/dashboard/OrderSelect';
+import OrderSelect from 'src/components/dashboard/OrderSelect';
 
 const DroneInfoItemBox = styled.div`
   min-width: 10.375rem;
@@ -30,6 +36,41 @@ const DroneInfoItemBox = styled.div`
 //
 
 const TestDetailPage = () => {
+  const navigate = useNavigate();
+
+  const [scoreOrder, setScoreOrder] = React.useState('');
+
+  /* 페이지 헤더 */
+  const renderPageHeader = () => {
+    return (
+      <Stack
+        direction='row'
+        gap='1.25rem'
+        alignItems='center'
+        justifyContent='space-between'
+      >
+        <Stack direction='row' gap='0.5rem'>
+          <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
+            Drone No.1
+          </Typography>
+          <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
+            견적서
+          </Typography>
+        </Stack>
+        <Button
+          text={
+            <>
+              <BackBlue /> 모니터링으로 돌아가기
+            </>
+          }
+          buttonType='primaryLight'
+          onClick={() => navigate(`/monitoring/drone-search`)}
+        />
+      </Stack>
+    );
+  };
+
+  /* 점수 도표 */
   const renderScoreChart = () => {
     return (
       <ItemContainer
@@ -76,14 +117,17 @@ const TestDetailPage = () => {
           <Typography variant='body1' fontWeight='bold'>
             Score List
           </Typography>
-          {/* 나중에 커스텀 */}
-          <select>
-            {['총점 순', '모터 점수 순', '블레이드 점수 순', 'ESC 점수 순'].map(
-              (item) => (
-                <option>{item}</option>
-              )
-            )}
-          </select>
+          <OrderSelect
+            style={{ height: '6.9375rem' }}
+            value={scoreOrder}
+            onChange={(e) => setScoreOrder(e.target.value)}
+            options={[
+              '총점 순',
+              '모터 점수 순',
+              '블레이드 점수 순',
+              'ESC 점수 순',
+            ]}
+          ></OrderSelect>
         </Stack>
         <ScoreTable />
         <Stack direction='row' gap='0.5rem'>
@@ -181,6 +225,7 @@ const TestDetailPage = () => {
         className='page'
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
       >
+        {renderPageHeader()}
         <Stack direction='row' gap='1rem'>
           {renderScoreChart()}
           {renderScoreList()}
