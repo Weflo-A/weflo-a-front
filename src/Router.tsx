@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import DroneGroupPage from './pages/DroneGroupPage';
 import DroneSearchPage from './pages/DroneSearhPage';
 import NavBar from './components/common/NavBar';
+import EstimatePage from './pages/EstimatePage';
 import DashBoard from './pages/DashBoard';
 
 const Router = () => {
@@ -20,10 +21,22 @@ const Router = () => {
           element={<DroneGroupPage />}
         />
         {/* 드론 [대시보드, 견적서, 부품], 중고거래 */}
-        <Route path='/drone/:id/dashboard' element={<DashBoard />} />
-        <Route path='/drone/:id/dashboard/test' element={<DroneSearchPage />} />
-        <Route path='/drone/:id/estimate' element={<DroneSearchPage />} />
-        <Route path='/drone/:id/parts' element={<DroneSearchPage />} />
+        <Route
+          path='/drone-group/:groupId/drone/:id/dashboard'
+          element={<DashBoard />}
+        />
+        <Route
+          path='/drone-group/:groupId/drone/:id/dashboard/test'
+          element={<DroneSearchPage />}
+        />
+        <Route
+          path='/drone-group/:groupId/drone/:id/estimate'
+          element={<EstimatePage />}
+        />
+        <Route
+          path='/drone-group/:groupId/drone/:id/parts'
+          element={<DroneSearchPage />}
+        />
       </Routes>
     </BrowserRouter>
   );

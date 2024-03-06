@@ -1,7 +1,7 @@
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
-interface ChipProp {
+interface ChipProp extends React.HTMLAttributes<HTMLDivElement> {
   text: string;
   color?: string;
   background?: string;
@@ -19,9 +19,12 @@ const Chip = ({
   text,
   color = colors.primary100,
   background = colors.primaryOpacity20,
+  ...props
 }: ChipProp) => {
   return (
-    <ChipBox style={{ color: color, background: background }}>{text}</ChipBox>
+    <ChipBox style={{ color: color, background: background, ...props.style }}>
+      {text}
+    </ChipBox>
   );
 };
 
