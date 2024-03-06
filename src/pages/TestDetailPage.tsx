@@ -14,6 +14,8 @@ import ScoreRadarChart from 'src/components/dashboard/ScoreRadarChart';
 import droneDefault from 'src/assets/images/test/drone-0.png';
 
 const DroneInfoItemBox = styled.div`
+  min-width: 10.375rem;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -104,7 +106,7 @@ const TestDetailPage = () => {
           종합 진단
         </Typography>
         <Stack direction='column' gap='0.5625rem'>
-          <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
+          <DroneInfoItemBox>
             <Typography variant='caption' color={colors.basic500}>
               주행시 사고 확률
             </Typography>
@@ -112,7 +114,7 @@ const TestDetailPage = () => {
               11%
             </Typography>
           </DroneInfoItemBox>
-          <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
+          <DroneInfoItemBox>
             <Typography variant='caption' color={colors.basic500}>
               예상 부품 교체일
             </Typography>
@@ -120,7 +122,7 @@ const TestDetailPage = () => {
               06월 15일
             </Typography>
           </DroneInfoItemBox>
-          <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
+          <DroneInfoItemBox>
             <Typography variant='caption' color={colors.basic500}>
               이전 부품 교체일
             </Typography>
