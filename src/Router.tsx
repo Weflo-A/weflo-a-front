@@ -3,6 +3,7 @@ import DroneGroupPage from './pages/DroneGroupPage';
 import DroneSearchPage from './pages/DroneSearhPage';
 import NavBar from './components/common/NavBar';
 import DashBoard from './pages/DashBoard';
+import PurchasePart from './pages/PurchasePart';
 
 const Router = () => {
   return (
@@ -23,7 +24,9 @@ const Router = () => {
         <Route path='/drone/:id/dashboard' element={<DashBoard />} />
         <Route path='/drone/:id/dashboard/test' element={<DroneSearchPage />} />
         <Route path='/drone/:id/estimate' element={<DroneSearchPage />} />
-        <Route path='/drone/:id/parts' element={<DroneSearchPage />} />
+        <Route path='/drone/1/parts' element={<PurchasePart />} />
+        <Route path='/drone/2/parts' element={<PurchasePart />} />
+        <Route path='/drone/3/parts' element={<PurchasePart />} />
       </Routes>
     </BrowserRouter>
   );

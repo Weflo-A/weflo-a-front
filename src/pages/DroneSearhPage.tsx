@@ -51,9 +51,11 @@ const DroneSearchPage = () => {
 export default DroneSearchPage;
 
 const Page = styled.div`
+  min-width: 820px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  white-space: nowrap;
 `;
 
 const Header = styled.div`

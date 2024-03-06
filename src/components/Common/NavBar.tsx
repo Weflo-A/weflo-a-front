@@ -111,7 +111,7 @@ const NavBar = () => {
               <>
                 <MenuItem
                   className={activeMenu === '대시보드' ? 'active' : ''}
-                  onClick={() => handleMenu('대시보드', '/drone/:id/dashboard')}
+                  onClick={() => handleMenu('대시보드', '/drone/1/dashboard')}
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     대시보드
@@ -127,7 +127,7 @@ const NavBar = () => {
                 </MenuItem>
                 <MenuItem
                   className={activeMenu === '부품' ? 'active' : ''}
-                  onClick={() => handleMenu('부품', '/drone/:id/parts')}
+                  onClick={() => handleMenu('부품', '/drone/1/parts')}
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     부품

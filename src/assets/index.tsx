@@ -11,6 +11,7 @@ export { ReactComponent as InfoCircle } from './icon/InfoCircle.svg';
 export { ReactComponent as Battery } from './icon/Battery.svg';
 export { ReactComponent as SmallSearch } from './icon/SmallSearch.svg';
 export { ReactComponent as SmallWrench } from './icon/SmallWrench.svg';
+export { ReactComponent as BiggerBlue } from './icon/BiggerBlue.svg';
 //images
 export { ReactComponent as Drone1 } from './images/Drone1.svg';
 export { ReactComponent as Drone2 } from './images/Drone2.svg';
