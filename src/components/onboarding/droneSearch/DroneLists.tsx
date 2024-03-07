@@ -70,6 +70,7 @@ const Container = styled.div`
   border-radius: 12px;
   border: 1px solid ${colors.basic200};
   background: white;
+  white-space: nowrap;
 `;
 
 const Wrapper = styled.div`
