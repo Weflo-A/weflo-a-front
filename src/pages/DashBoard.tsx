@@ -1,10 +1,11 @@
 import { Stack, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BackBlue } from 'src/assets';
 import { groups } from 'src/assets/data/menuData';
 import Button from 'src/components/common/Button';
 import MenuTabGroup from 'src/components/common/MenuTabGroup';
 import { DroneDetail } from 'src/components/dashboard/DroneDetail';
+import FailurePieChart from 'src/components/dashboard/FailurePieChart';
 import MixChart from 'src/components/dashboard/MixChart';
 import { ResultRecord } from 'src/components/dashboard/ResultRecord';
 import colors from 'src/constants/colors';
@@ -12,6 +13,7 @@ import styled from 'styled-components';
 
 const DashBoard = () => {
   const navigate = useNavigate();
+  const { groupId, id } = useParams();
 
   const handleButtonClick = () => {
     navigate('/');
@@ -118,7 +120,7 @@ const DashBoard = () => {
               >
                 진단 기록
               </Typography>
-              <ResultRecord />
+              <ResultRecord groupId={Number(groupId)} droneId={Number(id)} />
             </Record>
             <Breakdown>
               <Typography
@@ -128,6 +130,7 @@ const DashBoard = () => {
               >
                 고장 유형
               </Typography>
+              <FailurePieChart />
             </Breakdown>
           </Component>
         </Page>

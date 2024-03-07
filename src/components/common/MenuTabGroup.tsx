@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import ItemContainer from './ItemContainer';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 interface Group {
   name: string;
@@ -47,24 +46,10 @@ const TabItem = styled.div<{ selected: boolean }>`
 
 const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
   const navigate = useNavigate();
-  const params = useParams<{ id: string }>();
-  const [selectedTab, setSelectedTab] = useState<number | null>(null);
-
-  // URL 파라미터에서 받아온 선택된 탭을 설정
-  useEffect(() => {
-    if (params.id) {
-      setSelectedTab(Number(params.id));
-    }
-  }, [params.id]);
+  const { groupId, id } = useParams();
 
   const handleTabClick = (id: number) => {
-    const basePath = '/drone-group/drone/' + id;
-    const path =
-      props.type === 'dashboard'
-        ? basePath + '/dashboard'
-        : basePath + '/parts';
-    navigate(path);
-    setSelectedTab(id);
+    navigate(`/drone-group/${groupId}/drone/${id}/dashboard`);
   };
 
   const renderGroupTabs = () => {
@@ -84,7 +69,7 @@ const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
             <TabItem
               key={index}
               onClick={() => handleTabClick(drone.id)}
-              selected={selectedTab === drone.id}
+              selected={Number(id) === drone.id}
             >
               {drone.name}
             </TabItem>
@@ -93,6 +78,10 @@ const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
       </TabWrapper>
     ));
   };
+
+  if (!groupId || !id) {
+    return null;
+  }
 
   return (
     <ItemContainer

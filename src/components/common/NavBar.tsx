@@ -2,7 +2,7 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { WefloLogo } from 'src/assets';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import React from 'react';
 
 //
@@ -76,12 +76,12 @@ const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [activeMenu, setActiveMenu] = React.useState('모니터링');
   const isMonitoringNav = location.pathname.includes('/monitoring');
 
-  const handleMenu = (name: string, url: string) => {
+  const { groupId, id } = useParams();
+
+  const handleMenu = (url: string) => {
     navigate(url);
-    setActiveMenu(name);
   };
 
   //
@@ -97,20 +97,36 @@ const NavBar = () => {
             {isMonitoringNav ? (
               <>
                 <MenuItem
-                  className={activeMenu === '모니터링' ? 'active' : ''}
-                  onClick={() =>
-                    handleMenu('모니터링', '/monitoring/drone-search')
+                  className={
+                    location.pathname.includes('/monitoring/drone-group')
+                      ? 'active'
+                      : ''
                   }
+                  onClick={() => handleMenu('/monitoring/drone-search')}
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     모니터링
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  className={
+                    location.pathname.includes('/monitoring/trade')
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() => handleMenu(`/monitoring/trade`)}
+                >
+                  <Typography fontSize='14px' fontWeight='regular'>
+                    중고거래
                   </Typography>
                 </MenuItem>
               </>
             ) : (
               <>
                 <MenuItem
-                  className={activeMenu === '대시보드' ? 'active' : ''}
+                  className={
+                    location.pathname.includes('/dashboard') ? 'active' : ''
+                  }
                   onClick={() =>
                     handleMenu('대시보드', '/drone-group/drone/1/dashboard')
                   }
@@ -120,12 +136,11 @@ const NavBar = () => {
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  className={activeMenu === '견적서' ? 'active' : ''}
+                  className={
+                    location.pathname.includes('/estimate') ? 'active' : ''
+                  }
                   onClick={() =>
-                    handleMenu(
-                      '견적서',
-                      '/drone-group/:groupId/drone/:id/estimate'
-                    )
+                    handleMenu(`/drone-group/${groupId}/drone/${id}/estimate`)
                   }
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
@@ -133,27 +148,28 @@ const NavBar = () => {
                   </Typography>
                 </MenuItem>
                 <MenuItem
-                  className={activeMenu === '부품' ? 'active' : ''}
+                  className={
+                    location.pathname.includes('/parts') ? 'active' : ''
+                  }
                   onClick={() =>
                     handleMenu('부품', 'drone-group/drone/1/parts')
-                  }
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     부품
                   </Typography>
                 </MenuItem>
+                <MenuItem
+                  className={
+                    location.pathname.includes('/trade') ? 'active' : ''
+                  }
+                  onClick={() => handleMenu(`/trade`)}
+                >
+                  <Typography fontSize='14px' fontWeight='regular'>
+                    중고거래
+                  </Typography>
+                </MenuItem>
               </>
             )}
-            <MenuItem
-              className={activeMenu === '중고거래' ? 'active' : ''}
-              onClick={() =>
-                handleMenu('중고거래', '/monitoring/drone-group/1')
-              }
-            >
-              <Typography fontSize='14px' fontWeight='regular'>
-                중고거래
-              </Typography>
-            </MenuItem>
           </MenuList>
           <EmailBox>
             <Typography variant='caption' fontWeight='regular'>
