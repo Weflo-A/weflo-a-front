@@ -81,10 +81,13 @@ const EstimatePage = () => {
   const [dateList, setDateList] = React.useState([]);
   const [date, setDate] = React.useState('');
   const [newParts, setNewParts] = React.useState<NewParts[]>([]);
+  const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
+    []
+  );
 
   const [partsSearch, setPartsSearch] = React.useState('');
   const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
-  const [priceRange, setPriceRange] = React.useState<number[]>([20, 37]);
+  const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
 
   const handleScoreChange = (event: Event, newValue: number | number[]) => {
     setScoreRange(newValue as number[]);
@@ -92,6 +95,18 @@ const EstimatePage = () => {
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
     setPriceRange(newValue as number[]);
   };
+
+  console.log('new', newParts);
+  React.useEffect(() => {
+    const filteredParts = newParts.filter(
+      (item) =>
+        priceRange[0] < item.price &&
+        item.price < priceRange[1] &&
+        scoreRange[0] < item.point &&
+        item.point < scoreRange[1]
+    );
+    setFilteredNewParts(filteredParts);
+  }, [scoreRange, priceRange]);
 
   React.useEffect(() => {
     /* 진단 날짜 리스트 */
@@ -392,7 +407,7 @@ const EstimatePage = () => {
               {renderRangeBox()}
               <NewPartsBox>
                 <Stack width='100%' direction='column' gap='0.5rem'>
-                  {(newParts as NewParts[])?.map((item, index) => (
+                  {(filteredNewParts as NewParts[])?.map((item, index) => (
                     <NewPartInfoBox
                       id={index}
                       name={item.name}
