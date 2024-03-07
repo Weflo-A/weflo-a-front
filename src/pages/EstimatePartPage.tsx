@@ -1,17 +1,16 @@
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
-import { parts } from 'src/assets/data/menuData';
 import colors from 'src/constants/colors';
 import { InfoCircle, RectangleBlue } from 'src/assets';
-import MenuTabGroup from 'src/components/common/MenuTabGroup';
 import CheckBox from 'src/components/common/CheckBox';
 import { WeekPartCard } from 'src/components/part/estimatepart/WeekPartCard';
 import { periodData } from 'src/assets/data/periodData';
+import MenuTab from 'src/components/common/MenuTab';
 
 const EstimatePartPage = () => {
   return (
     <>
-      <MenuTabGroup groups={parts} type='parts' />
+      <MenuTab type='parts' />
       <div className='page'>
         <Page>
           <Typography variant='h3' fontWeight='bold' color={colors.basic700}>

@@ -22,7 +22,7 @@ const DroneSearchPage = () => {
 
   return (
     <>
-      <MenuTab />
+      <MenuTab type='monitoring' />
       <div className='page'>
         <Page>
           <Header>
