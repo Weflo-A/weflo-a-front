@@ -6,8 +6,10 @@
       "node",
       "react",
       "react-dom",
-      "@types/apexcharts"
+      "@types/apexcharts",
+      "axios"
     ],
+    "typeRoots": ["./node_modules/@types"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,

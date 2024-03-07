@@ -2,37 +2,54 @@ import styled from 'styled-components';
 import { GroupOut } from '../../../assets';
 import droneImg from 'src/assets/images/Drone1.svg';
 import colors from 'src/constants/colors';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import Button from 'src/components/common/Button';
 
 interface DroneGroupCardProps {
   data: {
+    id: number;
     name: string;
     model: string;
     year: number;
     usage: string;
     cost: string;
     groupSetupDate: string;
+    groupId: number;
   };
 }
 
 const DroneGroupCard: React.FC<DroneGroupCardProps> = ({ data }) => {
+  const navigate = useNavigate();
+
   return (
     <Card>
-      <Top>
-        <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
-          {data.name}
-        </Typography>
-        <Typography
-          fontSize='11px'
-          fontWeight='regular'
-          color={colors.basic400}
-          display='flex'
-          alignItems='center'
-          gap='0.375rem'
-        >
-          그룹에서 제외하기 <GroupOut />
-        </Typography>
-      </Top>
+      <Stack width='100%' direction='row' gap='1rem' alignItems='center'>
+        <Top>
+          <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
+            {data.name}
+          </Typography>
+          <Typography
+            fontSize='11px'
+            fontWeight='regular'
+            color={colors.basic400}
+            display='flex'
+            alignItems='center'
+            gap='0.375rem'
+          >
+            그룹에서 제외하기 <GroupOut />
+          </Typography>
+        </Top>
+        <Button
+          text='대시보드'
+          buttonType='accentLight'
+          onClick={() =>
+            navigate(`/drone-group/${data.groupId}/drone/${data.id}/dashboard`)
+          }
+          style={{ height: '100%' }}
+        />
+      </Stack>
+
       <Bottom>
         {/* 화면 크기에 따른 비율 변경을 위해 img 태그로 감싸서 사용했습니다 */}
         <img src={droneImg} style={{ objectFit: 'cover', width: '50%' }} />
@@ -99,7 +116,7 @@ const Card = styled.div`
 
 const Top = styled.div`
   width: 100%;
-  height: 40px;
+  height: 2.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
