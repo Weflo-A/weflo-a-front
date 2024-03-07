@@ -5,7 +5,7 @@ import { GroupPartCard } from './GroupPartCard';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import Button from 'src/components/common/Button';
 import { useNavigate } from 'react-router-dom';
-import { BladeAccent, ESC, ESCAccent, MotorAccent } from 'src/assets';
+import { BladeAccent, ESCAccent, MotorAccent } from 'src/assets';
 
 interface Props {
   period: string;
