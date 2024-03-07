@@ -127,9 +127,7 @@ const NavBar = () => {
                   className={
                     location.pathname.includes('/dashboard') ? 'active' : ''
                   }
-                  onClick={() =>
-                    handleMenu('대시보드', '/drone-group/drone/1/dashboard')
-                  }
+                  onClick={() => handleMenu('/drone-group/drone/1/dashboard')}
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     대시보드
@@ -151,8 +149,7 @@ const NavBar = () => {
                   className={
                     location.pathname.includes('/parts') ? 'active' : ''
                   }
-                  onClick={() =>
-                    handleMenu('부품', 'drone-group/drone/1/parts')
+                  onClick={() => handleMenu('drone-group/drone/1/parts')}
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     부품

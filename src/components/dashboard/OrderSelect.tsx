@@ -2,7 +2,6 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import arrowImg from 'src/assets/icon/arrow-down-black.svg';
 import { ChangeEvent } from 'react';
-import { Typography } from '@mui/material';
 
 interface OrderSelectProp extends React.HTMLAttributes<HTMLSelectElement> {
   value: string;
