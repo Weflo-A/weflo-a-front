@@ -38,6 +38,7 @@ const Line = styled.div`
   background: ${colors.primaryOpacity10};
   display: grid;
   grid-template-columns: 1fr 0.8fr 1.2fr 1.2fr 1.2fr 1.2fr 3fr;
+  white-space: nowrap;
 `;
 
 const FilterName = styled.div`

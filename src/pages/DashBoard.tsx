@@ -21,7 +21,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <MenuTabGroup groups={groups} />
+      <MenuTabGroup groups={groups} type='dashboard' />
       <div className='page'>
         <Page>
           <Top>

@@ -65,7 +65,7 @@ const Container = styled.div`
   border-radius: 12px;
   border: 1px solid ${colors.basic200};
   background: white;
-  font-family: 'Pretendard';
+  white-space: nowrap;
 `;
 
 const SearchContainer = styled.div`
