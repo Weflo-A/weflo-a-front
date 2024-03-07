@@ -78,13 +78,13 @@ const primceMarks = [
 
 const EstimatePage = () => {
   const navigate = useNavigate();
+  /* 날짜 Select */
   const [dateList, setDateList] = React.useState([]);
   const [date, setDate] = React.useState('');
   const [newParts, setNewParts] = React.useState<NewParts[]>([]);
   const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
     []
   );
-
   const [partsSearch, setPartsSearch] = React.useState('');
   const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
   const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
@@ -96,7 +96,20 @@ const EstimatePage = () => {
     setPriceRange(newValue as number[]);
   };
 
-  console.log('new', newParts);
+  /* 교체용 부품 구매 체크 리스트 */
+  const [newPartsCheckedList, setNewPartsCheckedList] = React.useState<
+    string[]
+  >([]);
+  const handleCheckedNewParts = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target) {
+      e.target.checked
+        ? setNewPartsCheckedList([...newPartsCheckedList, e.target.value])
+        : setNewPartsCheckedList(
+            newPartsCheckedList.filter((choice) => choice !== e.target.value)
+          );
+    }
+  };
+
   React.useEffect(() => {
     const filteredParts = newParts.filter(
       (item) =>
@@ -417,13 +430,16 @@ const EstimatePage = () => {
                       score={item.point}
                       price={item.price}
                       detail={item.description}
-                      checked={false}
+                      checked={
+                        newPartsCheckedList.includes(item.name) ? true : false
+                      }
+                      onChange={handleCheckedNewParts}
                     />
                   ))}
                 </Stack>
               </NewPartsBox>
             </Stack>
-            <Basket />
+            <Basket items={newPartsCheckedList} />
           </ItemContainer>
 
           {/* 수리 업체 정보 */}

@@ -5,6 +5,16 @@ import partsImg from 'src/assets/images/drone-parts.png';
 import Button from '../common/Button';
 import colors from 'src/constants/colors';
 
+export interface BasketItem {
+  name: string;
+  imgUrl?: string;
+  price?: number;
+}
+
+interface BasketProps {
+  items?: string[];
+}
+
 const BasketContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,14 +27,7 @@ const ItemList = styled.div`
   gap: 0.75rem;
 `;
 
-const Basket = () => {
-  // 장바구니 리스트
-  const itemList = Array(3).fill({
-    imgUrl: partsImg,
-    name: 'X2814 900KV 3-5S Brushless Motor',
-    price: 135000,
-  });
-
+const Basket = ({ items }: BasketProps) => {
   // 임시 장바구니 합계
   const totalPrice = 0;
 
@@ -33,12 +36,12 @@ const Basket = () => {
       <Typography fontSize='14px'>장바구니</Typography>
       <Stack direction='row' alignItems='center' justifyContent='space-between'>
         <ItemList>
-          {itemList.map((item, index) => (
+          {items?.map((item, index) => (
             <BasketItem
               key={index}
-              imgUrl={item.imgUrl}
-              name={item.name}
-              price={item.price}
+              imgUrl={partsImg}
+              name={item}
+              price={135000}
             />
           ))}
         </ItemList>
