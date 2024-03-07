@@ -15,12 +15,26 @@ import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
 import Basket from 'src/components/estimate/Basket';
 import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 import SectionTab from 'src/components/estimate/SectionTab';
-import { getParts } from 'src/api/parts';
-import { getDroneGroupList } from 'src/api/estimate';
+import { getEstimateInfo, getTestDateList } from 'src/api/estimate';
+import Button from 'src/components/common/Button';
+import { BackBlue } from 'src/assets';
+import { useNavigate } from 'react-router-dom';
+import DateSelect from 'src/components/estimate/DateSelect';
 
 //
 //
 //
+
+interface NewParts {
+  image: string;
+  type: string;
+  part: string;
+  name: string;
+  point: number;
+  start: number;
+  description: string;
+  price: number;
+}
 
 const DroneInfoItemBox = styled.div`
   display: flex;
@@ -63,6 +77,11 @@ const primceMarks = [
 //
 
 const EstimatePage = () => {
+  const navigate = useNavigate();
+  const [dateList, setDateList] = React.useState([]);
+  const [date, setDate] = React.useState('');
+  const [newParts, setNewParts] = React.useState<NewParts[]>([]);
+
   const [partsSearch, setPartsSearch] = React.useState('');
   const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
   const [priceRange, setPriceRange] = React.useState<number[]>([20, 37]);
@@ -74,14 +93,25 @@ const EstimatePage = () => {
     setPriceRange(newValue as number[]);
   };
 
-  // 테스트
-  getDroneGroupList(2)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  React.useEffect(() => {
+    /* 진단 날짜 리스트 */
+    getTestDateList(1)
+      .then((res) => {
+        setDateList(res.data.data);
+        if (res.data.data.length > 0) {
+          const { year, month, day } = res.data.data[0];
+          setDate(`${year}-${month}-${day}`);
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
-  getParts(['Motor'])
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  React.useEffect(() => {
+    /* 견적서 정보 */
+    if (date) {
+      getEstimateInfo(1, date).then((res) => setNewParts(res.data.data));
+    }
+  }, [date]);
 
   /* 페이지 헤더 */
   const renderPageHeader = () => {
@@ -91,6 +121,7 @@ const EstimatePage = () => {
         gap='1.25rem'
         alignItems='center'
         marginBottom='1rem'
+        justifyContent='space-between'
       >
         <Stack direction='row' gap='0.5rem'>
           <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
@@ -99,7 +130,22 @@ const EstimatePage = () => {
           <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
             견적서
           </Typography>
+          <DateSelect
+            value={date}
+            options={dateList}
+            onChange={(e) => setDate(e.target.value)}
+          />
         </Stack>
+        <Button
+          text={
+            <>
+              <BackBlue /> 모니터링으로 돌아가기
+            </>
+          }
+          buttonType='primaryLight'
+          onClick={() => navigate(`/monitoring/drone-search`)}
+          style={{ width: '180px', height: '32px' }}
+        />
       </Stack>
     );
   };
@@ -346,23 +392,19 @@ const EstimatePage = () => {
               {renderRangeBox()}
               <NewPartsBox>
                 <Stack width='100%' direction='column' gap='0.5rem'>
-                  {Array(5)
-                    .fill(0)
-                    .map((_, index) => (
-                      <NewPartInfoBox
-                        id={index}
-                        name='X2814 900KV 3-5S Brushless Motor'
-                        imgUrl={partsImg}
-                        loc='구동부 01'
-                        parts='모터'
-                        score={2}
-                        price={135000}
-                        detail='하이파워 사양의 소형 멀티콥터를 위한 아웃러너 모터(920KV)
-DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 쿼드, 헥사콥터에 적합한 모터
-프롭은 3S/4S 공히 동사의 9x4.5in Self-Lock Propeller (DJI/Universal Type)사용'
-                        checked={false}
-                      />
-                    ))}
+                  {(newParts as NewParts[])?.map((item, index) => (
+                    <NewPartInfoBox
+                      id={index}
+                      name={item.name}
+                      imgUrl={partsImg}
+                      loc={item.part}
+                      parts={item.type}
+                      score={item.point}
+                      price={item.price}
+                      detail={item.description}
+                      checked={false}
+                    />
+                  ))}
                 </Stack>
               </NewPartsBox>
             </Stack>
@@ -469,6 +511,7 @@ const RangeInput = styled.input`
 `;
 
 const NewPartsBox = styled.div`
+  width: 100%;
   height: 100%;
   padding: 1rem;
   border-radius: 0.75rem;
