@@ -39,7 +39,13 @@ const RepairCompanyList = () => {
         >
           <ChevronLeftIcon />
         </IconButton>
-        <Stack width='100%' direction='row' gap='1rem' justifyContent='center'>
+        <Stack
+          width='100%'
+          display='grid'
+          direction='row'
+          gridTemplateColumns='1fr 1fr 1fr'
+          gap='1rem'
+        >
           {currentPosts.map((_, index) => (
             <RepairCompanyCard
               key={index}
