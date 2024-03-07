@@ -6,7 +6,7 @@ import { recycleParts } from 'src/assets/data/estimateDummy';
 import CheckBox from '../common/CheckBox';
 
 const PartsBox = styled.div`
-  widdth: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   border-radius: 0.75rem;
