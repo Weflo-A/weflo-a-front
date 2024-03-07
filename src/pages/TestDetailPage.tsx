@@ -16,7 +16,6 @@ import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Select from 'src/components/dashboard/OrderSelect';
 import OrderSelect from 'src/components/dashboard/OrderSelect';
 
 const DroneInfoItemBox = styled.div`
@@ -220,7 +219,7 @@ const TestDetailPage = () => {
 
   return (
     <>
-      <MenuTabGroup groups={groups} />
+      <MenuTabGroup groups={groups} type='dashboard' />
       <div
         className='page'
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}
