@@ -1,10 +1,9 @@
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { BiggerBlue } from 'src/assets';
-import { parts } from 'src/assets/data/menuData';
 import { productData } from 'src/assets/data/productData';
 import Button from 'src/components/common/Button';
-import MenuTabGroup from 'src/components/common/MenuTabGroup';
+import MenuTab from 'src/components/common/MenuTab';
 import CardSlider from 'src/components/part/purchasepart/CardSlider';
 import CategoryFilter from 'src/components/part/purchasepart/CategoryFilter';
 import { HeightCard } from 'src/components/part/purchasepart/HeightCard';
@@ -20,7 +19,7 @@ const PurchasePartPage = () => {
 
   return (
     <>
-      <MenuTabGroup groups={parts} type='parts' />
+      <MenuTab type='parts' />
       <div className='page'>
         <Page>
           <Top>

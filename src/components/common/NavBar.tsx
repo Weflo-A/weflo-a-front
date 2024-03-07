@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { WefloLogo } from 'src/assets';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import React from 'react';
 
 //
 //
@@ -78,10 +77,8 @@ const NavBar = () => {
 
   const isMonitoringNav = location.pathname.includes('/monitoring');
 
-  const { id } = useParams();
-
   const handleMenu = (url: string) => {
-    navigate(url);
+    navigate(url, { state: location.state });
   };
 
   //
@@ -129,7 +126,7 @@ const NavBar = () => {
                     location.pathname.includes('/dashboard') ? 'active' : ''
                   }
                   onClick={() =>
-                    handleMenu(`/drone-group/drone/${id}/dashboard`)
+                    handleMenu(`/drone-group/drone/${location.state}/dashboard`)
                   }
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
@@ -141,7 +138,7 @@ const NavBar = () => {
                     location.pathname.includes('/estimate') ? 'active' : ''
                   }
                   onClick={() =>
-                    handleMenu(`/drone-group/drone/${id}/estimate`)
+                    handleMenu(`/drone-group/drone/${location.state}/estimate`)
                   }
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
@@ -152,7 +149,7 @@ const NavBar = () => {
                   className={
                     location.pathname.includes('/parts') ? 'active' : ''
                   }
-                  onClick={() => handleMenu(`drone-group/drone/parts/purchase`)}
+                  onClick={() => handleMenu(`drone-group/drone/parts/cost`)}
                 >
                   <Typography fontSize='14px' fontWeight='regular'>
                     부품
