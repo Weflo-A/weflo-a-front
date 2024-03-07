@@ -44,7 +44,9 @@ const DroneGroupCard: React.FC<DroneGroupCardProps> = ({ data }) => {
           text='대시보드'
           buttonType='accentLight'
           onClick={() =>
-            navigate(`/drone-group/${data.groupId}/drone/${data.id}/dashboard`)
+            navigate(`/drone-group/drone/${data.id}/dashboard`, {
+              state: data.id,
+            })
           }
           style={{ height: '100%' }}
         />

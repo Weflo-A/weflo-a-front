@@ -290,7 +290,7 @@ const EstimatePage = () => {
 
   return (
     <>
-      <MenuTab />
+      <MenuTab type='dashboard' />
       <div className='page'>
         {renderPageHeader()}
 
