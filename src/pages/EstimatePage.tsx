@@ -10,12 +10,18 @@ import { brokenParts } from 'src/assets/data/estimateDummy';
 import styled from 'styled-components';
 import NewPartInfoBox from 'src/components/estimate/NewPartsInfoBox';
 import partsImg from 'src/assets/images/drone-parts.png';
-import RepairCompanyList from 'src/components/estimate/RepairCompanyList';
+import RepairCompanyList, {
+  RepairCompany,
+} from 'src/components/estimate/RepairCompanyList';
 import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
 import Basket from 'src/components/estimate/Basket';
 import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 import SectionTab from 'src/components/estimate/SectionTab';
-import { getEstimateInfo, getTestDateList } from 'src/api/estimate';
+import {
+  getEstimateInfo,
+  getRepairCompany,
+  getTestDateList,
+} from 'src/api/estimate';
 import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
@@ -85,6 +91,14 @@ const EstimatePage = () => {
   const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
     []
   );
+  /* 교체용 부품 구매 체크 리스트 */
+  const [newPartsCheckedList, setNewPartsCheckedList] = React.useState<
+    string[]
+  >([]);
+  /* 수리 업체 리스트 */
+  const [repairCompanies, setRepairCompanies] = React.useState<RepairCompany[]>(
+    []
+  );
   const [partsSearch, setPartsSearch] = React.useState('');
   const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
   const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
@@ -96,10 +110,6 @@ const EstimatePage = () => {
     setPriceRange(newValue as number[]);
   };
 
-  /* 교체용 부품 구매 체크 리스트 */
-  const [newPartsCheckedList, setNewPartsCheckedList] = React.useState<
-    string[]
-  >([]);
   const handleCheckedNewParts = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target) {
       e.target.checked
@@ -132,6 +142,11 @@ const EstimatePage = () => {
         }
       })
       .catch((err) => console.log(err));
+
+    /* 수리 업체 정보 */
+    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
+      setRepairCompanies(res.data.data)
+    );
   }, []);
 
   React.useEffect(() => {
@@ -470,8 +485,10 @@ const EstimatePage = () => {
                   <span style={{ color: colors.accent100 }}>모터</span>와
                   <span style={{ color: colors.accent100 }}>블레이드</span>를
                   수리할 수 있는 업체는 총{' '}
-                  <span style={{ color: colors.accent100 }}>9</span>곳이
-                  있습니다.
+                  <span style={{ color: colors.accent100 }}>
+                    {repairCompanies.length}
+                  </span>
+                  곳이 있습니다.
                 </Typography>
               </CalloutBox>
               <Stack direction='row' gap='1.25rem'>
@@ -480,7 +497,7 @@ const EstimatePage = () => {
                 ))}
               </Stack>
             </Stack>
-            <RepairCompanyList />
+            <RepairCompanyList items={repairCompanies} />
           </ItemContainer>
 
           {/* 폐기 전 재사용 가능 부품 */}
