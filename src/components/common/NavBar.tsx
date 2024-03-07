@@ -2,7 +2,7 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { WefloLogo } from 'src/assets';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 //
 //
