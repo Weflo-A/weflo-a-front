@@ -1,5 +1,7 @@
 import { Stack, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getDashMain } from 'src/api/dashboard';
 import { BackBlue } from 'src/assets';
 import Button from 'src/components/common/Button';
 import MenuTab from 'src/components/common/MenuTab';
@@ -10,13 +12,61 @@ import { ResultRecord } from 'src/components/dashboard/ResultRecord';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
+interface DroneInfo {
+  name: string;
+  productionYear: number;
+  model: string;
+  purpose: string;
+  cost: number;
+  accident: number;
+  balance: number;
+  totalScore: number;
+  motorAvg: number;
+  bladeAvg: number;
+  escAvg: number;
+}
+
+interface Test {
+  testDate: string;
+  space: string;
+  point: number;
+  testResultId: number;
+}
+
+interface TimeLine {
+  date: string;
+  motorPoint: number;
+  bladePoint: number;
+  escPoint: number;
+}
+
+interface DroneGroup {
+  groupName: string;
+  droneList: { name: string }[];
+}
+
 const DashBoard = () => {
   const navigate = useNavigate();
   const { groupId, id } = useParams();
+  const [mainData, setMainData] = useState<{
+    droneInfo: DroneInfo;
+    testList: Test[];
+    timeLine: TimeLine[];
+    droneGroup: DroneGroup[];
+  } | null>(null);
 
   const handleButtonClick = () => {
     navigate('/');
   };
+
+  useEffect(() => {
+    getDashMain(Number(id))
+      .then((res) => {
+        console.log('Dashboard main', res); // 확인용
+        setMainData(res.data.data); // mainData 상태 업데이트
+      })
+      .catch((err) => console.log(err));
+  }, [id]);
 
   return (
     <>
@@ -101,7 +151,7 @@ const DashBoard = () => {
                 </Typography>
               </ChartTop>
               <div>
-                <MixChart />
+                {mainData && <MixChart timeLine={mainData.timeLine} />}
                 <ChartBottom>
                   <BlockOrange>부품 교체일</BlockOrange>
                   <BlockPrimary>예상 진단일</BlockPrimary>
@@ -109,7 +159,9 @@ const DashBoard = () => {
               </div>
             </TimeLine>
             <Drone>
-              <DroneDetail />
+              {mainData && (
+                <DroneDetail data={{ droneInfo: mainData.droneInfo }} />
+              )}
             </Drone>
             <Record>
               <Typography
@@ -119,7 +171,12 @@ const DashBoard = () => {
               >
                 진단 기록
               </Typography>
-              <ResultRecord groupId={Number(groupId)} droneId={Number(id)} />
+              {mainData && (
+                <ResultRecord
+                  groupId={Number(groupId)}
+                  data={{ testList: mainData.testList }}
+                />
+              )}
             </Record>
             <Breakdown>
               <Typography
@@ -129,7 +186,34 @@ const DashBoard = () => {
               >
                 고장 유형
               </Typography>
-              <FailurePieChart />
+              <Chart>
+                <FailurePieChart />
+                <Text>
+                  <Typography
+                    fontSize='11px'
+                    fontWeight='regular'
+                    color={colors.basic500}
+                  >
+                    가장 빈도수 높은
+                    <br />
+                    고장 유형
+                  </Typography>
+                  <Typography
+                    variant='caption'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    Blade 고장
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    {45}%
+                  </Typography>
+                </Text>
+              </Chart>
             </Breakdown>
           </Component>
         </Page>
@@ -283,4 +367,16 @@ const BlockPrimary = styled.div`
   line-height: 150%; /* 18px */
   grid-column: 7;
   white-space: nowrap;
+`;
+
+const Chart = styled.div`
+  position: relative;
+`;
+
+const Text = styled.div`
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 `;

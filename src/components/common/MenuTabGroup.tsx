@@ -46,10 +46,9 @@ const TabItem = styled.div<{ selected: boolean }>`
 
 const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
   const navigate = useNavigate();
-  const { groupId, id } = useParams();
-
+  const { id } = useParams();
   const handleTabClick = (id: number) => {
-    navigate(`/drone-group/${groupId}/drone/${id}/dashboard`);
+    navigate(`/drone-group/drone/${id}/dashboard`);
   };
 
   const renderGroupTabs = () => {
@@ -79,7 +78,7 @@ const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
     ));
   };
 
-  if (!groupId || !id) {
+  if (!id) {
     return null;
   }
 
