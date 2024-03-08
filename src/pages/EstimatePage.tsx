@@ -15,7 +15,6 @@ import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
 import Basket from 'src/components/estimate/Basket';
 import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 import SectionTab from 'src/components/estimate/SectionTab';
-import { getParts } from 'src/api/parts';
 import { getDroneGroupList } from 'src/api/estimate';
 
 //
@@ -76,10 +75,6 @@ const EstimatePage = () => {
 
   // 테스트
   getDroneGroupList(2)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-
-  getParts(['Motor'])
     .then((res) => console.log(res))
     .catch((err) => console.log(err));
 

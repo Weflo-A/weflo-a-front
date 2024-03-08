@@ -7,13 +7,38 @@ import MenuTabGroup from 'src/components/common/MenuTabGroup';
 import { GroupCostList } from 'src/components/part/costpart/GroupCostList';
 import { PartCostList } from 'src/components/part/costpart/PartCostList';
 import YearSelect from 'src/components/YearSelect';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LineColumnChart from 'src/components/LineColumnChart';
+import { getCosts } from 'src/api/parts';
+
+interface GroupCostData {
+  name: string;
+  purpose: string;
+  droneCount: number;
+  monthCost: number;
+}
+
+interface GroupCostListProps {
+  groupCosts: GroupCostData[];
+}
 
 const CostPartPage = () => {
   const [totalYear, setTotalYear] = React.useState('2024년');
-  const [groupYear, setGroupYear] = React.useState('2024년');
+  const [groupYear, setGroupYear] = React.useState('2024년 3월');
   const [partYear, setPartYear] = React.useState('2024년');
+  const [yearStr, monthStr] = groupYear.split(' ');
+  const year = parseInt(yearStr);
+  const month = parseInt(monthStr);
+  const [groupCosts, setGroupCosts] = useState([]);
+
+  useEffect(() => {
+    getCosts({ year, month })
+      .then((res) => {
+        console.log('Costs', res.data); // 확인용
+        setGroupCosts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [groupYear]);
 
   return (
     <>
@@ -41,8 +66,8 @@ const CostPartPage = () => {
                   전체 투입 비용
                 </Typography>
                 <YearSelect
-                  value={groupYear}
-                  onChange={(e) => setGroupYear(e.target.value)}
+                  value={totalYear}
+                  onChange={(e) => setTotalYear(e.target.value)}
                 />
               </Row>
               <LineColumnChart />
@@ -64,14 +89,14 @@ const CostPartPage = () => {
                 fontWeight='bold'
                 color={colors.basic700}
               >
-                3월 그룹별 평균 투입 비용 순위
+                {month}월 그룹별 평균 투입 비용 순위
               </Typography>
               <YearSelect
                 value={groupYear}
                 onChange={(e) => setGroupYear(e.target.value)}
               />
             </Space>
-            <GroupCostList />
+            <GroupCostList groupCosts={groupCosts} />
           </Group>
           <Part>
             <Space>

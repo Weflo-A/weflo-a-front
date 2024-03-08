@@ -5,17 +5,17 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
-type Category = 'all' | 'blade' | 'motor' | 'esc' | 'other';
+type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
 type SortBy = 'recommend' | 'lowest' | 'highest' | 'rank';
 
 interface ProductData {
-  id: number;
-  store: string;
+  description: string;
   name: string;
   price: number;
-  rank: number;
+  star: number;
   image: string;
-  category: Category;
+  type: Category;
+  part: string;
 }
 
 const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
@@ -23,7 +23,7 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
 }) => {
   const [filteredProducts, setFilteredProducts] =
     useState<ProductData[]>(productData);
-  const [selectedCategory, setSelectedCategory] = useState<Category>('all');
+  const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
 
@@ -42,10 +42,10 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
   const handleFilter = (category: Category) => {
     let filtered: ProductData[];
     setSelectedCategory(category);
-    if (category === 'all') {
+    if (category === 'ALL') {
       filtered = productData;
     } else {
-      filtered = productData.filter((product) => product.category === category);
+      filtered = productData.filter((product) => product.type === category);
     }
     setFilteredProducts(filtered);
   };
@@ -57,7 +57,7 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
     switch (sortBy) {
       case 'recommend':
         // 추천순 정렬
-        sortedProducts.sort((a, b) => b.rank - a.rank);
+        sortedProducts.sort((a, b) => b.star - a.star);
         break;
       case 'lowest':
         // 최저가순 정렬
@@ -69,7 +69,7 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
         break;
       case 'rank':
         // 평점순 정렬
-        sortedProducts.sort((a, b) => b.rank - a.rank);
+        sortedProducts.sort((a, b) => b.star - a.star);
         break;
       default:
         break;
@@ -84,32 +84,32 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
         {/* 카테고리 필터링 버튼 */}
         <FilterBtn>
           <Box
-            onClick={() => handleFilter('all')}
-            selected={selectedCategory === 'all'}
+            onClick={() => handleFilter('ALL')}
+            selected={selectedCategory === 'ALL'}
           >
             All
           </Box>
           <Box
-            onClick={() => handleFilter('blade')}
-            selected={selectedCategory === 'blade'}
+            onClick={() => handleFilter('BLADE')}
+            selected={selectedCategory === 'BLADE'}
           >
             Blade
           </Box>
           <Box
-            onClick={() => handleFilter('motor')}
-            selected={selectedCategory === 'motor'}
+            onClick={() => handleFilter('MOTOR')}
+            selected={selectedCategory === 'MOTOR'}
           >
             Motor
           </Box>
           <Box
-            onClick={() => handleFilter('esc')}
-            selected={selectedCategory === 'esc'}
+            onClick={() => handleFilter('ESC')}
+            selected={selectedCategory === 'ESC'}
           >
             ESC
           </Box>
           <Box
-            onClick={() => handleFilter('other')}
-            selected={selectedCategory === 'other'}
+            onClick={() => handleFilter('OTHER')}
+            selected={selectedCategory === 'OTHER'}
           >
             기타 부품
           </Box>
@@ -130,11 +130,11 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
           <SquareCard
             key={index}
             data={{
-              id: data.id,
-              store: data.store,
+              id: index,
+              store: 'A 스토어',
               name: data.name,
               price: data.price,
-              rank: data.rank,
+              rank: data.star,
               image: data.image,
             }}
           />

@@ -3,7 +3,18 @@ import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
 import { droneListData } from 'src/assets/data/droneListData';
 
-function GroupCostList() {
+interface GroupCostData {
+  name: string;
+  purpose: string;
+  droneCount: number;
+  monthCost: number;
+}
+
+interface GroupCostListProps {
+  groupCosts: GroupCostData[];
+}
+
+function GroupCostList({ groupCosts }: GroupCostListProps) {
   return (
     <Container>
       <Wrapper>
@@ -15,16 +26,16 @@ function GroupCostList() {
           <Column>한달 간 누적 투입 비용</Column>
           <Column>한 대당 평균 투입 비용</Column>
         </Columns>
-        {droneListData.length > 0 ? (
+        {groupCosts.length > 0 ? (
           <Drones>
-            {droneListData.map((data) => {
+            {groupCosts.map((data, index) => {
               return (
-                <Drone key={data.id}>
+                <Drone key={index}>
                   <span>1</span>
-                  <span>드론 그룹1</span>
-                  <span>{data.usage}</span>
-                  <span>드론 수</span>
-                  <span>572,000원</span>
+                  <span>{data.name}</span>
+                  <span>{data.purpose}</span>
+                  <span>{data.droneCount}</span>
+                  <span>{data.monthCost}원</span>
                   <Typography
                     variant='h4'
                     fontWeight='bold'
@@ -97,10 +108,11 @@ const Drones = styled.div`
 `;
 
 const NoData = styled.div`
-  height: 550px;
+  height: 52px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
 `;
 
 const Drone = styled.div`
