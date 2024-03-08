@@ -14,6 +14,7 @@ interface RecyclePartBoxProp {
   score: number;
   price: number;
   checked?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const PartBox = styled.div`
@@ -36,6 +37,8 @@ const RecyclePartBox = ({
   name,
   score,
   price,
+  checked,
+  onChange,
 }: RecyclePartBoxProp) => {
   return (
     <PartBox>
@@ -46,7 +49,7 @@ const RecyclePartBox = ({
       <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
         {price} 원
       </Typography>
-      <CheckBox />
+      <CheckBox value={name} checked={checked} onChange={onChange} />
     </PartBox>
   );
 };
