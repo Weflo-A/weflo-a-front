@@ -1,9 +1,30 @@
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
-import { droneListData } from 'src/assets/data/droneListData';
 
-function GroupCostList() {
+interface GroupCostData {
+  groupName: string;
+  purpose: string;
+  droneCount: number;
+  monthCost: number;
+}
+
+interface GroupCostListProps {
+  groupCosts: GroupCostData[];
+}
+
+function GroupCostList({ groupCosts }: GroupCostListProps) {
+  // 한 대당 평균 투입 비용 기준 내림차순 정렬
+  const sortedGroupCosts = groupCosts.slice().sort((a, b) => {
+    const costPerDroneA = Math.floor(
+      Number(a.monthCost) / Number(a.droneCount)
+    );
+    const costPerDroneB = Math.floor(
+      Number(b.monthCost) / Number(b.droneCount)
+    );
+    return costPerDroneB - costPerDroneA;
+  });
+
   return (
     <Container>
       <Wrapper>
@@ -15,22 +36,25 @@ function GroupCostList() {
           <Column>한달 간 누적 투입 비용</Column>
           <Column>한 대당 평균 투입 비용</Column>
         </Columns>
-        {droneListData.length > 0 ? (
+        {groupCosts.length > 0 ? (
           <Drones>
-            {droneListData.map((data) => {
+            {sortedGroupCosts.map((data, index) => {
+              const costPerDrone = Math.floor(
+                Number(data.monthCost) / Number(data.droneCount)
+              );
               return (
-                <Drone key={data.id}>
-                  <span>1</span>
-                  <span>드론 그룹1</span>
-                  <span>{data.usage}</span>
-                  <span>드론 수</span>
-                  <span>572,000원</span>
+                <Drone key={index}>
+                  <span>{index + 1}</span>
+                  <span>{data.groupName}</span>
+                  <span>{data.purpose}</span>
+                  <span>{data.droneCount} 개</span>
+                  <span>{data.monthCost.toLocaleString()} 원</span>
                   <Typography
                     variant='h4'
                     fontWeight='bold'
                     color={colors.accent100}
                   >
-                    123,000원
+                    {costPerDrone.toLocaleString()} 원
                   </Typography>
                 </Drone>
               );
@@ -72,6 +96,7 @@ const Columns = styled.div`
   gap: 12px;
   box-sizing: border-box;
   background: white;
+  border-radius: 12px 12px 0px 0px;
   padding: 20px 35px;
 `;
 
@@ -97,10 +122,11 @@ const Drones = styled.div`
 `;
 
 const NoData = styled.div`
-  height: 550px;
+  height: 52px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
 `;
 
 const Drone = styled.div`

@@ -1,7 +1,8 @@
 import { Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCategoryParts } from 'src/api/parts';
 import { BiggerBlue } from 'src/assets';
-import { productData } from 'src/assets/data/productData';
 import Button from 'src/components/common/Button';
 import MenuTab from 'src/components/common/MenuTab';
 import CardSlider from 'src/components/part/purchasepart/CardSlider';
@@ -10,12 +11,38 @@ import { HeightCard } from 'src/components/part/purchasepart/HeightCard';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
+type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
+
+interface ProductData {
+  description: string;
+  name: string;
+  price: number;
+  star: number;
+  image: string;
+  type: Category;
+  part: string;
+  point: number;
+}
+
 const PurchasePartPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
     navigate('/');
   };
+
+  const [categoryPartData, setCategoryPartData] = useState<ProductData[]>([]);
+
+  useEffect(() => {
+    getCategoryParts()
+      .then((res) => {
+        console.log('Category Part', res.data); // 확인용
+        setCategoryPartData(res.data.data); // categoryPartData 상태 업데이트
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log('ㅑㄴ냐', categoryPartData);
 
   return (
     <>
@@ -41,7 +68,7 @@ const PurchasePartPage = () => {
             <Typography variant='h3' fontWeight='bold' color='white'>
               현재 사용자 님께 필요한 제품
             </Typography>
-            <CardSlider />
+            {categoryPartData && <CardSlider productData={categoryPartData} />}
           </YouNeed>
           <Orange>
             <Typography variant='h3' fontWeight='bold' color='white'>
@@ -75,27 +102,31 @@ const PurchasePartPage = () => {
             <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
               곧 사용자 님께서 필요로 하실 제품들
             </Typography>
-            <Row>
-              {productData.slice(0, 3).map((data, index) => (
-                <HeightCard
-                  key={index}
-                  data={{
-                    id: data.id,
-                    store: data.store,
-                    name: data.name,
-                    price: data.price,
-                    rank: data.rank,
-                    image: data.image,
-                  }}
-                />
-              ))}
-            </Row>
+            {categoryPartData && categoryPartData.length > 0 && (
+              <Row>
+                {categoryPartData.slice(0, 3).map((data, index) => (
+                  <HeightCard
+                    key={index}
+                    data={{
+                      id: index,
+                      store: 'A 스토어',
+                      name: data.name,
+                      price: data.price,
+                      rank: data.star,
+                      image: data.image,
+                    }}
+                  />
+                ))}
+              </Row>
+            )}
           </SoonNeed>
           <CategoryPart>
             <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
               카테고리별 부품
             </Typography>
-            <CategoryFilter productData={productData} />
+            {categoryPartData && (
+              <CategoryFilter productData={categoryPartData} />
+            )}
           </CategoryPart>
         </Page>
       </div>

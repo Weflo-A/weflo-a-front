@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
-import { droneListData } from 'src/assets/data/droneListData';
+import { partsDummy } from 'src/assets/data/partsDummy';
 
 function PartCostList() {
   return (
@@ -15,22 +15,22 @@ function PartCostList() {
           <Column>부품 단가</Column>
           <Column>누적 투입 비용</Column>
         </Columns>
-        {droneListData.length > 0 ? (
+        {partsDummy.length > 0 ? (
           <Drones>
-            {droneListData.map((data) => {
+            {partsDummy.map((data, index) => {
               return (
                 <Drone key={data.id}>
-                  <span>1</span>
-                  <span>부품명</span>
+                  <span>{index + 1}</span>
+                  <span>{data.part}</span>
                   <span>{data.model}</span>
-                  <span>부적사용개수</span>
-                  <span>572,000원</span>
+                  <span>{data.num.toLocaleString()} 개</span>
+                  <span>{data.price.toLocaleString()} 원</span>
                   <Typography
                     variant='h4'
                     fontWeight='bold'
                     color={colors.accent100}
                   >
-                    123,000원
+                    {data.total.toLocaleString()} 원
                   </Typography>
                 </Drone>
               );
@@ -72,6 +72,7 @@ const Columns = styled.div`
   gap: 12px;
   box-sizing: border-box;
   background: white;
+  border-radius: 12px 12px 0px 0px;
   padding: 20px 35px;
 `;
 

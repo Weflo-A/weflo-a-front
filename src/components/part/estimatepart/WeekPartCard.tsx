@@ -1,41 +1,50 @@
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
-import { GroupPartCard } from './GroupPartCard';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import Button from 'src/components/common/Button';
 import { useNavigate } from 'react-router-dom';
-import { BladeAccent, ESC, ESCAccent, MotorAccent } from 'src/assets';
+import { BladeAccent, ESCAccent, MotorAccent } from 'src/assets';
+import { GroupPartCard } from './GroupPartCard';
+
+interface GroupPart {
+  groupName: string;
+  componentStatus: { name: string; quantity: number }[];
+}
 
 interface Props {
   period: string;
+  partsData: GroupPart[];
 }
 
-const WeekPartCard: React.FC<Props> = ({ period }) => {
+const WeekPartCard: React.FC<Props> = ({ period, partsData }: Props) => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
-    navigate('/drone-group/drone/3/parts');
+    navigate('/drone-group/drone/parts/purchase');
   };
 
   return (
     <Card>
       <Left>
-        <Typography variant='h4' fontWeight='bold' color={colors.basic700}>
-          <span>
+        <div>
+          <Typography variant='h4' fontWeight='bold' color={colors.basic700}>
             <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
               {period}
             </Typography>
-          </span>
-          내로 필요할 것으로 예측되는 부품
-        </Typography>
+            내로 필요할 것으로 예측되는 부품
+          </Typography>
+        </div>
         <GroupCard>
           <ChevronLeft
             sx={{ color: '#CBD5E1', width: '24px', height: '24px' }}
           />
-          <GroupPartCard />
-          <GroupPartCard />
-          <GroupPartCard />
-          <GroupPartCard />
+          {partsData.map((data, index) => (
+            <GroupPartCard
+              key={index}
+              groupName={data.groupName}
+              parts={data.componentStatus}
+            />
+          ))}
           <ChevronRight
             sx={{ color: '#CBD5E1', width: '24px', height: '24px' }}
           />

@@ -1,19 +1,58 @@
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
-// import { parts } from 'src/assets/data/menuData';
 import colors from 'src/constants/colors';
 import { InfoCircle } from 'src/assets';
 import { GroupCostList } from 'src/components/part/costpart/GroupCostList';
 import { PartCostList } from 'src/components/part/costpart/PartCostList';
 import YearSelect from 'src/components/YearSelect';
-import React from 'react';
-import LineColumnChart from 'src/components/LineColumnChart';
+import React, { useEffect, useState } from 'react';
+import { getCosts, getYearCosts } from 'src/api/parts';
+import CostPieChart from 'src/components/part/costpart/CostPieChart';
+import CostLineColumnChart from 'src/components/part/costpart/CostLineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 
+interface GroupCostData {
+  name: string;
+  purpose: string;
+  droneCount: number;
+  monthCost: number;
+}
+
+interface GroupCostListProps {
+  groupCosts: GroupCostData[];
+}
+
 const CostPartPage = () => {
-  const [totalYear, setTotalYear] = React.useState(2024);
-  const [groupYear, setGroupYear] = React.useState(2024);
-  const [partYear, setPartYear] = React.useState(2024);
+  const [totalYear, setTotalYear] = React.useState('2024년');
+  const [groupYear, setGroupYear] = React.useState('2024년 3월');
+  const [partYear, setPartYear] = React.useState('2024년');
+  const [yearStr, monthStr] = groupYear.split(' ');
+  const tyear = parseInt(totalYear);
+  const year = parseInt(yearStr);
+  const month = parseInt(monthStr);
+  const [groupCosts, setGroupCosts] = useState([]);
+  const [totalCosts, setTotalCosts] = useState([]);
+
+  useEffect(() => {
+    getCosts({ year, month })
+      .then((res) => {
+        console.log('Costs', res.data); // 확인용
+        setGroupCosts(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [groupYear]);
+
+  useEffect(() => {
+    getYearCosts({ year: tyear })
+      .then((res) => {
+        console.log('Costs Year', tyear, res.data); // 확인용
+        const monthCosts = res.data.data.map(
+          (data: GroupCostData) => data.monthCost
+        );
+        setTotalCosts(monthCosts);
+      })
+      .catch((err) => console.log(err));
+  }, [totalYear]);
 
   return (
     <>
@@ -41,11 +80,11 @@ const CostPartPage = () => {
                   전체 투입 비용
                 </Typography>
                 <YearSelect
-                  value={groupYear}
-                  onChange={(e) => setGroupYear(Number(e.target.value))}
+                  value={totalYear}
+                  onChange={(e) => setTotalYear(e.target.value)}
                 />
               </Row>
-              <LineColumnChart />
+              <CostLineColumnChart lineChartData={totalCosts} />
             </Total>
             <Circle>
               <Typography
@@ -55,6 +94,34 @@ const CostPartPage = () => {
               >
                 부품별 투입 비용 비율
               </Typography>
+              <Chart>
+                <CostPieChart />
+                <Text>
+                  <Typography
+                    fontSize='11px'
+                    fontWeight='regular'
+                    color={colors.basic500}
+                  >
+                    가장 많이
+                    <br />
+                    투입되는 부품
+                  </Typography>
+                  <Typography
+                    variant='caption'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    Blade
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    {65}%
+                  </Typography>
+                </Text>
+              </Chart>
             </Circle>
           </Row>
           <Group>
@@ -64,14 +131,14 @@ const CostPartPage = () => {
                 fontWeight='bold'
                 color={colors.basic700}
               >
-                3월 그룹별 평균 투입 비용 순위
+                {month}월 그룹별 평균 투입 비용 순위
               </Typography>
               <YearSelect
                 value={groupYear}
                 onChange={(e) => setGroupYear(Number(e.target.value))}
               />
             </Space>
-            <GroupCostList />
+            <GroupCostList groupCosts={groupCosts} />
           </Group>
           <Part>
             <Space>
@@ -102,6 +169,7 @@ const Page = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 150px;
 `;
 
 const Caution = styled.div`
@@ -144,6 +212,9 @@ const Circle = styled.div`
   border: 1px solid ${colors.basic200};
   background: white;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Group = styled.div`
@@ -166,4 +237,16 @@ const Part = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const Chart = styled.div`
+  position: relative;
+`;
+
+const Text = styled.div`
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 `;

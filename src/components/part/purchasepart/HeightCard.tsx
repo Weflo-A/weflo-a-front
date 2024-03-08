@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
 import Button from 'src/components/common/Button';
+import Star from 'src/components/common/Star';
 
 interface ProductCardProps {
   data: {
@@ -34,9 +35,31 @@ const HeightCard: React.FC<ProductCardProps> = ({ data }) => {
         <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
           {data.name}
         </Typography>
-        <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
-          {data.price} 원
-        </Typography>
+        <Gap>
+          <Row>
+            <Star star={data.rank} />
+            <Row>
+              <Typography
+                fontSize='14px'
+                lineHeight='100%'
+                color={colors.accent100}
+              >
+                {data.rank}
+              </Typography>
+              <Typography
+                fontSize='11px'
+                fontWeight='regular'
+                lineHeight='100%'
+                color={colors.basic400}
+              >
+                / 5
+              </Typography>
+            </Row>
+          </Row>
+          <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
+            {data.price.toLocaleString()} 원
+          </Typography>
+        </Gap>
       </Content>
     </Card>
   );
@@ -53,6 +76,11 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+
+  &:hover {
+    box-shadow: 0px 4px 40px 0px rgba(72, 99, 147, 0.2);
+    transition: all 0.5s ease-out;
+  }
 `;
 
 const Small = styled.div`
@@ -78,6 +106,20 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  gap: 10px;
+  padding: 10px 15px;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
+
+const Gap = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 5px;
-  padding: 15px;
 `;

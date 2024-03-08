@@ -2,12 +2,28 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import { InfoCircle, RectangleBlue } from 'src/assets';
-import CheckBox from 'src/components/common/CheckBox';
 import { WeekPartCard } from 'src/components/part/estimatepart/WeekPartCard';
 import { periodData } from 'src/assets/data/periodData';
 import MenuTab from 'src/components/common/MenuTab';
+import RadioBtn from 'src/components/common/RadioBtn';
+import { useEffect, useState } from 'react';
+import { getSortParts } from 'src/api/parts';
 
 const EstimatePartPage = () => {
+  const [selected, setSelected] = useState<string>('group');
+  const [partsData, setPartsData] = useState([]);
+
+  useEffect(() => {
+    getSortParts({ point: 30, mode: selected.toUpperCase() })
+      .then((res) => {
+        console.log('모델&그룹별 부품 조회', res.data); // 확인용
+        setPartsData(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [selected]);
+
+  console.log('파파', partsData);
+
   return (
     <>
       <MenuTab type='parts' />
@@ -25,8 +41,18 @@ const EstimatePartPage = () => {
           </Caution>
           <Filter>
             <FilterBtn>
-              <CheckBox label='그룹별' />
-              <CheckBox label='모델별' />
+              <RadioBtn
+                value='group'
+                label='그룹별'
+                checked={selected === 'group'}
+                onChange={() => setSelected('group')}
+              />
+              <RadioBtn
+                value='model'
+                label='모델별'
+                checked={selected === 'model'}
+                onChange={() => setSelected('model')}
+              />
             </FilterBtn>
           </Filter>
           <Content>
@@ -44,7 +70,7 @@ const EstimatePartPage = () => {
             </Line>
             <WeekCard>
               {periodData.map((data) => (
-                <WeekPartCard period={data.period} />
+                <WeekPartCard period={data.period} partsData={partsData} />
               ))}
             </WeekCard>
           </Content>
