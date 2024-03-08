@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import arrowImg from 'src/assets/icon/arrow-down.png';
 
 interface YearSelectProp {
-  value: string;
+  value: number;
   onChange: (evnet: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -39,15 +39,13 @@ const YearSelect = ({ value, onChange }: YearSelectProp) => {
 
   const options = Array.from({ length: currentYear - 1989 }, (_, index) => {
     const year = 1990 + index;
-    return year + '년';
+    return { value: year, option: year + '년' };
   });
-
-  console.log(options);
 
   return (
     <SelectBox value={value} onChange={onChange}>
-      {options.map((year) => (
-        <option>{year}</option>
+      {options.map((item) => (
+        <option value={item.value}>{item.option}</option>
       ))}
     </SelectBox>
   );

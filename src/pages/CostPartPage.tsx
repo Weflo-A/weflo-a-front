@@ -11,9 +11,9 @@ import LineColumnChart from 'src/components/LineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 
 const CostPartPage = () => {
-  const [totalYear, setTotalYear] = React.useState('2024년');
-  const [groupYear, setGroupYear] = React.useState('2024년');
-  const [partYear, setPartYear] = React.useState('2024년');
+  const [totalYear, setTotalYear] = React.useState(2024);
+  const [groupYear, setGroupYear] = React.useState(2024);
+  const [partYear, setPartYear] = React.useState(2024);
 
   return (
     <>
@@ -42,7 +42,7 @@ const CostPartPage = () => {
                 </Typography>
                 <YearSelect
                   value={groupYear}
-                  onChange={(e) => setGroupYear(e.target.value)}
+                  onChange={(e) => setGroupYear(Number(e.target.value))}
                 />
               </Row>
               <LineColumnChart />
@@ -68,7 +68,7 @@ const CostPartPage = () => {
               </Typography>
               <YearSelect
                 value={groupYear}
-                onChange={(e) => setGroupYear(e.target.value)}
+                onChange={(e) => setGroupYear(Number(e.target.value))}
               />
             </Space>
             <GroupCostList />
@@ -84,7 +84,7 @@ const CostPartPage = () => {
               </Typography>
               <YearSelect
                 value={partYear}
-                onChange={(e) => setPartYear(e.target.value)}
+                onChange={(e) => setPartYear(Number(e.target.value))}
               />
             </Space>
             <PartCostList />
