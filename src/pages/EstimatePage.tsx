@@ -107,9 +107,6 @@ const EstimatePage = () => {
   const [date, setDate] = React.useState('');
   const [topSection, setTopSection] = React.useState<TopSection>();
   const [newParts, setNewParts] = React.useState<NewParts[]>([]);
-  const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
-    []
-  );
   /* 교체용 부품 구매 체크 리스트 */
   const [newPartsCheckedList, setNewPartsCheckedList] = React.useState<
     string[]
@@ -120,9 +117,17 @@ const EstimatePage = () => {
     []
   );
   const [partsSearch, setPartsSearch] = React.useState('');
-  const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
+  const [scoreRange, setScoreRange] = React.useState<number[]>([0, 100]);
   const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
-
+  const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
+    newParts.filter(
+      (item) =>
+        priceRange[0] < item.price &&
+        item.price < priceRange[1] &&
+        scoreRange[0] < item.point &&
+        item.point < scoreRange[1]
+    )
+  );
   const handleScoreChange = (event: Event, newValue: number | number[]) => {
     setScoreRange(newValue as number[]);
   };
@@ -159,6 +164,26 @@ const EstimatePage = () => {
     }
   };
 
+  console.log(filteredNewParts);
+
+  /* 진단 날짜 리스트 */
+  /* 수리 업체 정보 */
+  React.useEffect(() => {
+    getTestDateList(1)
+      .then((res) => {
+        setDateList(res.data.data);
+        if (res.data.data.length > 0) {
+          const { year, month, day } = res.data.data[0];
+          setDate(`${year}-${month}-${day}`);
+        }
+      })
+      .catch((err) => console.log(err));
+    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
+      setRepairCompanies(res.data.data)
+    );
+  }, []);
+
+  /* 부품 필터링 */
   React.useEffect(() => {
     const filteredParts = newParts.filter(
       (item) =>
@@ -170,34 +195,26 @@ const EstimatePage = () => {
     setFilteredNewParts(filteredParts);
   }, [scoreRange, priceRange]);
 
+  /* 견적서 부품 조회*/
   React.useEffect(() => {
-    /* 진단 날짜 리스트 */
-    getTestDateList(1)
-      .then((res) => {
-        setDateList(res.data.data);
-        if (res.data.data.length > 0) {
-          const { year, month, day } = res.data.data[0];
-          setDate(`${year}-${month}-${day}`);
-        }
-      })
-      .catch((err) => console.log(err));
-
-    /* 수리 업체 정보 */
-    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
-      setRepairCompanies(res.data.data)
-    );
-  }, []);
-
-  React.useEffect(() => {
-    /* 견적서 정보 */
     if (date) {
-      getEstimateInfo(1, date).then((res) => setNewParts(res.data.data));
+      getEstimateInfo(1, date).then((res) => {
+        setNewParts(res.data.data);
+        const filteredParts = res.data.data.filter(
+          (item: NewParts) =>
+            priceRange[0] < item.price &&
+            item.price < priceRange[1] &&
+            scoreRange[0] < item.point &&
+            item.point < scoreRange[1]
+        );
+        setFilteredNewParts(filteredParts);
+      });
       getTopSectionInfo(1, date).then((res) => setTopSection(res.data.data));
     }
   }, [date]);
 
+  /* 새 부품 장바구니 리스트 */
   React.useEffect(() => {
-    /* 새 부품 장바구니 리스트 */
     if (newPartsCheckedList) {
       getBasketList(newPartsCheckedList).then((res) =>
         setNewPartsBasket(res.data.data)
@@ -205,8 +222,8 @@ const EstimatePage = () => {
     }
   }, [newPartsCheckedList]);
 
+  /* 재사용 부품 장바구니 리스트 */
   React.useEffect(() => {
-    /* 재사용 부품 장바구니 리스트 */
     if (recycleCheckedList) {
       getBasketList(recycleCheckedList).then((res) =>
         setRecyclePartsBasket(res.data.data)
@@ -493,7 +510,7 @@ const EstimatePage = () => {
               {renderRangeBox()}
               <NewPartsBox>
                 <Stack width='100%' direction='column' gap='0.5rem'>
-                  {(filteredNewParts as NewParts[])?.map((item, index) => (
+                  {filteredNewParts?.map((item, index) => (
                     <NewPartInfoBox
                       id={index}
                       name={item.name}
