@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
-import { droneListData } from 'src/assets/data/droneListData';
 
 interface GroupCostData {
-  name: string;
+  groupName: string;
   purpose: string;
   droneCount: number;
   monthCost: number;
@@ -15,6 +14,17 @@ interface GroupCostListProps {
 }
 
 function GroupCostList({ groupCosts }: GroupCostListProps) {
+  // 한 대당 평균 투입 비용 기준 내림차순 정렬
+  const sortedGroupCosts = groupCosts.slice().sort((a, b) => {
+    const costPerDroneA = Math.floor(
+      Number(a.monthCost) / Number(a.droneCount)
+    );
+    const costPerDroneB = Math.floor(
+      Number(b.monthCost) / Number(b.droneCount)
+    );
+    return costPerDroneB - costPerDroneA;
+  });
+
   return (
     <Container>
       <Wrapper>
@@ -28,20 +38,23 @@ function GroupCostList({ groupCosts }: GroupCostListProps) {
         </Columns>
         {groupCosts.length > 0 ? (
           <Drones>
-            {groupCosts.map((data, index) => {
+            {sortedGroupCosts.map((data, index) => {
+              const costPerDrone = Math.floor(
+                Number(data.monthCost) / Number(data.droneCount)
+              );
               return (
                 <Drone key={index}>
-                  <span>1</span>
-                  <span>{data.name}</span>
+                  <span>{index + 1}</span>
+                  <span>{data.groupName}</span>
                   <span>{data.purpose}</span>
-                  <span>{data.droneCount}</span>
-                  <span>{data.monthCost}원</span>
+                  <span>{data.droneCount} 개</span>
+                  <span>{data.monthCost.toLocaleString()} 원</span>
                   <Typography
                     variant='h4'
                     fontWeight='bold'
                     color={colors.accent100}
                   >
-                    123,000원
+                    {costPerDrone.toLocaleString()} 원
                   </Typography>
                 </Drone>
               );
@@ -83,6 +96,7 @@ const Columns = styled.div`
   gap: 12px;
   box-sizing: border-box;
   background: white;
+  border-radius: 12px 12px 0px 0px;
   padding: 20px 35px;
 `;
 

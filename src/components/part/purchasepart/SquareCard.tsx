@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
 import Button from 'src/components/common/Button';
+import Star from 'src/components/common/Star';
 
 interface ProductCardProps {
   data: {
@@ -39,9 +40,31 @@ const SquareCard: React.FC<ProductCardProps> = ({ data }) => {
         <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
           {data.name}
         </Typography>
-        <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
-          {data.price} 원
-        </Typography>
+        <Space>
+          <Row>
+            <Star star={data.rank} />
+            <Row>
+              <Typography
+                fontSize='14px'
+                lineHeight='100%'
+                color={colors.accent100}
+              >
+                {data.rank}
+              </Typography>
+              <Typography
+                fontSize='11px'
+                fontWeight='regular'
+                lineHeight='100%'
+                color={colors.basic400}
+              >
+                / 5
+              </Typography>
+            </Row>
+          </Row>
+          <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
+            {data.price.toLocaleString()} 원
+          </Typography>
+        </Space>
       </Content>
     </Card>
   );
@@ -83,10 +106,25 @@ const Image = styled.div`
 `;
 
 const Content = styled.div`
-  width: 283px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  width: 100%;
+  display: grid;
+  grid-template-rows: 2fr 1fr;
+  text-align: left;
   gap: 5px;
   padding: 15px;
+`;
+
+const Space = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 `;

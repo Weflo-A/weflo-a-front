@@ -22,6 +22,7 @@ interface ProductData {
   image: string;
   type: Category;
   part: string;
+  point: number;
 }
 
 const PurchasePartPage = () => {
@@ -37,7 +38,7 @@ const PurchasePartPage = () => {
     getCategoryParts()
       .then((res) => {
         console.log('Category Part', res.data); // 확인용
-        setCategoryPartData(res.data.data); // categoryPartData 상태 업데이
+        setCategoryPartData(res.data.data); // categoryPartData 상태 업데이트
       })
       .catch((err) => console.log(err));
   }, []);
@@ -68,7 +69,7 @@ const PurchasePartPage = () => {
             <Typography variant='h3' fontWeight='bold' color='white'>
               현재 사용자 님께 필요한 제품
             </Typography>
-            <CardSlider />
+            {categoryPartData && <CardSlider productData={categoryPartData} />}
           </YouNeed>
           <Orange>
             <Typography variant='h3' fontWeight='bold' color='white'>

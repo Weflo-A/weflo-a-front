@@ -2,7 +2,7 @@ import client from './client';
 
 // 전체 부품
 export const getCategoryParts = async () => {
-  return await client.get(`/api/components`);
+  return await client.get(`/api/drone-components`);
 };
 
 // 드론 부품
@@ -23,4 +23,8 @@ export const getCosts = async ({
   month: number;
 }) => {
   return await client.get(`/api/month-costs?year=${year}&month=${month}`);
+};
+
+export const getYearCosts = async ({ year }: { year: number }) => {
+  return await client.get(`/api/month-costs?year=${year}`);
 };

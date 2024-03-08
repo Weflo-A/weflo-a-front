@@ -3,6 +3,9 @@ import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
 import { Bigger, InfoCircle } from 'src/assets';
 import Button from 'src/components/common/Button';
+import Star from 'src/components/common/Star';
+
+type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
 
 interface ProductCardProps {
   data: {
@@ -11,7 +14,10 @@ interface ProductCardProps {
     name: string;
     price: number;
     rank: number;
+    point: number;
     image: string;
+    part: string;
+    type: Category;
   };
 }
 
@@ -39,9 +45,31 @@ const WidthCard: React.FC<ProductCardProps> = ({ data }) => {
           <Typography variant='body1' fontWeight='bold' color={colors.basic700}>
             {data.name}
           </Typography>
-          <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
-            {data.price} 원
-          </Typography>
+          <Row>
+            <Star star={data.rank} />
+            <Row>
+              <Typography
+                fontSize='14px'
+                lineHeight='100%'
+                color={colors.accent100}
+              >
+                {data.rank}
+              </Typography>
+              <Typography
+                fontSize='11px'
+                fontWeight='regular'
+                lineHeight='100%'
+                color={colors.basic400}
+              >
+                / 5
+              </Typography>
+            </Row>
+          </Row>
+          <Left>
+            <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
+              {data.price.toLocaleString()} 원
+            </Typography>
+          </Left>
         </Content>
       </Top>
       <Bottom>
@@ -53,7 +81,11 @@ const WidthCard: React.FC<ProductCardProps> = ({ data }) => {
             </Typography>
           </Row>
           <Button
-            text={<>구동부 01 - 모터 2점</>}
+            text={
+              <>
+                {data.part} - {data.type} {data.point}점
+              </>
+            }
             buttonType='accentLight'
             style={{ width: '150px', height: '22px' }}
           />
@@ -89,6 +121,7 @@ const Card = styled.div`
 `;
 
 const Top = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: row;
   gap: 15px;
@@ -103,7 +136,7 @@ const Image = styled.div`
 `;
 
 const Content = styled.div`
-  width: 283px;
+  width: 380px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -136,11 +169,19 @@ const Factor = styled.div`
   border-radius: 8px;
   border: 1px solid ${colors.basic100};
   background: ${colors.basic50};
+  white-space: nowrap;
 `;
 
 const Row = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+`;
+
+const Left = styled.div`
+  width: 100%;
+  text-align: right;
+  margin-top: 15px;
 `;

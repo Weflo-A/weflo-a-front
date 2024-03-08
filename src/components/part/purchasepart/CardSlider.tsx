@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { WidthCard } from 'src/components/part/purchasepart/WidthCard'; // WidthCard 컴포넌트 import
-import { productData } from 'src/assets/data/productData';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
@@ -11,7 +10,22 @@ interface CardProps {
   zIndex: number;
 }
 
-const CardSlider = () => {
+type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
+
+interface ProductData {
+  description: string;
+  name: string;
+  price: number;
+  star: number;
+  image: string;
+  part: string;
+  type: Category;
+  point: number;
+}
+
+const CardSlider: React.FC<{ productData: ProductData[] }> = ({
+  productData,
+}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlePrev = () => {
@@ -23,7 +37,18 @@ const CardSlider = () => {
   };
 
   const renderCards = () => {
-    return productData.map((data, index) => {
+    // point 기준 오름차순 정렬
+    const sortedProductData = [...productData].sort(
+      (a, b) => a.point - b.point
+    );
+
+    // sortedProductData에서 5개만 가져옴 (4,5,1,2,3 정렬)
+    const renderData = [
+      ...sortedProductData.slice(3, 5),
+      ...sortedProductData.slice(0, 3),
+    ];
+
+    return renderData.map((data, index) => {
       let position = index - currentIndex;
       if (position < 0) position += 5;
       const scale = 1 - Math.abs(position - 2) * 0.1; // 가운데 카드는 1로 유지, 양 옆 카드는 점점 작아지도록
@@ -32,12 +57,15 @@ const CardSlider = () => {
         <Card key={index} position={position} scale={scale} zIndex={zIndex}>
           <WidthCard
             data={{
-              id: data.id,
-              store: data.store,
+              id: index,
+              store: 'A 스토어',
               name: data.name,
               price: data.price,
-              rank: data.rank,
+              rank: data.star,
+              point: data.point,
               image: data.image,
+              part: data.part,
+              type: data.type,
             }}
           />
         </Card>

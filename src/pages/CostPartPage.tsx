@@ -8,8 +8,9 @@ import { GroupCostList } from 'src/components/part/costpart/GroupCostList';
 import { PartCostList } from 'src/components/part/costpart/PartCostList';
 import YearSelect from 'src/components/YearSelect';
 import React, { useEffect, useState } from 'react';
-import LineColumnChart from 'src/components/LineColumnChart';
-import { getCosts } from 'src/api/parts';
+import { getCosts, getYearCosts } from 'src/api/parts';
+import CostPieChart from 'src/components/part/costpart/CostPieChart';
+import CostLineColumnChart from 'src/components/part/costpart/CostLineColumnChart';
 
 interface GroupCostData {
   name: string;
@@ -27,9 +28,11 @@ const CostPartPage = () => {
   const [groupYear, setGroupYear] = React.useState('2024년 3월');
   const [partYear, setPartYear] = React.useState('2024년');
   const [yearStr, monthStr] = groupYear.split(' ');
+  const tyear = parseInt(totalYear);
   const year = parseInt(yearStr);
   const month = parseInt(monthStr);
   const [groupCosts, setGroupCosts] = useState([]);
+  const [totalCosts, setTotalCosts] = useState([]);
 
   useEffect(() => {
     getCosts({ year, month })
@@ -39,6 +42,18 @@ const CostPartPage = () => {
       })
       .catch((err) => console.log(err));
   }, [groupYear]);
+
+  useEffect(() => {
+    getYearCosts({ year: tyear })
+      .then((res) => {
+        console.log('Costs Year', tyear, res.data); // 확인용
+        const monthCosts = res.data.data.map(
+          (data: GroupCostData) => data.monthCost
+        );
+        setTotalCosts(monthCosts);
+      })
+      .catch((err) => console.log(err));
+  }, [totalYear]);
 
   return (
     <>
@@ -70,7 +85,7 @@ const CostPartPage = () => {
                   onChange={(e) => setTotalYear(e.target.value)}
                 />
               </Row>
-              <LineColumnChart />
+              <CostLineColumnChart lineChartData={totalCosts} />
             </Total>
             <Circle>
               <Typography
@@ -80,6 +95,34 @@ const CostPartPage = () => {
               >
                 부품별 투입 비용 비율
               </Typography>
+              <Chart>
+                <CostPieChart />
+                <Text>
+                  <Typography
+                    fontSize='11px'
+                    fontWeight='regular'
+                    color={colors.basic500}
+                  >
+                    가장 많이
+                    <br />
+                    투입되는 부품
+                  </Typography>
+                  <Typography
+                    variant='caption'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    Blade
+                  </Typography>
+                  <Typography
+                    variant='body1'
+                    fontWeight='bold'
+                    color={colors.accent100}
+                  >
+                    {65}%
+                  </Typography>
+                </Text>
+              </Chart>
             </Circle>
           </Row>
           <Group>
@@ -127,6 +170,7 @@ const Page = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 150px;
 `;
 
 const Caution = styled.div`
@@ -169,6 +213,9 @@ const Circle = styled.div`
   border: 1px solid ${colors.basic200};
   background: white;
   padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Group = styled.div`
@@ -191,4 +238,16 @@ const Part = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+`;
+
+const Chart = styled.div`
+  position: relative;
+`;
+
+const Text = styled.div`
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 `;

@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SquareCard } from './SquareCard';
 import CheckBox from 'src/components/common/CheckBox';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import Pagination, {
+  PaginationHandles,
+} from 'src/components/common/Pagination';
 
 type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
 type SortBy = 'recommend' | 'lowest' | 'highest' | 'rank';
@@ -26,12 +29,36 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
   const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginationRef = React.useRef<PaginationHandles>(null);
+
+  // 처음 렌더링될 때 filteredProducts를 초기화
+  useEffect(() => {
+    setFilteredProducts(productData);
+  }, [productData]);
+
+  // filter 바뀌면 page 1로 초기화
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategory]);
 
   // 필터된 결과를 페이지별로 나누는 함수
   const paginateData = () => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return filteredProducts.slice(startIndex, endIndex);
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -141,56 +168,31 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
         ))}
       </RowCard>
       {/* 페이지네이션 컴포넌트 */}
-      <PageMove>
-        <Pagination
-          currentPage={page}
-          itemsPerPage={itemsPerPage}
-          totalItems={filteredProducts.length}
-          onPageChange={handlePageChange}
-        />
-      </PageMove>
+      {paginateData().length > 0 && (
+        <PageMove>
+          <ChevronLeft
+            sx={{
+              color: '#64748B',
+              width: '20px',
+              height: '20px',
+              background: 'none',
+            }}
+            onClick={handlePrevPage}
+          />
+          <Pagination
+            ref={paginationRef}
+            postsNum={filteredProducts.length}
+            postsPerPage={itemsPerPage}
+            setCurrentPage={handlePageChange}
+            currentPage={page}
+          />
+          <ChevronRight
+            sx={{ color: '#64748B', width: '20px', height: '20px' }}
+            onClick={handleNextPage}
+          />
+        </PageMove>
+      )}
     </Div>
-  );
-};
-
-// 페이지네이션 컴포넌트
-const Pagination: React.FC<{
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-  onPageChange: (pageNumber: number) => void;
-}> = ({ currentPage, itemsPerPage, totalItems, onPageChange }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
-  };
-
-  return (
-    <PageBar>
-      <ChevronLeft
-        sx={{
-          color: '#64748B',
-          width: '20px',
-          height: '20px',
-          background: 'none',
-        }}
-        onClick={handlePrevPage}
-      />
-      <span>{`${currentPage} / ${totalPages}`}</span>
-      <ChevronRight
-        sx={{ color: '#64748B', width: '20px', height: '20px' }}
-        onClick={handleNextPage}
-      />
-    </PageBar>
   );
 };
 
@@ -200,6 +202,7 @@ const Div = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
 `;
 
@@ -248,15 +251,6 @@ const RowCard = styled(FilterBtn)`
 `;
 
 const PageMove = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-`;
-
-const PageBar = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
