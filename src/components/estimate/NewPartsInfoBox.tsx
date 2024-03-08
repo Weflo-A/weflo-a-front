@@ -18,7 +18,6 @@ interface NewPartsProp {
   price: number;
   detail: string;
   checked: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 //
@@ -49,12 +48,11 @@ const NewPartInfoBox = ({
   price,
   detail,
   checked,
-  onChange,
 }: NewPartsProp) => {
   return (
     <PartsInfoBox style={{ gap: '1rem' }}>
       <img src={imgUrl} alt={name} style={{ objectFit: 'contain' }} />
-      <Stack width='100%' direction='column' justifyContent='center' gap='1rem'>
+      <Stack direction='column' justifyContent='center' gap='1rem'>
         <Stack
           direction='row'
           alignItems='flex-start'
@@ -72,12 +70,7 @@ const NewPartInfoBox = ({
             <Typography variant='h4' fontWeight='bold'>
               {price} 원
             </Typography>
-            <CheckBox
-              key={id}
-              value={name}
-              checked={checked}
-              onChange={onChange}
-            />
+            <CheckBox key={id} />
           </Stack>
         </Stack>
         <Typography
