@@ -6,12 +6,13 @@ import YearSelect from 'src/components/YearSelect';
 import React from 'react';
 import SectionHeader from 'src/components/SectionHeader';
 import LineColumnChart from 'src/components/LineColumnChart';
-import MenuTab from 'src/components/common/MenuTab';
+import MenuTab, { Group } from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Chip from 'src/components/common/Chip';
 import CheckBox from 'src/components/common/CheckBox';
 import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
+import { getDroneGroupList } from 'src/api/monitoring';
 
 //
 //
@@ -68,6 +69,11 @@ const LabelSquare = styled.div<{ color: string }>`
 const DroneGroupPage = () => {
   const [groupYear, setGroupYear] = React.useState('2024년');
   const [droneYear, setDroneYear] = React.useState('2024년');
+  const [groupList, setGroupList] = React.useState<Group[]>([]);
+
+  React.useEffect(() => {
+    getDroneGroupList().then((res) => setGroupList(res.data.data));
+  }, []);
 
   /* Drone group info */
   const renderDroneGroupInfo = () => {
@@ -215,12 +221,16 @@ const DroneGroupPage = () => {
     );
   };
 
+  React.useEffect(() => {
+    getDroneGroupList().then((res) => console.log(res));
+  }, []);
+
   //
   //
   //
   return (
     <>
-      <MenuTab type='monitoring' />
+      <MenuTab type='monitoring' groups={groupList} />
       <div className='page'>
         <SectionHeader title='드롭 그룹 1'>
           <Button

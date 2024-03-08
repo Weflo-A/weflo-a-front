@@ -5,19 +5,22 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
-import React from 'react';
-import { getDroneList } from 'src/api/dashboard';
 
 //
 //
 //
+
 export interface Group {
+  groupId: number;
+  name: string;
+}
+export interface GroupDetail {
   groupName: string;
   droneList: { id: number; name: string }[];
 }
 export interface MenuTabProps {
   groups?: Group[];
-  group?: Group;
+  drones?: GroupDetail;
   type: 'dashboard' | 'parts' | 'monitoring';
 }
 
@@ -45,41 +48,20 @@ const TabItem = styled.div`
     background-color: ${colors.primaryOpacity10};
   }
 `;
-//
-//
-//
-// 임시 드론 그룹 리스트 => prop의 groups로 대체
-export const groupList = [
-  { id: 1, name: '드론 그룹 1' },
-  { id: 2, name: '드론 그룹 2' },
-];
 
-// 임시 드론 리스트 => prop의 group으로 대체
-export const droneList = {
-  groupId: 1,
-  drones: [
-    { id: 1, name: 'Drone 1' },
-    { id: 2, name: 'Drone 2' },
-  ],
-};
+//
+//
+//
 
-const MenuTab = ({ groups, group, type }: MenuTabProps) => {
+const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isTestDetailPage = location.pathname.includes('/test');
   const isEstimatePage = location.pathname.includes('/estimate');
-  const [drones, setDrones] = React.useState<Group>();
 
   const handleTabMenu = (url: string, id?: string) => {
     navigate(url, { state: id });
   };
-
-  React.useEffect(() => {
-    getDroneList(1).then((res) => {
-      console.log(res.data.data);
-      setDrones(res.data.data);
-    });
-  }, []);
 
   /* 부품 탭 */
   const renderPartsTab = () => {
@@ -171,15 +153,15 @@ const MenuTab = ({ groups, group, type }: MenuTabProps) => {
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          {groupList.map((item) => (
+          {groups?.map((item) => (
             <TabItem
               className={
-                location.pathname.includes(`/drone-group/${item.id}`)
+                location.pathname.includes(`/drone-group/${item.groupId}`)
                   ? 'active'
                   : ''
               }
               onClick={() =>
-                handleTabMenu(`/monitoring/drone-group/${item.id}`)
+                handleTabMenu(`/monitoring/drone-group/${item.groupId}`)
               }
             >
               <Typography fontSize='14px' fontWeight={400}>
