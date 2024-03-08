@@ -97,7 +97,7 @@ const Top = styled.div`
 const Image = styled.div`
   width: 122px;
   height: 122px;
-  background-color: antiquewhite;
+  background-color: #bdbdbd;
   display: flex;
   flex-direction: row;
 `;

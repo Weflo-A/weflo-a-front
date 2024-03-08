@@ -1,25 +1,53 @@
 import { Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Battery, Drone1, InfoCircle } from 'src/assets';
-import { droneListData } from 'src/assets/data/droneListData';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import ProgressBar from './ProgressBar';
 import {
-  CircularProgressbar,
   CircularProgressbarWithChildren,
   buildStyles,
 } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const DroneDetail = () => {
+interface DroneInfo {
+  name: string;
+  productionYear: number;
+  model: string;
+  purpose: string;
+  cost: number;
+  accident: number;
+  balance: number;
+  totalScore: number;
+  motorAvg: number;
+  bladeAvg: number;
+  escAvg: number;
+}
+
+interface Props {
+  data: {
+    droneInfo: DroneInfo;
+  };
+}
+
+const DroneDetail = ({ data }: Props) => {
   const { id } = useParams<{ id: string }>();
 
-  const data = droneListData.find(
-    (drone) => drone.id === (id ? parseInt(id) : -1)
-  );
+  const {
+    name,
+    productionYear,
+    model,
+    purpose,
+    cost,
+    accident,
+    balance,
+    totalScore,
+    motorAvg,
+    bladeAvg,
+    escAvg,
+  } = data.droneInfo;
 
-  if (!data) {
+  if (!data.droneInfo) {
     return (
       <Typography variant='body1'>드론 정보를 찾을 수 없습니다.</Typography>
     );
@@ -29,7 +57,7 @@ const DroneDetail = () => {
     <Box>
       <Title>
         <Typography variant='body1' fontWeight='bold' color='white'>
-          {data.name}
+          {name}
         </Typography>
       </Title>
       <Drone1 />
@@ -39,7 +67,7 @@ const DroneDetail = () => {
             생산연도
           </Typography>
           <Typography fontSize='14px' fontWeight='bold' color='white'>
-            {data.year}
+            {productionYear}
           </Typography>
         </div>
         <div>
@@ -47,7 +75,7 @@ const DroneDetail = () => {
             모델명
           </Typography>
           <Typography fontSize='14px' fontWeight='bold' color='white'>
-            {data.model}
+            {model}
           </Typography>
         </div>
         <div>
@@ -55,7 +83,7 @@ const DroneDetail = () => {
             사용용도
           </Typography>
           <Typography fontSize='14px' fontWeight='bold' color='white'>
-            {data.usage}
+            {purpose}
           </Typography>
         </div>
       </One>
@@ -66,7 +94,7 @@ const DroneDetail = () => {
           </Typography>
           <Row>
             <Typography variant='h3' fontWeight='bold' color={colors.accent100}>
-              {data.cost.slice(0, -1)}
+              {cost}
             </Typography>
             <Typography variant='body2' color={colors.accent100}>
               원
@@ -79,7 +107,7 @@ const DroneDetail = () => {
           </Typography>
           <Row>
             <Typography variant='h3' fontWeight='bold' color={colors.green100}>
-              11
+              {accident}
             </Typography>
             <Typography variant='body2' color={colors.green100}>
               %
@@ -94,7 +122,7 @@ const DroneDetail = () => {
         <Circle>
           <CircleSize>
             <CircularProgressbarWithChildren
-              value={60}
+              value={balance}
               strokeWidth={10}
               styles={buildStyles({
                 rotation: 0,
@@ -109,7 +137,7 @@ const DroneDetail = () => {
               })}
             >
               <Typography variant='caption' color='white' lineHeight='120%'>
-                총 점수
+                밸런스
               </Typography>
               <Typography
                 variant='body2'
@@ -117,13 +145,13 @@ const DroneDetail = () => {
                 color={colors.yellow100}
                 lineHeight='120%'
               >
-                60%
+                {balance}%
               </Typography>
             </CircularProgressbarWithChildren>
           </CircleSize>
           <CircleSize>
             <CircularProgressbarWithChildren
-              value={80}
+              value={totalScore}
               strokeWidth={10}
               styles={buildStyles({
                 rotation: 0,
@@ -146,7 +174,7 @@ const DroneDetail = () => {
                 color={colors.green100}
                 lineHeight='120%'
               >
-                80%
+                {totalScore}%
               </Typography>
             </CircularProgressbarWithChildren>
           </CircleSize>
@@ -162,10 +190,10 @@ const DroneDetail = () => {
         <Row2>
           <Column>
             <BatteryStyle />
-            <ProgressBarStyle value={80} width={35} height={60} />
+            <ProgressBarStyle value={motorAvg} width={35} height={60} />
             <Num>
               <Typography variant='caption' fontWeight='bold' color='white'>
-                80%
+                {motorAvg}%
               </Typography>
             </Num>
             <Label>
@@ -176,10 +204,10 @@ const DroneDetail = () => {
           </Column>
           <Column>
             <BatteryStyle />
-            <ProgressBarStyle value={10} width={35} height={60} />
+            <ProgressBarStyle value={bladeAvg} width={35} height={60} />
             <Num>
               <Typography variant='caption' fontWeight='bold' color='white'>
-                10%
+                {bladeAvg}%
               </Typography>
             </Num>
             <Label>
@@ -190,10 +218,10 @@ const DroneDetail = () => {
           </Column>
           <Column>
             <BatteryStyle />
-            <ProgressBarStyle value={60} width={35} height={60} />
+            <ProgressBarStyle value={escAvg} width={35} height={60} />
             <Num>
               <Typography variant='caption' fontWeight='bold' color='white'>
-                60%
+                {escAvg}%
               </Typography>
             </Num>
             <Label>

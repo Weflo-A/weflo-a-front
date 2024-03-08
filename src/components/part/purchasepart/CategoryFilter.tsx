@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 type Category = 'all' | 'blade' | 'motor' | 'esc' | 'other';
-// type SortBy = 'recommend' | 'lowest' | 'highest' | 'rank';
+type SortBy = 'recommend' | 'lowest' | 'highest' | 'rank';
 
 interface ProductData {
   id: number;
@@ -51,32 +51,32 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
   };
 
   // 정렬 함수
-  // const handleSort = (sortBy: SortBy) => {
-  //   const sortedProducts = [...filteredProducts];
+  const handleSort = (sortBy: SortBy) => {
+    const sortedProducts = [...filteredProducts];
 
-  //   switch (sortBy) {
-  //     case 'recommend':
-  //       // 추천순 정렬
-  //       sortedProducts.sort((a, b) => b.rank - a.rank);
-  //       break;
-  //     case 'lowest':
-  //       // 최저가순 정렬
-  //       sortedProducts.sort((a, b) => a.price - b.price);
-  //       break;
-  //     case 'highest':
-  //       // 최고가순 정렬
-  //       sortedProducts.sort((a, b) => b.price - a.price);
-  //       break;
-  //     case 'rank':
-  //       // 평점순 정렬
-  //       sortedProducts.sort((a, b) => b.rank - a.rank);
-  //       break;
-  //     default:
-  //       break;
-  //   }
+    switch (sortBy) {
+      case 'recommend':
+        // 추천순 정렬
+        sortedProducts.sort((a, b) => b.rank - a.rank);
+        break;
+      case 'lowest':
+        // 최저가순 정렬
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case 'highest':
+        // 최고가순 정렬
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      case 'rank':
+        // 평점순 정렬
+        sortedProducts.sort((a, b) => b.rank - a.rank);
+        break;
+      default:
+        break;
+    }
 
-  //   setFilteredProducts(sortedProducts);
-  // };
+    setFilteredProducts(sortedProducts);
+  };
 
   return (
     <Div>

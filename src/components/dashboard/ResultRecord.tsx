@@ -4,17 +4,25 @@ import colors from 'src/constants/colors';
 import Button from 'src/components/common/Button';
 import { Bigger } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
-import { droneListData } from 'src/assets/data/droneListData';
 
 interface ResultRecordProp {
+  data: {
+    testList: TestItem[];
+  };
   groupId: number;
-  droneId?: number;
 }
-function ResultRecord({ groupId }: ResultRecordProp) {
+
+interface TestItem {
+  point: number;
+  space: string;
+  testDate: string;
+  testResultId: number;
+}
+
+function ResultRecord({ groupId, data }: ResultRecordProp) {
   const navigate = useNavigate();
 
-  const selectedDrone = droneListData[0];
-  if (!selectedDrone) {
+  if (!data.testList || data.testList.length === 0) {
     return (
       <Container>
         <NoData>
@@ -36,11 +44,11 @@ function ResultRecord({ groupId }: ResultRecordProp) {
         <Column>종합 점수</Column>
       </Columns>
       <Drones onClick={() => navigate(`test`)}>
-        {selectedDrone.diagnosis.map((data, index) => (
+        {data.testList.map((data, index) => (
           <Drone key={index}>
-            <span>{data.date}</span>
-            <span>{data.place}</span>
-            <span>{data.score}</span>
+            <span>{data.testDate}</span>
+            <span>{data.space}</span>
+            <span>{data.point}</span>
             <Button
               text={
                 <>
@@ -48,7 +56,7 @@ function ResultRecord({ groupId }: ResultRecordProp) {
                 </>
               }
               buttonType='accentLight'
-              onClick={() => goToDashboard(selectedDrone.id)}
+              onClick={() => goToDashboard(data.testResultId)}
               style={{ width: '95px', height: '32px', fontSize: '14px' }}
             />
           </Drone>
@@ -72,9 +80,10 @@ const Container = styled.div`
 const Columns = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1.5fr;
   box-sizing: border-box;
   padding: 0px 15px;
+  gap: 12px;
 `;
 
 const Column = styled.span`
@@ -92,8 +101,8 @@ const Column = styled.span`
 
 const Drones = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
   gap: 8px;
 `;
 
@@ -116,7 +125,7 @@ const Drone = styled.div`
   background: ${colors.basic50};
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1.5fr;
   gap: 12px;
   cursor: pointer;
   padding-right: 15px;

@@ -11,6 +11,7 @@ import LineColumnChart from 'src/components/LineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
 
 const CostPartPage = () => {
+  const [totalYear, setTotalYear] = React.useState('2024년');
   const [groupYear, setGroupYear] = React.useState('2024년');
   const [partYear, setPartYear] = React.useState('2024년');
 
