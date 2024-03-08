@@ -1,7 +1,12 @@
 import ReactApexChart from 'react-apexcharts';
 import colors from 'src/constants/colors';
 
-const AreaChart = () => {
+interface DroneStateChart {
+  items: { month: number; avgScore: number }[] | undefined;
+}
+const AreaChart = ({ items }: DroneStateChart) => {
+  const avgScoreList = items?.map((item) => item.avgScore) || [];
+
   const options = {
     chart: {
       height: 250,
@@ -21,7 +26,7 @@ const AreaChart = () => {
     series: [
       {
         name: 'Series 1',
-        data: [45, 52, 38, 45, 19, 23, 2, 10, 40, 20, 12, 34],
+        data: avgScoreList,
       },
     ],
     colors: [colors.accent100],

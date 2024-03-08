@@ -135,7 +135,7 @@ const CostPartPage = () => {
               </Typography>
               <YearSelect
                 value={groupYear}
-                onChange={(e) => setGroupYear(e.target.value)}
+                onChange={(e) => setGroupYear(Number(e.target.value))}
               />
             </Space>
             <GroupCostList groupCosts={groupCosts} />
@@ -151,7 +151,7 @@ const CostPartPage = () => {
               </Typography>
               <YearSelect
                 value={partYear}
-                onChange={(e) => setPartYear(e.target.value)}
+                onChange={(e) => setPartYear(Number(e.target.value))}
               />
             </Space>
             <PartCostList />

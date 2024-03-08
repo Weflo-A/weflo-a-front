@@ -1,16 +1,22 @@
 import { Plus } from 'src/assets';
 import Button from 'src/components/common/Button';
-import MenuTab from 'src/components/common/MenuTab';
+import MenuTab, { Group } from 'src/components/common/MenuTab';
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'src/constants/colors';
 import DroneSearch from 'src/components/onboarding/droneSearch/DroneSearch';
 import { DroneLists } from 'src/components/onboarding/droneSearch/DroneLists';
 import Popup from 'src/components/onboarding/Popup';
+import { getDroneGroupList } from 'src/api/monitoring';
 
 const DroneSearchPage = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [groupList, setGroupList] = React.useState<Group[]>([]);
+
+  React.useEffect(() => {
+    getDroneGroupList().then((res) => setGroupList(res.data.data));
+  }, []);
 
   const handleButtonClick = () => {
     setIsPopupOpen(true);
@@ -22,7 +28,7 @@ const DroneSearchPage = () => {
 
   return (
     <>
-      <MenuTab type='monitoring' />
+      <MenuTab type='monitoring' groups={groupList} />
       <div className='page'>
         <Page>
           <Header>

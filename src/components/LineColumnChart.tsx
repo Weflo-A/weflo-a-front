@@ -59,7 +59,7 @@ const LineColumnChart = () => {
     plotOptions: {
       bar: {
         columnWidth: '60%', // 막대의 너비
-        endingShape: 'rounded', // 막대의 끝 모양을 둥글게
+        borderRadius: 8,
       },
     },
     yaxis: {
