@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDashMain } from 'src/api/dashboard';
 import { BackBlue } from 'src/assets';
-import { groups } from 'src/assets/data/menuData';
 import Button from 'src/components/common/Button';
-import MenuTabGroup from 'src/components/common/MenuTabGroup';
+import MenuTab from 'src/components/common/MenuTab';
 import { DroneDetail } from 'src/components/dashboard/DroneDetail';
 import FailurePieChart from 'src/components/dashboard/FailurePieChart';
 import MixChart from 'src/components/dashboard/MixChart';
@@ -71,7 +70,7 @@ const DashBoard = () => {
 
   return (
     <>
-      {mainData && <MenuTabGroup groups={groups} type='dashboard' />}
+      <MenuTab type='dashboard' />
       <div className='page'>
         <Page>
           <Top>

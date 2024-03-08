@@ -220,7 +220,7 @@ const DroneGroupPage = () => {
   //
   return (
     <>
-      <MenuTab />
+      <MenuTab type='monitoring' />
       <div className='page'>
         <SectionHeader title='드롭 그룹 1'>
           <Button

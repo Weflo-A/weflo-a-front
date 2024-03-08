@@ -1,25 +1,29 @@
+import { SafetyCheckRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
 interface CheckBoxProps {
+  value?: string | number;
   label?: string;
+  checked?: boolean;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({ label }) => {
-  const [checked, setChecked] = useState(false); // 체크 여부를 관리하는 상태
-
-  const toggleChecked = () => {
-    setChecked(!checked);
-  };
-
+const CheckBox: React.FC<CheckBoxProps> = ({
+  value,
+  label,
+  checked,
+  onChange,
+}) => {
   return (
     <CheckboxContainer>
       <CheckboxInput
+        value={value}
         type='checkbox'
         checked={checked}
-        onChange={toggleChecked}
+        onChange={onChange}
       />
       <Typography variant='caption' color={colors.basic500}>
         {label}

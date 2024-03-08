@@ -4,12 +4,22 @@ import colors from 'src/constants/colors';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
-import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { getDroneList } from 'src/api/dashboard';
 
 //
 //
 //
+export interface Group {
+  groupName: string;
+  droneList: { id: number; name: string; sub?: string }[];
+}
+export interface MenuTabProps {
+  groups?: Group[];
+  group?: Group;
+  type: 'dashboard' | 'parts' | 'monitoring';
+}
 
 const TabContainer = styled.div`
   width: 100%;
@@ -38,25 +48,86 @@ const TabItem = styled.div`
 //
 //
 //
+// 임시 드론 그룹 리스트 => prop의 groups로 대체
+export const groupList = [
+  { id: 1, name: '드론 그룹 1' },
+  { id: 2, name: '드론 그룹 2' },
+];
 
-const MenuTab = () => {
-  const location = useLocation();
+// 임시 드론 리스트 => prop의 group으로 대체
+export const droneList = {
+  groupId: 1,
+  drones: [
+    { id: 1, name: 'Drone 1' },
+    { id: 2, name: 'Drone 2' },
+  ],
+};
+
+const MenuTab = ({ groups, group, type }: MenuTabProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isTestDetailPage = location.pathname.includes('/test');
+  const isEstimatePage = location.pathname.includes('/estimate');
+  const [drones, setDrones] = React.useState<Group>();
 
-  const isSearchTab = location.pathname.includes('/drone-search');
-  const [activeTab, setActiveTab] = React.useState(
-    isSearchTab ? '드론조회' : '드론 그룹 1'
-  );
+  const handleTabMenu = (url: string, id?: string) => {
+    navigate(url, { state: id });
+  };
 
-  // 임시 드론 그룹 리스트
-  const groupList = [
-    { id: 1, name: '드론 그룹 1' },
-    { id: 2, name: '드론 그룹 2' },
-  ];
+  React.useEffect(() => {
+    getDroneList(1).then((res) => {
+      console.log(res.data.data);
+      setDrones(res.data.data);
+    });
+  }, []);
 
-  const handleTabMenu = (name: string, url: string) => {
-    navigate(url);
-    setActiveTab(name);
+  /* 부품 탭 */
+  const renderPartsTab = () => {
+    const partsTabs = [
+      {
+        id: 'cost',
+        name: '투입 비용 현황',
+        url: '/drone-group/drone/parts/cost',
+      },
+      {
+        id: 'manage',
+        name: '부품 예측 관리',
+        url: '/drone-group/drone/parts/manage',
+      },
+      {
+        id: 'purchase',
+        name: '부품 구매',
+        url: '/drone-group/drone/parts/purchase',
+      },
+    ];
+    return (
+      <TabWrapper>
+        <Typography
+          variant='body2'
+          fontWeight='bold'
+          sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
+        >
+          부품
+        </Typography>
+        <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
+        <TabList>
+          {partsTabs.map((item) => {
+            return (
+              <TabItem
+                className={
+                  location.pathname.includes(`/${item.id}`) ? 'active' : ''
+                }
+                onClick={() => handleTabMenu(item.url)}
+              >
+                <Typography fontSize='14px' fontWeight={400}>
+                  {item.name}
+                </Typography>
+              </TabItem>
+            );
+          })}
+        </TabList>
+      </TabWrapper>
+    );
   };
 
   /* 드론 조회하기 탭 */
@@ -73,10 +144,10 @@ const MenuTab = () => {
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
           <TabItem
-            className={activeTab === '드론조회' ? 'active' : ''}
-            onClick={() =>
-              handleTabMenu('드론조회', '/monitoring/drone-search')
+            className={
+              location.pathname.includes('/drone-search') ? 'active' : ''
             }
+            onClick={() => handleTabMenu('/monitoring/drone-search')}
           >
             <Typography fontSize='14px' fontWeight={400}>
               드론 조회하기
@@ -87,7 +158,7 @@ const MenuTab = () => {
     );
   };
 
-  /* 드론 그룹 탭 */
+  /* 모니터링 내 드론 그룹 탭 */
   const renderDroneGroupTab = () => {
     return (
       <TabWrapper>
@@ -102,9 +173,52 @@ const MenuTab = () => {
         <TabList>
           {groupList.map((item) => (
             <TabItem
-              className={activeTab === item.name ? 'active' : ''}
+              className={
+                location.pathname.includes(`/drone-group/${item.id}`)
+                  ? 'active'
+                  : ''
+              }
               onClick={() =>
-                handleTabMenu(item.name, `/monitoring/drone-group/${item.id}`)
+                handleTabMenu(`/monitoring/drone-group/${item.id}`)
+              }
+            >
+              <Typography fontSize='14px' fontWeight={400}>
+                {item.name}
+              </Typography>
+            </TabItem>
+          ))}
+        </TabList>
+      </TabWrapper>
+    );
+  };
+
+  /* 대시보드 내 드론 리스트 탭 */
+  const renderDroneListTab = () => {
+    return (
+      <TabWrapper>
+        <Typography
+          variant='body2'
+          fontWeight='bold'
+          sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
+        >
+          {drones?.groupName}
+        </Typography>
+        <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
+        <TabList>
+          {drones?.droneList.map((item) => (
+            <TabItem
+              className={
+                location.pathname.includes(`/drone/${item.id}`) ? 'active' : ''
+              }
+              onClick={() =>
+                handleTabMenu(
+                  isEstimatePage
+                    ? `/drone-group/drone/${item.id}/estimate`
+                    : isTestDetailPage
+                      ? `/drone-group/drone/${item.id}/dashboard/test`
+                      : `/drone-group/drone/${item.id}/dashboard`,
+                  String(item.id)
+                )
               }
             >
               <Typography fontSize='14px' fontWeight={400}>
@@ -122,17 +236,21 @@ const MenuTab = () => {
       style={{ minWidth: '12.5rem', position: 'fixed', marginTop: '3.25rem' }}
     >
       <TabContainer>
-        {renderDroneSearchTab()}
-        {renderDroneGroupTab()}
-        <Button
-          text={
-            <>
-              <Plus /> 그룹 생성하기
-            </>
-          }
-          buttonType='accentLight'
-          onClick={() => alert('클릭')}
-        />
+        {type === 'monitoring' ? renderDroneSearchTab() : null}
+        {type === 'monitoring' ? renderDroneGroupTab() : null}
+        {type === 'dashboard' ? renderDroneListTab() : null}
+        {type === 'parts' ? renderPartsTab() : null}
+        {type === 'monitoring' ? (
+          <Button
+            text={
+              <>
+                <Plus /> 그룹 생성하기
+              </>
+            }
+            buttonType='accentLight'
+            onClick={() => alert('클릭')}
+          />
+        ) : null}
       </TabContainer>
     </ItemContainer>
   );

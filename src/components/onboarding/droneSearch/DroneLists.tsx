@@ -9,7 +9,7 @@ import { DroneGroupBox } from './DroneGroupBox';
 function DroneLists() {
   const navigate = useNavigate();
   const goToDashboard = (id: number) => {
-    navigate(`/drone-group/drone/${id}/dashboard`);
+    navigate(`/drone-group/drone/${id}/dashboard`, { state: id });
   };
 
   return (

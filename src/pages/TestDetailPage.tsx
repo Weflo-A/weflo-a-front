@@ -1,7 +1,5 @@
 import { Stack, Typography } from '@mui/material';
-import { groups } from 'src/assets/data/menuData';
 import ItemContainer from 'src/components/common/ItemContainer';
-import MenuTabGroup from 'src/components/common/MenuTabGroup';
 import DroneTestImage from 'src/components/dashboard/DroneTestImage';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
@@ -17,6 +15,7 @@ import { BackBlue } from 'src/assets';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderSelect from 'src/components/dashboard/OrderSelect';
+import MenuTab from 'src/components/common/MenuTab';
 
 const DroneInfoItemBox = styled.div`
   min-width: 10.375rem;
@@ -63,7 +62,9 @@ const TestDetailPage = () => {
             </>
           }
           buttonType='primaryLight'
-          onClick={() => navigate(`/monitoring/drone-search`)}
+          onClick={() => {
+            navigate(`/monitoring/drone-search`);
+          }}
         />
       </Stack>
     );
@@ -219,7 +220,7 @@ const TestDetailPage = () => {
 
   return (
     <>
-      <MenuTabGroup groups={groups} type='dashboard' />
+      <MenuTab type='dashboard' />
       <div
         className='page'
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}

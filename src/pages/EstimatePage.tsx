@@ -6,20 +6,59 @@ import MenuTab from 'src/components/common/MenuTab';
 import Search from 'src/components/common/Search';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import colors from 'src/constants/colors';
-import { brokenParts } from 'src/assets/data/estimateDummy';
 import styled from 'styled-components';
 import NewPartInfoBox from 'src/components/estimate/NewPartsInfoBox';
 import partsImg from 'src/assets/images/drone-parts.png';
-import RepairCompanyList from 'src/components/estimate/RepairCompanyList';
+import RepairCompanyList, {
+  RepairCompany,
+} from 'src/components/estimate/RepairCompanyList';
 import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
-import Basket from 'src/components/estimate/Basket';
+import Basket, { BasketData } from 'src/components/estimate/Basket';
 import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 import SectionTab from 'src/components/estimate/SectionTab';
-import { getDroneGroupList } from 'src/api/estimate';
+import {
+  getBasketList,
+  getEstimateInfo,
+  getRepairCompany,
+  getTestDateList,
+  getTopSectionInfo,
+} from 'src/api/estimate';
+import Button from 'src/components/common/Button';
+import { BackBlue } from 'src/assets';
+import { useNavigate } from 'react-router-dom';
+import DateSelect from 'src/components/estimate/DateSelect';
 
 //
 //
 //
+
+interface BrokenParts {
+  type: string;
+  part: string;
+  score: number;
+  warning: boolean;
+}
+
+interface TopSection {
+  totalScore: {
+    part1: number;
+    part2: number;
+    part3: number;
+    part4: number;
+  };
+  components: BrokenParts[];
+}
+
+export interface NewParts {
+  image: string;
+  type: string;
+  part: string;
+  name: string;
+  point: number;
+  start: number;
+  description: string;
+  price: number;
+}
 
 const DroneInfoItemBox = styled.div`
   display: flex;
@@ -62,10 +101,33 @@ const primceMarks = [
 //
 
 const EstimatePage = () => {
+  const navigate = useNavigate();
+  /* 날짜 Select */
+  const [dateList, setDateList] = React.useState([]);
+  const [date, setDate] = React.useState('');
+  const [topSection, setTopSection] = React.useState<TopSection>();
+  const [newParts, setNewParts] = React.useState<NewParts[]>([]);
+  /* 교체용 부품 구매 체크 리스트 */
+  const [newPartsCheckedList, setNewPartsCheckedList] = React.useState<
+    string[]
+  >([]);
+  const [newPartsBasket, setNewPartsBasket] = React.useState<BasketData>();
+  /* 수리 업체 리스트 */
+  const [repairCompanies, setRepairCompanies] = React.useState<RepairCompany[]>(
+    []
+  );
   const [partsSearch, setPartsSearch] = React.useState('');
-  const [scoreRange, setScoreRange] = React.useState<number[]>([20, 37]);
-  const [priceRange, setPriceRange] = React.useState<number[]>([20, 37]);
-
+  const [scoreRange, setScoreRange] = React.useState<number[]>([0, 100]);
+  const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
+  const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
+    newParts.filter(
+      (item) =>
+        priceRange[0] < item.price &&
+        item.price < priceRange[1] &&
+        scoreRange[0] < item.point &&
+        item.point < scoreRange[1]
+    )
+  );
   const handleScoreChange = (event: Event, newValue: number | number[]) => {
     setScoreRange(newValue as number[]);
   };
@@ -73,10 +135,101 @@ const EstimatePage = () => {
     setPriceRange(newValue as number[]);
   };
 
-  // 테스트
-  getDroneGroupList(2)
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  const handleCheckedNewParts = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target) {
+      e.target.checked
+        ? setNewPartsCheckedList([...newPartsCheckedList, e.target.value])
+        : setNewPartsCheckedList(
+            newPartsCheckedList.filter((choice) => choice !== e.target.value)
+          );
+    }
+  };
+
+  /* 폐기 전 재사용 가능 부품 */
+  const recycleParts = newParts.filter((item) => item.point > 70);
+  const [recycleCheckedList, setRecycleCheckedList] = React.useState<string[]>(
+    []
+  );
+  const [recyclePartsBasket, setRecyclePartsBasket] =
+    React.useState<BasketData>();
+  const handleCheckedRecycledParts = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target) {
+      e.target.checked
+        ? setRecycleCheckedList([...recycleCheckedList, e.target.value])
+        : setRecycleCheckedList(
+            recycleCheckedList.filter((choice) => choice !== e.target.value)
+          );
+    }
+  };
+
+  console.log(filteredNewParts);
+
+  /* 진단 날짜 리스트 */
+  /* 수리 업체 정보 */
+  React.useEffect(() => {
+    getTestDateList(1)
+      .then((res) => {
+        setDateList(res.data.data);
+        if (res.data.data.length > 0) {
+          const { year, month, day } = res.data.data[0];
+          setDate(`${year}-${month}-${day}`);
+        }
+      })
+      .catch((err) => console.log(err));
+    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
+      setRepairCompanies(res.data.data)
+    );
+  }, []);
+
+  /* 부품 필터링 */
+  React.useEffect(() => {
+    const filteredParts = newParts.filter(
+      (item) =>
+        priceRange[0] < item.price &&
+        item.price < priceRange[1] &&
+        scoreRange[0] < item.point &&
+        item.point < scoreRange[1]
+    );
+    setFilteredNewParts(filteredParts);
+  }, [scoreRange, priceRange]);
+
+  /* 견적서 부품 조회*/
+  React.useEffect(() => {
+    if (date) {
+      getEstimateInfo(1, date).then((res) => {
+        setNewParts(res.data.data);
+        const filteredParts = res.data.data.filter(
+          (item: NewParts) =>
+            priceRange[0] < item.price &&
+            item.price < priceRange[1] &&
+            scoreRange[0] < item.point &&
+            item.point < scoreRange[1]
+        );
+        setFilteredNewParts(filteredParts);
+      });
+      getTopSectionInfo(1, date).then((res) => setTopSection(res.data.data));
+    }
+  }, [date]);
+
+  /* 새 부품 장바구니 리스트 */
+  React.useEffect(() => {
+    if (newPartsCheckedList) {
+      getBasketList(newPartsCheckedList).then((res) =>
+        setNewPartsBasket(res.data.data)
+      );
+    }
+  }, [newPartsCheckedList]);
+
+  /* 재사용 부품 장바구니 리스트 */
+  React.useEffect(() => {
+    if (recycleCheckedList) {
+      getBasketList(recycleCheckedList).then((res) =>
+        setRecyclePartsBasket(res.data.data)
+      );
+    }
+  }, [recycleCheckedList]);
 
   /* 페이지 헤더 */
   const renderPageHeader = () => {
@@ -86,6 +239,7 @@ const EstimatePage = () => {
         gap='1.25rem'
         alignItems='center'
         marginBottom='1rem'
+        justifyContent='space-between'
       >
         <Stack direction='row' gap='0.5rem'>
           <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
@@ -94,7 +248,22 @@ const EstimatePage = () => {
           <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
             견적서
           </Typography>
+          <DateSelect
+            value={date}
+            options={dateList}
+            onChange={(e) => setDate(e.target.value)}
+          />
         </Stack>
+        <Button
+          text={
+            <>
+              <BackBlue /> 모니터링으로 돌아가기
+            </>
+          }
+          buttonType='primaryLight'
+          onClick={() => navigate(`/monitoring/drone-search`)}
+          style={{ width: '180px', height: '32px' }}
+        />
       </Stack>
     );
   };
@@ -124,10 +293,10 @@ const EstimatePage = () => {
           </Typography>
         </Stack>
         <Stack direction='column' gap='0.25rem'>
-          {brokenParts.map((item) => (
+          {topSection?.components?.map((item) => (
             <BrokenPartInfoBox
-              part={item.parts}
-              location={item.loc}
+              part={item.type}
+              location={item.part}
               score={item.score}
               warning={item.warning}
             />
@@ -150,7 +319,7 @@ const EstimatePage = () => {
           총 점수
         </Typography>
         <Stack direction='row' gap='1rem' alignItems='center'>
-          <TotalScoreChart />
+          <TotalScoreChart data={topSection?.totalScore} />
           <Stack direction='column' gap='0.5rem'>
             <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
               <Typography variant='caption' color={colors.basic500}>
@@ -285,7 +454,7 @@ const EstimatePage = () => {
 
   return (
     <>
-      <MenuTab />
+      <MenuTab type='dashboard' />
       <div className='page'>
         {renderPageHeader()}
 
@@ -341,27 +510,26 @@ const EstimatePage = () => {
               {renderRangeBox()}
               <NewPartsBox>
                 <Stack width='100%' direction='column' gap='0.5rem'>
-                  {Array(5)
-                    .fill(0)
-                    .map((_, index) => (
-                      <NewPartInfoBox
-                        id={index}
-                        name='X2814 900KV 3-5S Brushless Motor'
-                        imgUrl={partsImg}
-                        loc='구동부 01'
-                        parts='모터'
-                        score={2}
-                        price={135000}
-                        detail='하이파워 사양의 소형 멀티콥터를 위한 아웃러너 모터(920KV)
-DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 쿼드, 헥사콥터에 적합한 모터
-프롭은 3S/4S 공히 동사의 9x4.5in Self-Lock Propeller (DJI/Universal Type)사용'
-                        checked={false}
-                      />
-                    ))}
+                  {filteredNewParts?.map((item, index) => (
+                    <NewPartInfoBox
+                      id={index}
+                      name={item.name}
+                      imgUrl={partsImg}
+                      loc={item.part}
+                      parts={item.type}
+                      score={item.point}
+                      price={item.price}
+                      detail={item.description}
+                      checked={
+                        newPartsCheckedList.includes(item.name) ? true : false
+                      }
+                      onChange={handleCheckedNewParts}
+                    />
+                  ))}
                 </Stack>
               </NewPartsBox>
             </Stack>
-            <Basket />
+            <Basket items={newPartsBasket} />
           </ItemContainer>
 
           {/* 수리 업체 정보 */}
@@ -392,8 +560,10 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
                   <span style={{ color: colors.accent100 }}>모터</span>와
                   <span style={{ color: colors.accent100 }}>블레이드</span>를
                   수리할 수 있는 업체는 총{' '}
-                  <span style={{ color: colors.accent100 }}>9</span>곳이
-                  있습니다.
+                  <span style={{ color: colors.accent100 }}>
+                    {repairCompanies.length}
+                  </span>
+                  곳이 있습니다.
                 </Typography>
               </CalloutBox>
               <Stack direction='row' gap='1.25rem'>
@@ -402,7 +572,7 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
                 ))}
               </Stack>
             </Stack>
-            <RepairCompanyList />
+            <RepairCompanyList items={repairCompanies} />
           </ItemContainer>
 
           {/* 폐기 전 재사용 가능 부품 */}
@@ -430,7 +600,9 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
                   재사용 가능 부품이 총
-                  <span style={{ color: colors.accent100 }}>12개</span>
+                  <span style={{ color: colors.accent100 }}>
+                    {recycleParts.length}개
+                  </span>
                   있습니다.
                 </Typography>
               </CalloutBox>
@@ -442,8 +614,12 @@ DJI 및 호환 계열 F330/F450/F550/S500/TBS500 등과 같은 소형 클래스 
                 )}
               </Stack>
             </Stack>
-            <RecyclePartsBox />
-            <Basket />
+            <RecyclePartsBox
+              items={recycleParts}
+              checkedList={recycleCheckedList}
+              onChange={handleCheckedRecycledParts}
+            />
+            <Basket items={recyclePartsBasket} />
           </ItemContainer>
         </Stack>
       </div>
@@ -464,6 +640,7 @@ const RangeInput = styled.input`
 `;
 
 const NewPartsBox = styled.div`
+  width: 100%;
   height: 100%;
   padding: 1rem;
   border-radius: 0.75rem;

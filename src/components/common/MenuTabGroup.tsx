@@ -47,7 +47,6 @@ const TabItem = styled.div<{ selected: boolean }>`
 const MenuTabGroup: React.FC<MenuTabGroupProps> = (props) => {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const handleTabClick = (id: number) => {
     navigate(`/drone-group/drone/${id}/dashboard`);
   };

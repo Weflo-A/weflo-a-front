@@ -18,39 +18,45 @@ const Router = () => {
           path='/'
           element={<Navigate replace to='/monitoring/drone-search' />}
         />
-        {/* 모니터링, 중고거래 */}
+        {/* 드론 검색(조회) */}
         <Route path='/monitoring/drone-search' element={<DroneSearchPage />} />
+        {/* 드론 목록 */}
         <Route
           path='/monitoring/drone-group/:groupId'
           element={<DroneGroupPage />}
         />
+        {/* 중고 거래 */}
         <Route path='/monitoring/trade' element={<DroneSearchPage />} />
         <Route path='/trade' element={<DroneSearchPage />} />
-        {/* 드론 [대시보드, 견적서, 부품], 중고거래 */}
+        {/* 대시보드 메인 */}
         <Route
           path='/drone-group/drone/:id/dashboard'
           element={<DashBoard />}
         />
+        {/* 대시보드 진단 상세 */}
         <Route
-          path='/drone-group/:groupId/drone/:id/dashboard/test'
+          path='/drone-group/drone/:id/dashboard/test'
           element={<TestDetailPage />}
         />
+        {/* 견적서 */}
         <Route
-          path='/drone-group/:groupId/drone/:id/dashboard/test'
-          element={<DroneSearchPage />}
-        />
-        <Route
-          path='/drone-group/:groupId/drone/:id/estimate'
+          path='/drone-group/drone/:id/estimate'
           element={<EstimatePage />}
         />
-        <Route path='/drone-group/drone/1/parts' element={<CostPartPage />} />
+        {/* 부품 구매 */}
         <Route
-          path='/drone-group/drone/2/parts'
+          path='/drone-group/drone/parts/purchase'
+          element={<PurchasePartPage />}
+        />
+        {/* 부품 예측 관리 */}
+        <Route
+          path='/drone-group/drone/parts/manage'
           element={<EstimatePartPage />}
         />
+        {/* 투입 비용 현황 */}
         <Route
-          path='/drone-group/drone/3/parts'
-          element={<PurchasePartPage />}
+          path='/drone-group/drone/parts/cost'
+          element={<CostPartPage />}
         />
       </Routes>
     </BrowserRouter>
