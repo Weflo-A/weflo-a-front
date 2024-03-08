@@ -5,7 +5,7 @@ import { GroupPartCard } from './GroupPartCard';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import Button from 'src/components/common/Button';
 import { useNavigate } from 'react-router-dom';
-import { BladeAccent, ESC, ESCAccent, MotorAccent } from 'src/assets';
+import { BladeAccent, ESCAccent, MotorAccent } from 'src/assets';
 
 interface Props {
   period: string;
@@ -14,7 +14,7 @@ interface Props {
 const WeekPartCard: React.FC<Props> = ({ period }) => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
-    navigate('/drone-group/drone/3/parts');
+    navigate('/drone-group/drone/parts/purchase');
   };
 
   return (

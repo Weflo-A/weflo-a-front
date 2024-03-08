@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { SquareCard } from './SquareCard';
-import CheckBox from 'src/components/common/CheckBox';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import Pagination, {
   PaginationHandles,
 } from 'src/components/common/Pagination';
+import RadioBtn from 'src/components/common/RadioBtn';
 
 type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
-type SortBy = 'recommend' | 'lowest' | 'highest' | 'rank';
+type SortBy = 'recommend' | 'cheap' | 'expensive' | 'star';
 
 interface ProductData {
   description: string;
@@ -31,6 +31,8 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
   const itemsPerPage = 3;
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginationRef = React.useRef<PaginationHandles>(null);
+
+  const [selected, setSelected] = useState<string | undefined>('');
 
   // 처음 렌더링될 때 filteredProducts를 초기화
   useEffect(() => {
@@ -86,15 +88,15 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
         // 추천순 정렬
         sortedProducts.sort((a, b) => b.star - a.star);
         break;
-      case 'lowest':
+      case 'cheap':
         // 최저가순 정렬
         sortedProducts.sort((a, b) => a.price - b.price);
         break;
-      case 'highest':
+      case 'expensive':
         // 최고가순 정렬
         sortedProducts.sort((a, b) => b.price - a.price);
         break;
-      case 'rank':
+      case 'star':
         // 평점순 정렬
         sortedProducts.sort((a, b) => b.star - a.star);
         break;
@@ -144,10 +146,42 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
 
         {/* 정렬 체크박스 */}
         <FilterBtn>
-          <CheckBox label='추천순' />
-          <CheckBox label='최저가순' />
-          <CheckBox label='최고가순' />
-          <CheckBox label='평점순' />
+          <RadioBtn
+            value='recommend'
+            label='추천순'
+            checked={selected === 'recommend'}
+            onChange={() => {
+              setSelected('recommend');
+              handleSort('recommend');
+            }}
+          />
+          <RadioBtn
+            value='cheap'
+            label='최저가순'
+            checked={selected === 'cheap'}
+            onChange={() => {
+              setSelected('cheap');
+              handleSort('cheap');
+            }}
+          />
+          <RadioBtn
+            value='expensive'
+            label='최고가순'
+            checked={selected === 'expensive'}
+            onChange={() => {
+              setSelected('expensive');
+              handleSort('expensive');
+            }}
+          />
+          <RadioBtn
+            value='star'
+            label='평점순'
+            checked={selected === 'star'}
+            onChange={() => {
+              setSelected('star');
+              handleSort('star');
+            }}
+          />
         </FilterBtn>
       </Filter>
 

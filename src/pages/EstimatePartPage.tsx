@@ -2,12 +2,14 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import { InfoCircle, RectangleBlue } from 'src/assets';
-import CheckBox from 'src/components/common/CheckBox';
 import { WeekPartCard } from 'src/components/part/estimatepart/WeekPartCard';
 import { periodData } from 'src/assets/data/periodData';
 import MenuTab from 'src/components/common/MenuTab';
+import RadioBtn from 'src/components/common/RadioBtn';
+import { useState } from 'react';
 
 const EstimatePartPage = () => {
+  const [selected, setSelected] = useState<string | undefined>('group');
   return (
     <>
       <MenuTab type='parts' />
@@ -25,8 +27,18 @@ const EstimatePartPage = () => {
           </Caution>
           <Filter>
             <FilterBtn>
-              <CheckBox label='그룹별' />
-              <CheckBox label='모델별' />
+              <RadioBtn
+                value='group'
+                label='그룹별'
+                checked={selected === 'group'}
+                onChange={() => setSelected('group')}
+              />
+              <RadioBtn
+                value='model'
+                label='모델별'
+                checked={selected === 'model'}
+                onChange={() => setSelected('model')}
+              />
             </FilterBtn>
           </Filter>
           <Content>
