@@ -21,6 +21,7 @@ import {
   getEstimateInfo,
   getRepairCompany,
   getTestDateList,
+  getTopSectionInfo,
 } from 'src/api/estimate';
 import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
@@ -30,6 +31,22 @@ import DateSelect from 'src/components/estimate/DateSelect';
 //
 //
 //
+interface BrokenParts {
+  type: string;
+  part: string;
+  score: number;
+  warning: boolean;
+}
+
+interface TopSection {
+  totalScore: {
+    part1: number;
+    part2: number;
+    part3: number;
+    part4: number;
+  };
+  components: BrokenParts[];
+}
 
 interface NewParts {
   image: string;
@@ -87,6 +104,7 @@ const EstimatePage = () => {
   /* 날짜 Select */
   const [dateList, setDateList] = React.useState([]);
   const [date, setDate] = React.useState('');
+  const [topSection, setTopSection] = React.useState<TopSection>();
   const [newParts, setNewParts] = React.useState<NewParts[]>([]);
   const [filteredNewParts, setFilteredNewParts] = React.useState<NewParts[]>(
     []
@@ -153,6 +171,7 @@ const EstimatePage = () => {
     /* 견적서 정보 */
     if (date) {
       getEstimateInfo(1, date).then((res) => setNewParts(res.data.data));
+      getTopSectionInfo(1, date).then((res) => setTopSection(res.data.data));
     }
   }, [date]);
 
@@ -218,10 +237,10 @@ const EstimatePage = () => {
           </Typography>
         </Stack>
         <Stack direction='column' gap='0.25rem'>
-          {brokenParts.map((item) => (
+          {topSection?.components?.map((item) => (
             <BrokenPartInfoBox
-              part={item.parts}
-              location={item.loc}
+              part={item.type}
+              location={item.part}
               score={item.score}
               warning={item.warning}
             />
@@ -244,7 +263,7 @@ const EstimatePage = () => {
           총 점수
         </Typography>
         <Stack direction='row' gap='1rem' alignItems='center'>
-          <TotalScoreChart />
+          <TotalScoreChart data={topSection?.totalScore} />
           <Stack direction='column' gap='0.5rem'>
             <DroneInfoItemBox style={{ width: '10.3125rem', height: '4rem' }}>
               <Typography variant='caption' color={colors.basic500}>
