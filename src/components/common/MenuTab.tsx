@@ -5,17 +5,15 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
-import React from 'react';
-import { getDroneList } from 'src/api/dashboard';
 
 //
 //
 //
-export interface Group {
-  groupName: string;
-  droneList: { id: number; name: string }[];
+interface Group {
+  name: string;
+  drones: { id: number; name: string }[];
 }
-export interface MenuTabProps {
+interface MenuTabProps {
   groups?: Group[];
   group?: Group;
   type: 'dashboard' | 'parts' | 'monitoring';
@@ -68,18 +66,10 @@ const MenuTab = ({ groups, group, type }: MenuTabProps) => {
   const location = useLocation();
   const isTestDetailPage = location.pathname.includes('/test');
   const isEstimatePage = location.pathname.includes('/estimate');
-  const [drones, setDrones] = React.useState<Group>();
 
   const handleTabMenu = (url: string, id?: string) => {
     navigate(url, { state: id });
   };
-
-  React.useEffect(() => {
-    getDroneList(1).then((res) => {
-      console.log(res.data.data);
-      setDrones(res.data.data);
-    });
-  }, []);
 
   /* 부품 탭 */
   const renderPartsTab = () => {
@@ -201,11 +191,11 @@ const MenuTab = ({ groups, group, type }: MenuTabProps) => {
           fontWeight='bold'
           sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
         >
-          {drones?.groupName}
+          드론 그룹 {droneList.groupId}
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          {drones?.droneList.map((item) => (
+          {droneList.drones.map((item) => (
             <TabItem
               className={
                 location.pathname.includes(`/drone/${item.id}`) ? 'active' : ''

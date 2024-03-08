@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import Button from 'src/components/common/Button';
 import { Bigger } from 'src/assets';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { droneListData } from 'src/assets/data/droneListData';
 
 interface ResultRecordProp {
@@ -11,7 +11,6 @@ interface ResultRecordProp {
   droneId?: number;
 }
 function ResultRecord({ groupId }: ResultRecordProp) {
-  const location = useLocation();
   const navigate = useNavigate();
 
   const selectedDrone = droneListData[0];
@@ -26,9 +25,7 @@ function ResultRecord({ groupId }: ResultRecordProp) {
   }
 
   const goToDashboard = (id: number) => {
-    navigate(`/drone-group/drone/${id}/estimate`, {
-      state: location.state,
-    });
+    navigate(`/drone-group/${groupId}/drone/${id}/estimate`);
   };
 
   return (
@@ -51,10 +48,7 @@ function ResultRecord({ groupId }: ResultRecordProp) {
                 </>
               }
               buttonType='accentLight'
-              onClick={(e) => {
-                e.stopPropagation();
-                goToDashboard(selectedDrone.id);
-              }}
+              onClick={() => goToDashboard(selectedDrone.id)}
               style={{ width: '95px', height: '32px', fontSize: '14px' }}
             />
           </Drone>

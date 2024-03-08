@@ -62,9 +62,7 @@ const TestDetailPage = () => {
             </>
           }
           buttonType='primaryLight'
-          onClick={() => {
-            navigate(`/monitoring/drone-search`);
-          }}
+          onClick={() => navigate(`/monitoring/drone-search`)}
         />
       </Stack>
     );

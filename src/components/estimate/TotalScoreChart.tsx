@@ -1,25 +1,12 @@
 import ReactApexChart from 'react-apexcharts';
 import colors from 'src/constants/colors';
 
-interface TotalScore {
-  part1: number;
-  part2: number;
-  part3: number;
-  part4: number;
-}
-
-interface TotalScoreChartProp {
-  data: TotalScore | undefined;
-}
-
-const TotalScoreChart = ({ data }: TotalScoreChartProp) => {
+const TotalScoreChart = () => {
   const options = {
     series: [
       {
         name: 'Score',
-        data: data
-          ? [data.part1, data.part2, data.part3, data.part4]
-          : [0, 0, 0, 0],
+        data: [34, 25, 68, 12],
       },
     ],
     chart: {
@@ -75,9 +62,9 @@ const TotalScoreChart = ({ data }: TotalScoreChartProp) => {
       labels: {
         formatter: function (val: number) {
           if (val === 25) {
-            return '위험';
-          } else if (val === 75) {
             return '안전';
+          } else if (val === 75) {
+            return '위험';
           } else {
             return '';
           }
