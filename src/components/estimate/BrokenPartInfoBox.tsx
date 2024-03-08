@@ -1,6 +1,7 @@
 import { Stack, Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
+import warningIcon from 'src/assets/icon/warning.png';
 
 interface BrokenPartsInfoType {
   part: string;
@@ -9,6 +10,7 @@ interface BrokenPartsInfoType {
   warning: boolean;
 }
 const PartBox = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 0.5938rem 1rem;
@@ -42,6 +44,13 @@ const BrokenPartInfoBox = ({
           / 100점
         </Typography>
       </Stack>
+      {warning ? (
+        <img
+          src={warningIcon}
+          alt='경고'
+          style={{ position: 'absolute', top: 10, right: 30 }}
+        />
+      ) : null}
     </PartBox>
   );
 };
