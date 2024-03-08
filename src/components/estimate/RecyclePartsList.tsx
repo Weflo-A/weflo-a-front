@@ -2,7 +2,6 @@ import { Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import RecyclePartBox from './RecyclePartBox';
-import { recycleParts } from 'src/assets/data/estimateDummy';
 import CheckBox from '../common/CheckBox';
 import { NewParts } from 'src/pages/EstimatePage';
 
@@ -11,6 +10,8 @@ import { NewParts } from 'src/pages/EstimatePage';
 //
 interface RecyclePartsListProp {
   items: NewParts[];
+  checkedList: string[];
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const PartsBox = styled.div`
@@ -44,7 +45,11 @@ const PartsBody = styled.div`
   overflow-y: scroll;
 `;
 
-const RecyclePartsList = ({ items }: RecyclePartsListProp) => {
+const RecyclePartsList = ({
+  items,
+  checkedList,
+  onChange,
+}: RecyclePartsListProp) => {
   return (
     <PartsBox>
       <PartsHeader>
@@ -74,6 +79,8 @@ const RecyclePartsList = ({ items }: RecyclePartsListProp) => {
             price={item.price}
             key={index}
             type={item.type}
+            checked={checkedList.includes(item.name) ? true : false}
+            onChange={onChange}
           />
         ))}
       </PartsBody>

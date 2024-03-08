@@ -5,15 +5,14 @@ import partsImg from 'src/assets/images/drone-parts.png';
 import Button from '../common/Button';
 import colors from 'src/constants/colors';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { NewParts } from 'src/pages/EstimatePage';
 
-export interface BasketItem {
-  name: string;
-  imgUrl?: string;
-  price?: number;
+export interface BasketData {
+  totalScore: number;
+  checkedComponentList: NewParts[];
 }
-
 interface BasketProps {
-  items?: string[];
+  items?: BasketData;
 }
 
 const BasketContainer = styled.div`
@@ -32,19 +31,18 @@ const Basket = ({ items }: BasketProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   // 임시 장바구니 합계
-  const totalPrice = 0;
 
   return (
     <BasketContainer>
       <Typography fontSize='14px'>장바구니</Typography>
       <Stack direction='row' alignItems='center' justifyContent='space-between'>
         <ItemList>
-          {items?.map((item, index) => (
+          {items?.checkedComponentList?.map((item, index) => (
             <BasketItem
               key={index}
               imgUrl={partsImg}
-              name={item}
-              price={135000}
+              name={item.name}
+              price={item.price}
             />
           ))}
         </ItemList>
@@ -59,7 +57,7 @@ const Basket = ({ items }: BasketProps) => {
               총 가격
             </Typography>
             <Typography variant='h3' color={colors.accent100} fontWeight='bold'>
-              {totalPrice}원
+              {items?.totalScore}원
             </Typography>
           </Stack>
           <Button

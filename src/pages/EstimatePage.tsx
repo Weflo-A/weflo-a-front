@@ -6,7 +6,6 @@ import MenuTab from 'src/components/common/MenuTab';
 import Search from 'src/components/common/Search';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import colors from 'src/constants/colors';
-import { brokenParts } from 'src/assets/data/estimateDummy';
 import styled from 'styled-components';
 import NewPartInfoBox from 'src/components/estimate/NewPartsInfoBox';
 import partsImg from 'src/assets/images/drone-parts.png';
@@ -14,10 +13,11 @@ import RepairCompanyList, {
   RepairCompany,
 } from 'src/components/estimate/RepairCompanyList';
 import RecyclePartsBox from 'src/components/estimate/RecyclePartsList';
-import Basket from 'src/components/estimate/Basket';
+import Basket, { BasketData } from 'src/components/estimate/Basket';
 import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 import SectionTab from 'src/components/estimate/SectionTab';
 import {
+  getBasketList,
   getEstimateInfo,
   getRepairCompany,
   getTestDateList,
@@ -31,6 +31,7 @@ import DateSelect from 'src/components/estimate/DateSelect';
 //
 //
 //
+
 interface BrokenParts {
   type: string;
   part: string;
@@ -113,6 +114,7 @@ const EstimatePage = () => {
   const [newPartsCheckedList, setNewPartsCheckedList] = React.useState<
     string[]
   >([]);
+  const [newPartsBasket, setNewPartsBasket] = React.useState<BasketData>();
   /* 수리 업체 리스트 */
   const [repairCompanies, setRepairCompanies] = React.useState<RepairCompany[]>(
     []
@@ -140,6 +142,22 @@ const EstimatePage = () => {
 
   /* 폐기 전 재사용 가능 부품 */
   const recycleParts = newParts.filter((item) => item.point > 70);
+  const [recycleCheckedList, setRecycleCheckedList] = React.useState<string[]>(
+    []
+  );
+  const [recyclePartsBasket, setRecyclePartsBasket] =
+    React.useState<BasketData>();
+  const handleCheckedRecycledParts = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (e.target) {
+      e.target.checked
+        ? setRecycleCheckedList([...recycleCheckedList, e.target.value])
+        : setRecycleCheckedList(
+            recycleCheckedList.filter((choice) => choice !== e.target.value)
+          );
+    }
+  };
 
   React.useEffect(() => {
     const filteredParts = newParts.filter(
@@ -177,6 +195,24 @@ const EstimatePage = () => {
       getTopSectionInfo(1, date).then((res) => setTopSection(res.data.data));
     }
   }, [date]);
+
+  React.useEffect(() => {
+    /* 새 부품 장바구니 리스트 */
+    if (newPartsCheckedList) {
+      getBasketList(newPartsCheckedList).then((res) =>
+        setNewPartsBasket(res.data.data)
+      );
+    }
+  }, [newPartsCheckedList]);
+
+  React.useEffect(() => {
+    /* 재사용 부품 장바구니 리스트 */
+    if (recycleCheckedList) {
+      getBasketList(recycleCheckedList).then((res) =>
+        setRecyclePartsBasket(res.data.data)
+      );
+    }
+  }, [recycleCheckedList]);
 
   /* 페이지 헤더 */
   const renderPageHeader = () => {
@@ -476,7 +512,7 @@ const EstimatePage = () => {
                 </Stack>
               </NewPartsBox>
             </Stack>
-            <Basket items={newPartsCheckedList} />
+            <Basket items={newPartsBasket} />
           </ItemContainer>
 
           {/* 수리 업체 정보 */}
@@ -561,8 +597,12 @@ const EstimatePage = () => {
                 )}
               </Stack>
             </Stack>
-            <RecyclePartsBox items={recycleParts} />
-            <Basket />
+            <RecyclePartsBox
+              items={recycleParts}
+              checkedList={recycleCheckedList}
+              onChange={handleCheckedRecycledParts}
+            />
+            <Basket items={recyclePartsBasket} />
           </ItemContainer>
         </Stack>
       </div>
