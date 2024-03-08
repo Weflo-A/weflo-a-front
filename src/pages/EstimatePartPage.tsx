@@ -6,10 +6,24 @@ import { WeekPartCard } from 'src/components/part/estimatepart/WeekPartCard';
 import { periodData } from 'src/assets/data/periodData';
 import MenuTab from 'src/components/common/MenuTab';
 import RadioBtn from 'src/components/common/RadioBtn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getSortParts } from 'src/api/parts';
 
 const EstimatePartPage = () => {
-  const [selected, setSelected] = useState<string | undefined>('group');
+  const [selected, setSelected] = useState<string>('group');
+  const [partsData, setPartsData] = useState([]);
+
+  useEffect(() => {
+    getSortParts({ point: 30, mode: selected.toUpperCase() })
+      .then((res) => {
+        console.log('모델&그룹별 부품 조회', res.data); // 확인용
+        setPartsData(res.data.data);
+      })
+      .catch((err) => console.log(err));
+  }, [selected]);
+
+  console.log('파파', partsData);
+
   return (
     <>
       <MenuTab type='parts' />
@@ -56,7 +70,7 @@ const EstimatePartPage = () => {
             </Line>
             <WeekCard>
               {periodData.map((data) => (
-                <WeekPartCard period={data.period} />
+                <WeekPartCard period={data.period} partsData={partsData} />
               ))}
             </WeekCard>
           </Content>

@@ -1,6 +1,4 @@
-import { SafetyCheckRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
-import React, { ReactNode, useState } from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 

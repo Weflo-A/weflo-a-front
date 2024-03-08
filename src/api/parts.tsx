@@ -25,6 +25,18 @@ export const getCosts = async ({
   return await client.get(`/api/month-costs?year=${year}&month=${month}`);
 };
 
+// 연도 기준 투입 비용
 export const getYearCosts = async ({ year }: { year: number }) => {
   return await client.get(`/api/month-costs?year=${year}`);
+};
+
+// 모델, 그룹별 드론 부품 조회
+export const getSortParts = async ({
+  point,
+  mode,
+}: {
+  point: number;
+  mode: string;
+}) => {
+  return await client.get(`/api/drone-components?point=${point}&mode=${mode}`);
 };
