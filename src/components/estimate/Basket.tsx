@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { NewParts } from 'src/pages/EstimatePage';
 
 export interface BasketData {
-  totalScore: number;
+  totalCost: number;
   checkedComponentList: NewParts[];
 }
 interface BasketProps {
@@ -31,6 +31,8 @@ const Basket = ({ items }: BasketProps) => {
   const location = useLocation();
   const navigate = useNavigate();
   // 임시 장바구니 합계
+
+  console.log(items?.totalCost);
 
   return (
     <BasketContainer>
@@ -57,7 +59,7 @@ const Basket = ({ items }: BasketProps) => {
               총 가격
             </Typography>
             <Typography variant='h3' color={colors.accent100} fontWeight='bold'>
-              {items?.totalScore}원
+              {items?.totalCost}원
             </Typography>
           </Stack>
           <Button
