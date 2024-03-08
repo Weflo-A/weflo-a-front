@@ -12,11 +12,21 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import Chip from 'src/components/common/Chip';
 import CheckBox from 'src/components/common/CheckBox';
 import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
-import { getDroneGroupList } from 'src/api/monitoring';
+import { getDroneGroupList, getDroneStateInfo } from 'src/api/monitoring';
+import { useParams } from 'react-router-dom';
 
 //
 //
 //
+
+interface DroneState {
+  groupAvgList: { month: number; avgScore: number }[];
+  groupState: {
+    avgScore: number;
+    brokenType: string;
+    mostFixComponent: string;
+  };
+}
 
 const DroneInfoWrapper = styled.div`
   display: flex;
@@ -67,13 +77,11 @@ const LabelSquare = styled.div<{ color: string }>`
 //
 
 const DroneGroupPage = () => {
-  const [groupYear, setGroupYear] = React.useState('2024년');
-  const [droneYear, setDroneYear] = React.useState('2024년');
+  const { groupId } = useParams();
+  const [groupYear, setGroupYear] = React.useState(2024);
+  const [droneYear, setDroneYear] = React.useState(2024);
   const [groupList, setGroupList] = React.useState<Group[]>([]);
-
-  React.useEffect(() => {
-    getDroneGroupList().then((res) => setGroupList(res.data.data));
-  }, []);
+  const [dronesState, setDronesState] = React.useState<DroneState>();
 
   /* Drone group info */
   const renderDroneGroupInfo = () => {
@@ -144,7 +152,7 @@ const DroneGroupPage = () => {
             </ChartLabelBox>
             <YearSelect
               value={groupYear}
-              onChange={(e) => setGroupYear(e.target.value)}
+              onChange={(e) => setGroupYear(Number(e.target.value))}
             />
           </Stack>
           <LineColumnChart />
@@ -167,7 +175,7 @@ const DroneGroupPage = () => {
                 평균 드론 점수
               </Typography>
               <Typography variant='body2' fontWeight='bold'>
-                81점
+                {dronesState?.groupState?.avgScore}점
               </Typography>
             </DroneInfoItemBox>
             <DroneInfoItemBox>
@@ -175,7 +183,7 @@ const DroneGroupPage = () => {
                 최다 고장 유형
               </Typography>
               <Typography variant='body2' fontWeight='bold'>
-                블레이드 고장
+                {dronesState?.groupState?.brokenType} 고장
               </Typography>
             </DroneInfoItemBox>
             <DroneInfoItemBox>
@@ -183,7 +191,7 @@ const DroneGroupPage = () => {
                 가장 많이 수리한 부품
               </Typography>
               <Typography variant='body2' fontWeight='bold'>
-                블레이드 210
+                {dronesState?.groupState?.mostFixComponent}
               </Typography>
             </DroneInfoItemBox>
           </Stack>
@@ -212,18 +220,27 @@ const DroneGroupPage = () => {
             </ChartLabelBox>
             <YearSelect
               value={droneYear}
-              onChange={(e) => setDroneYear(e.target.value)}
+              onChange={(e) => setDroneYear(Number(e.target.value))}
             />
           </Stack>
-          <AreaChart />
+          <AreaChart items={dronesState?.groupAvgList} />
         </Stack>
       </ItemContainer>
     );
   };
 
   React.useEffect(() => {
-    getDroneGroupList().then((res) => console.log(res));
+    getDroneGroupList().then((res) => setGroupList(res.data.data));
+    getDroneStateInfo(Number(groupId), droneYear).then((res) =>
+      setDronesState(res.data.data)
+    );
   }, []);
+
+  React.useEffect(() => {
+    getDroneStateInfo(Number(groupId), droneYear).then((res) =>
+      setDronesState(res.data.data)
+    );
+  }, [droneYear]);
 
   //
   //
