@@ -48,7 +48,7 @@ interface TopSection {
   components: BrokenParts[];
 }
 
-interface NewParts {
+export interface NewParts {
   image: string;
   type: string;
   part: string;
@@ -137,6 +137,9 @@ const EstimatePage = () => {
           );
     }
   };
+
+  /* 폐기 전 재사용 가능 부품 */
+  const recycleParts = newParts.filter((item) => item.point > 70);
 
   React.useEffect(() => {
     const filteredParts = newParts.filter(
@@ -544,7 +547,9 @@ const EstimatePage = () => {
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
                   재사용 가능 부품이 총
-                  <span style={{ color: colors.accent100 }}>12개</span>
+                  <span style={{ color: colors.accent100 }}>
+                    {recycleParts.length}개
+                  </span>
                   있습니다.
                 </Typography>
               </CalloutBox>
@@ -556,7 +561,7 @@ const EstimatePage = () => {
                 )}
               </Stack>
             </Stack>
-            <RecyclePartsBox />
+            <RecyclePartsBox items={recycleParts} />
             <Basket />
           </ItemContainer>
         </Stack>

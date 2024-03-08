@@ -4,6 +4,7 @@ import BasketItem from './BasketItem';
 import partsImg from 'src/assets/images/drone-parts.png';
 import Button from '../common/Button';
 import colors from 'src/constants/colors';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export interface BasketItem {
   name: string;
@@ -28,6 +29,8 @@ const ItemList = styled.div`
 `;
 
 const Basket = ({ items }: BasketProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   // 임시 장바구니 합계
   const totalPrice = 0;
 
@@ -62,7 +65,11 @@ const Basket = ({ items }: BasketProps) => {
           <Button
             buttonType='basic'
             text='부품 구매 바로가기'
-            onClick={() => alert('부품 구매 바로갑니다.')}
+            onClick={() =>
+              navigate(`/drone-group/drone/parts/cost`, {
+                state: location.state,
+              })
+            }
           />
         </Stack>
       </Stack>

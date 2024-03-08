@@ -4,6 +4,14 @@ import styled from 'styled-components';
 import RecyclePartBox from './RecyclePartBox';
 import { recycleParts } from 'src/assets/data/estimateDummy';
 import CheckBox from '../common/CheckBox';
+import { NewParts } from 'src/pages/EstimatePage';
+
+//
+//
+//
+interface RecyclePartsListProp {
+  items: NewParts[];
+}
 
 const PartsBox = styled.div`
   width: 100%;
@@ -36,7 +44,7 @@ const PartsBody = styled.div`
   overflow-y: scroll;
 `;
 
-const RecyclePartsList = () => {
+const RecyclePartsList = ({ items }: RecyclePartsListProp) => {
   return (
     <PartsBox>
       <PartsHeader>
@@ -58,14 +66,14 @@ const RecyclePartsList = () => {
         <CheckBox />
       </PartsHeader>
       <PartsBody>
-        {recycleParts.map((item, index) => (
+        {items.map((item, index) => (
           <RecyclePartBox
-            loc={item.loc}
+            loc={item.part}
             name={item.name}
-            score={item.score}
+            score={item.point}
             price={item.price}
             key={index}
-            type={item.parts}
+            type={item.type}
           />
         ))}
       </PartsBody>
