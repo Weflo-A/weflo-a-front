@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { Typography } from '@mui/material';
-import { parts } from 'src/assets/data/menuData';
+// import { parts } from 'src/assets/data/menuData';
 import colors from 'src/constants/colors';
 import { InfoCircle } from 'src/assets';
-import MenuTabGroup from 'src/components/common/MenuTabGroup';
 import { GroupCostList } from 'src/components/part/costpart/GroupCostList';
 import { PartCostList } from 'src/components/part/costpart/PartCostList';
 import YearSelect from 'src/components/YearSelect';
 import React from 'react';
 import LineColumnChart from 'src/components/LineColumnChart';
+import MenuTab from 'src/components/common/MenuTab';
 
 const CostPartPage = () => {
   const [totalYear, setTotalYear] = React.useState('2024년');
@@ -17,7 +17,7 @@ const CostPartPage = () => {
 
   return (
     <>
-      <MenuTabGroup groups={parts} type='parts' />
+      <MenuTab type='parts' />
       <div className='page'>
         <Page>
           <Typography variant='h3' fontWeight='bold' color={colors.basic700}>
