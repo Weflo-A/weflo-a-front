@@ -4,7 +4,7 @@ import colors from 'src/constants/colors';
 import Button from 'src/components/common/Button';
 import { Bigger } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { droneListData } from 'src/assets/data/droneListData';
+// import { droneListData } from 'src/assets/data/droneListData';
 
 interface TestItem {
   point: number;
@@ -19,7 +19,6 @@ interface ResultRecordProp {
   };
   groupId: number;
 }
-
 
 function ResultRecord({ groupId, data }: ResultRecordProp) {
   const location = useLocation();
@@ -63,7 +62,7 @@ function ResultRecord({ groupId, data }: ResultRecordProp) {
               buttonType='accentLight'
               onClick={(e) => {
                 e.stopPropagation();
-                goToDashboard(selectedDrone.id);
+                goToDashboard(1); // data.id 필요
               }}
               style={{ width: '95px', height: '32px', fontSize: '14px' }}
             />
