@@ -6,14 +6,14 @@ export const getDroneGroupList = async () => {
 };
 
 // 드론 그룹 정보
-export const getDroneGroupInfo = async (groupId: string, year: number) => {
+export const getDroneGroupInfo = async (groupId: number, year: number) => {
   return await client.post(`/api/drone-group/info`, {
     groupId: groupId,
     year: year,
   });
 };
 
-// 드론 그룹 정보
+// 드론 상태 정보
 export const getDroneStateInfo = async (groupId: number, year: number) => {
   return await client.post(`/api/drone-group/avg`, {
     groupId: groupId,
