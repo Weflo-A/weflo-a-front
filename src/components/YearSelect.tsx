@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import arrowImg from 'src/assets/icon/arrow-down.png';
 
 interface YearSelectProp {
-  value: number;
+  value: string | number;
   onChange: (evnet: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -48,17 +48,24 @@ const YearSelect = ({ value, onChange }: YearSelectProp) => {
     return month + '월';
   });
 
-  const isYearMonthValue = value.includes('월');
+  // value 타입이 string인지 여부
+  const isString = typeof value === 'string';
+  // 월까지 포함한 리스트 출력하는지 여부 & string일 때만 includes 사용
+  const isYearMonthValue = isString ? value?.includes('월') : false;
 
-  return (
+  return isYearMonthValue ? (
     <SelectBox value={value} onChange={onChange}>
-      {isYearMonthValue
-        ? monthOptions.map((month, index) => (
-            <option key={index}>
-              {value.split(' ')[0]} {month}
-            </option>
-          ))
-        : yearOptions.map((year) => <option key={year}>{year}</option>)}
+      {monthOptions.map((month, index) => (
+        <option key={index}>
+          {isString ? value?.split(' ')[0] : null} {month}
+        </option>
+      ))}{' '}
+    </SelectBox>
+  ) : (
+    <SelectBox value={value} onChange={onChange}>
+      {yearOptions.map((year) => (
+        <option value={year.value}>{year.option}</option>
+      ))}
     </SelectBox>
   );
 };
