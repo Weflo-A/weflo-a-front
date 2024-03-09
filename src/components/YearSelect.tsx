@@ -38,8 +38,8 @@ const YearSelect = ({ value, onChange }: YearSelectProp) => {
   const currentYear = today.getFullYear();
   // const currentMonth = today.getMonth() + 1;
 
-  const yearOptions = Array.from({ length: currentYear - 1989 }, (_, index) => {
-    const year = 1990 + index;
+  const yearOptions = Array.from({ length: currentYear - 2019 }, (_, index) => {
+    const year = 2020 + index;
     return { value: year, option: year + '년' };
   });
 
