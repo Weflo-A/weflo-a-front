@@ -91,82 +91,59 @@ const NavBar = () => {
         <WefloLogo />
         <RightWrapper>
           <MenuList>
-            {isMonitoringNav ? (
-              <>
-                <MenuItem
-                  className={
-                    location.pathname.includes('/monitoring/drone-group') ||
-                    location.pathname.includes('/monitoring/drone-search')
-                      ? 'active'
-                      : ''
-                  }
-                  onClick={() => handleMenu('/monitoring/drone-search')}
-                >
-                  <Typography fontSize='14px' fontWeight='regular'>
-                    모니터링
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  className={
-                    location.pathname.includes('/monitoring/trade')
-                      ? 'active'
-                      : ''
-                  }
-                  onClick={() => handleMenu(`/monitoring/trade`)}
-                >
-                  <Typography fontSize='14px' fontWeight='regular'>
-                    중고거래
-                  </Typography>
-                </MenuItem>
-              </>
-            ) : (
-              <>
-                <MenuItem
-                  className={
-                    location.pathname.includes('/dashboard') ? 'active' : ''
-                  }
-                  onClick={() =>
-                    handleMenu(`/drone-group/drone/${location.state}/dashboard`)
-                  }
-                >
-                  <Typography fontSize='14px' fontWeight='regular'>
-                    대시보드
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  className={
-                    location.pathname.includes('/estimate') ? 'active' : ''
-                  }
-                  onClick={() =>
-                    handleMenu(`/drone-group/drone/${location.state}/estimate`)
-                  }
-                >
-                  <Typography fontSize='14px' fontWeight='regular'>
-                    견적서
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  className={
-                    location.pathname.includes('/parts') ? 'active' : ''
-                  }
-                  onClick={() => handleMenu(`drone-group/drone/parts/cost`)}
-                >
-                  <Typography fontSize='14px' fontWeight='regular'>
-                    부품
-                  </Typography>
-                </MenuItem>
-                <MenuItem
-                  className={
-                    location.pathname.includes('/trade') ? 'active' : ''
-                  }
-                  onClick={() => handleMenu(`/trade`)}
-                >
-                  <Typography fontSize='14px' fontWeight='regular'>
-                    중고거래
-                  </Typography>
-                </MenuItem>
-              </>
-            )}
+            <MenuItem
+              className={
+                location.pathname.includes('/monitoring/drone-group') ||
+                location.pathname.includes('/monitoring/drone-search')
+                  ? 'active'
+                  : ''
+              }
+              onClick={() => handleMenu('/monitoring/drone-search')}
+            >
+              <Typography fontSize='14px' fontWeight='regular'>
+                모니터링
+              </Typography>
+            </MenuItem>
+            <MenuItem
+              className={
+                location.pathname.includes('/dashboard') ? 'active' : ''
+              }
+              onClick={() =>
+                handleMenu(`/drone-group/drone/${location.state}/dashboard`)
+              }
+            >
+              <Typography fontSize='14px' fontWeight='regular'>
+                대시보드
+              </Typography>
+            </MenuItem>
+            <MenuItem
+              className={
+                location.pathname.includes('/estimate') ? 'active' : ''
+              }
+              onClick={() =>
+                handleMenu(`/drone-group/drone/${location.state}/estimate`)
+              }
+            >
+              <Typography fontSize='14px' fontWeight='regular'>
+                견적서
+              </Typography>
+            </MenuItem>
+            <MenuItem
+              className={location.pathname.includes('/parts') ? 'active' : ''}
+              onClick={() => handleMenu(`drone-group/drone/parts/cost`)}
+            >
+              <Typography fontSize='14px' fontWeight='regular'>
+                부품
+              </Typography>
+            </MenuItem>
+            <MenuItem
+              className={location.pathname.includes('/trade') ? 'active' : ''}
+              onClick={() => handleMenu(`/trade`)}
+            >
+              <Typography fontSize='14px' fontWeight='regular'>
+                중고거래
+              </Typography>
+            </MenuItem>
           </MenuList>
           <EmailBox>
             <Typography variant='caption' fontWeight='regular'>
