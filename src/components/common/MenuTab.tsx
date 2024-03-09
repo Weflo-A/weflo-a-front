@@ -16,7 +16,7 @@ export interface Group {
 }
 export interface GroupDetail {
   groupName: string;
-  droneList: { id: number; name: string }[];
+  droneList: { id: number; name: string; sub?: string }[];
 }
 export interface MenuTabProps {
   groups?: Group[];

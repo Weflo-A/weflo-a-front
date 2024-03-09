@@ -22,7 +22,7 @@ const StyledButton = styled.button`
   padding: 0.375rem 0.75rem;
   border-radius: 0.5rem;
   border: none;
-  background: white;
+  background: none;
   color: ${colors.basic500};
   &:hover {
     color: ${colors.primary100};
@@ -56,9 +56,9 @@ const Pagination = forwardRef<PaginationHandles, PaginationProp>(
       setCurrentPage(currentPage - 1);
     };
 
-    if (totalPages === 1) {
-      return null;
-    }
+    // if (totalPages === 1) {
+    //   return null;
+    // }
 
     useImperativeHandle(ref, () => ({
       goToNextPage,

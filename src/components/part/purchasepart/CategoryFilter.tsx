@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SquareCard } from './SquareCard';
-import CheckBox from 'src/components/common/CheckBox';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import Pagination, {
+  PaginationHandles,
+} from 'src/components/common/Pagination';
+import RadioBtn from 'src/components/common/RadioBtn';
 
-type Category = 'all' | 'blade' | 'motor' | 'esc' | 'other';
-type SortBy = 'recommend' | 'lowest' | 'highest' | 'rank';
+type Category = 'ALL' | 'BLADE' | 'MOTOR' | 'ESC' | 'OTHER';
+type SortBy = 'recommend' | 'cheap' | 'expensive' | 'star';
 
 interface ProductData {
-  id: number;
-  store: string;
+  description: string;
   name: string;
   price: number;
-  rank: number;
+  star: number;
   image: string;
-  category: Category;
+  type: Category;
+  part: string;
 }
 
 const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
@@ -23,15 +26,41 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
 }) => {
   const [filteredProducts, setFilteredProducts] =
     useState<ProductData[]>(productData);
-  const [selectedCategory, setSelectedCategory] = useState<Category>('all');
+  const [selectedCategory, setSelectedCategory] = useState<Category>('ALL');
   const [page, setPage] = useState(1);
   const itemsPerPage = 3;
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+  const paginationRef = React.useRef<PaginationHandles>(null);
+
+  const [selected, setSelected] = useState<string | undefined>('');
+
+  // 처음 렌더링될 때 filteredProducts를 초기화
+  useEffect(() => {
+    setFilteredProducts(productData);
+  }, [productData]);
+
+  // filter 바뀌면 page 1로 초기화
+  useEffect(() => {
+    setPage(1);
+  }, [selectedCategory]);
 
   // 필터된 결과를 페이지별로 나누는 함수
   const paginateData = () => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return filteredProducts.slice(startIndex, endIndex);
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -42,10 +71,10 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
   const handleFilter = (category: Category) => {
     let filtered: ProductData[];
     setSelectedCategory(category);
-    if (category === 'all') {
+    if (category === 'ALL') {
       filtered = productData;
     } else {
-      filtered = productData.filter((product) => product.category === category);
+      filtered = productData.filter((product) => product.type === category);
     }
     setFilteredProducts(filtered);
   };
@@ -57,19 +86,19 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
     switch (sortBy) {
       case 'recommend':
         // 추천순 정렬
-        sortedProducts.sort((a, b) => b.rank - a.rank);
+        sortedProducts.sort((a, b) => b.star - a.star);
         break;
-      case 'lowest':
+      case 'cheap':
         // 최저가순 정렬
         sortedProducts.sort((a, b) => a.price - b.price);
         break;
-      case 'highest':
+      case 'expensive':
         // 최고가순 정렬
         sortedProducts.sort((a, b) => b.price - a.price);
         break;
-      case 'rank':
+      case 'star':
         // 평점순 정렬
-        sortedProducts.sort((a, b) => b.rank - a.rank);
+        sortedProducts.sort((a, b) => b.star - a.star);
         break;
       default:
         break;
@@ -84,32 +113,32 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
         {/* 카테고리 필터링 버튼 */}
         <FilterBtn>
           <Box
-            onClick={() => handleFilter('all')}
-            selected={selectedCategory === 'all'}
+            onClick={() => handleFilter('ALL')}
+            selected={selectedCategory === 'ALL'}
           >
             All
           </Box>
           <Box
-            onClick={() => handleFilter('blade')}
-            selected={selectedCategory === 'blade'}
+            onClick={() => handleFilter('BLADE')}
+            selected={selectedCategory === 'BLADE'}
           >
             Blade
           </Box>
           <Box
-            onClick={() => handleFilter('motor')}
-            selected={selectedCategory === 'motor'}
+            onClick={() => handleFilter('MOTOR')}
+            selected={selectedCategory === 'MOTOR'}
           >
             Motor
           </Box>
           <Box
-            onClick={() => handleFilter('esc')}
-            selected={selectedCategory === 'esc'}
+            onClick={() => handleFilter('ESC')}
+            selected={selectedCategory === 'ESC'}
           >
             ESC
           </Box>
           <Box
-            onClick={() => handleFilter('other')}
-            selected={selectedCategory === 'other'}
+            onClick={() => handleFilter('OTHER')}
+            selected={selectedCategory === 'OTHER'}
           >
             기타 부품
           </Box>
@@ -117,10 +146,42 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
 
         {/* 정렬 체크박스 */}
         <FilterBtn>
-          <CheckBox label='추천순' />
-          <CheckBox label='최저가순' />
-          <CheckBox label='최고가순' />
-          <CheckBox label='평점순' />
+          <RadioBtn
+            value='recommend'
+            label='추천순'
+            checked={selected === 'recommend'}
+            onChange={() => {
+              setSelected('recommend');
+              handleSort('recommend');
+            }}
+          />
+          <RadioBtn
+            value='cheap'
+            label='최저가순'
+            checked={selected === 'cheap'}
+            onChange={() => {
+              setSelected('cheap');
+              handleSort('cheap');
+            }}
+          />
+          <RadioBtn
+            value='expensive'
+            label='최고가순'
+            checked={selected === 'expensive'}
+            onChange={() => {
+              setSelected('expensive');
+              handleSort('expensive');
+            }}
+          />
+          <RadioBtn
+            value='star'
+            label='평점순'
+            checked={selected === 'star'}
+            onChange={() => {
+              setSelected('star');
+              handleSort('star');
+            }}
+          />
         </FilterBtn>
       </Filter>
 
@@ -130,67 +191,42 @@ const CategoryFilter: React.FC<{ productData: ProductData[] }> = ({
           <SquareCard
             key={index}
             data={{
-              id: data.id,
-              store: data.store,
+              id: index,
+              store: 'A 스토어',
               name: data.name,
               price: data.price,
-              rank: data.rank,
+              rank: data.star,
               image: data.image,
             }}
           />
         ))}
       </RowCard>
       {/* 페이지네이션 컴포넌트 */}
-      <PageMove>
-        <Pagination
-          currentPage={page}
-          itemsPerPage={itemsPerPage}
-          totalItems={filteredProducts.length}
-          onPageChange={handlePageChange}
-        />
-      </PageMove>
+      {paginateData().length > 0 && (
+        <PageMove>
+          <ChevronLeft
+            sx={{
+              color: '#64748B',
+              width: '20px',
+              height: '20px',
+              background: 'none',
+            }}
+            onClick={handlePrevPage}
+          />
+          <Pagination
+            ref={paginationRef}
+            postsNum={filteredProducts.length}
+            postsPerPage={itemsPerPage}
+            setCurrentPage={handlePageChange}
+            currentPage={page}
+          />
+          <ChevronRight
+            sx={{ color: '#64748B', width: '20px', height: '20px' }}
+            onClick={handleNextPage}
+          />
+        </PageMove>
+      )}
     </Div>
-  );
-};
-
-// 페이지네이션 컴포넌트
-const Pagination: React.FC<{
-  currentPage: number;
-  itemsPerPage: number;
-  totalItems: number;
-  onPageChange: (pageNumber: number) => void;
-}> = ({ currentPage, itemsPerPage, totalItems, onPageChange }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
-  };
-
-  return (
-    <PageBar>
-      <ChevronLeft
-        sx={{
-          color: '#64748B',
-          width: '20px',
-          height: '20px',
-          background: 'none',
-        }}
-        onClick={handlePrevPage}
-      />
-      <span>{`${currentPage} / ${totalPages}`}</span>
-      <ChevronRight
-        sx={{ color: '#64748B', width: '20px', height: '20px' }}
-        onClick={handleNextPage}
-      />
-    </PageBar>
   );
 };
 
@@ -200,6 +236,7 @@ const Div = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 15px;
 `;
 
@@ -248,15 +285,6 @@ const RowCard = styled(FilterBtn)`
 `;
 
 const PageMove = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 10px;
-`;
-
-const PageBar = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;

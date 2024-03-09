@@ -19,6 +19,8 @@ export { ReactComponent as Blade } from './icon/Blade.svg';
 export { ReactComponent as BladeAccent } from './icon/BladeAccent.svg';
 export { ReactComponent as ESC } from './icon/ESC.svg';
 export { ReactComponent as ESCAccent } from './icon/ESCAccent.svg';
+export { ReactComponent as StarNone } from './icon/StarNone.svg';
+export { ReactComponent as StarFill } from './icon/StarFill.svg';
 //images
 export { ReactComponent as Drone1 } from './images/Drone1.svg';
 export { ReactComponent as Drone2 } from './images/Drone2.svg';

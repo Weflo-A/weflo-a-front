@@ -4,63 +4,46 @@ import { Typography } from '@mui/material';
 import CheckBox from 'src/components/common/CheckBox';
 import { Blade, ESC, Motor } from 'src/assets';
 
-function GroupPartCard() {
+interface GroupPart {
+  name: string;
+  quantity: number;
+}
+
+interface Props {
+  groupName: string;
+  parts: GroupPart[];
+}
+
+const GroupPartCard: React.FC<Props> = ({ groupName, parts }: Props) => {
+  const partsArray = Array.isArray(parts) ? parts : [];
   return (
     <Card>
       <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
-        드론 그룹 1
+        {groupName}
       </Typography>
-      <Line>
-        <Motor />
-        <Typography
-          variant='caption'
-          fontWeight='regular'
-          color={colors.basic500}
-        >
-          모터
-        </Typography>
-        <Row>
-          <Typography variant='caption' color={colors.basic700}>
-            {20}개
+      {partsArray.map((part, index) => (
+        <Line key={index}>
+          {part.name === 'MOTOR' && <Motor />}
+          {part.name === 'BLADE' && <Blade />}
+          {part.name === 'ESC' && <ESC />}
+          <Typography
+            variant='caption'
+            fontWeight='regular'
+            color={colors.basic500}
+          >
+            {part.name}
           </Typography>
-          <CheckBox />
-        </Row>
-      </Line>
-      <Line>
-        <Blade />
-        <Typography
-          variant='caption'
-          fontWeight='regular'
-          color={colors.basic500}
-        >
-          블레이드
-        </Typography>
-        <Row>
-          <Typography variant='caption' color={colors.basic700}>
-            {18}개
-          </Typography>
-          <CheckBox />
-        </Row>
-      </Line>
-      <Line>
-        <ESC />
-        <Typography
-          variant='caption'
-          fontWeight='regular'
-          color={colors.basic500}
-        >
-          ESC
-        </Typography>
-        <Row>
-          <Typography variant='caption' color={colors.basic700}>
-            {2}개
-          </Typography>
-          <CheckBox />
-        </Row>
-      </Line>
+          <Row>
+            <Typography variant='caption' color={colors.basic700}>
+              {part.quantity}개
+            </Typography>
+            <CheckBox />
+          </Row>
+        </Line>
+      ))}
     </Card>
   );
-}
+};
 
 export { GroupPartCard };
 

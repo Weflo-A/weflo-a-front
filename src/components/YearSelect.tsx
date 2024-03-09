@@ -36,17 +36,29 @@ const SelectBox = styled.select`
 const YearSelect = ({ value, onChange }: YearSelectProp) => {
   const today = new Date();
   const currentYear = today.getFullYear();
+  // const currentMonth = today.getMonth() + 1;
 
-  const options = Array.from({ length: currentYear - 1989 }, (_, index) => {
+  const yearOptions = Array.from({ length: currentYear - 1989 }, (_, index) => {
     const year = 1990 + index;
     return { value: year, option: year + '년' };
   });
 
+  const monthOptions = Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    return month + '월';
+  });
+
+  const isYearMonthValue = value.includes('월');
+
   return (
     <SelectBox value={value} onChange={onChange}>
-      {options.map((item) => (
-        <option value={item.value}>{item.option}</option>
-      ))}
+      {isYearMonthValue
+        ? monthOptions.map((month, index) => (
+            <option key={index}>
+              {value.split(' ')[0]} {month}
+            </option>
+          ))
+        : yearOptions.map((year) => <option key={year}>{year}</option>)}
     </SelectBox>
   );
 };

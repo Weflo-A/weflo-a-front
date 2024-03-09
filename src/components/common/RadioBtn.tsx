@@ -1,4 +1,6 @@
+import { SafetyCheckRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
+import React, { ReactNode, useState } from 'react';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
@@ -9,7 +11,7 @@ interface CheckBoxProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CheckBox: React.FC<CheckBoxProps> = ({
+const Radio: React.FC<CheckBoxProps> = ({
   value,
   label,
   checked,
@@ -19,7 +21,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
     <CheckboxContainer>
       <CheckboxInput
         value={value}
-        type='checkbox'
+        type='radio'
         checked={checked}
         onChange={onChange}
       />
@@ -30,7 +32,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   );
 };
 
-export default CheckBox;
+export default Radio;
 
 const CheckboxContainer = styled.label`
   display: flex;
