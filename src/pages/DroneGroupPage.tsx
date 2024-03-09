@@ -314,8 +314,6 @@ const DroneGroupPage = () => {
           justifyContent='flex-end'
           marginBottom='1rem'
         >
-          {/* 정렬 체크박스 */}
-
           {[
             { value: 'cost', label: '투입 비용 순' },
             { value: 'register', label: '등록 순' },

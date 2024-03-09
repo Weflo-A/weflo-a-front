@@ -28,6 +28,7 @@ import { BackBlue } from 'src/assets';
 import { useNavigate, useParams } from 'react-router-dom';
 import DateSelect from 'src/components/estimate/DateSelect';
 import { getDroneList } from 'src/api/dashboard';
+import RadioBtn from 'src/components/common/RadioBtn';
 
 //
 //
@@ -104,8 +105,8 @@ const primceMarks = [
 const EstimatePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
   const [drones, setDrones] = React.useState<GroupDetail>();
+  const [newPartsFilter, setNewPartsFilter] = React.useState('score');
 
   /* 날짜 Select */
   const [dateList, setDateList] = React.useState([]);
@@ -168,6 +169,19 @@ const EstimatePage = () => {
           );
     }
   };
+
+  /* 교체가 필요한 부품 정렬 */
+  React.useEffect(() => {
+    const sortedNewParts = [...newParts];
+    if (newPartsFilter === 'score') {
+      sortedNewParts.sort((a, b) => b.point - a.point);
+    } else if (newPartsFilter === 'priceAsc') {
+      sortedNewParts.sort((a, b) => a.price - b.price);
+    } else if (newPartsFilter === 'priceDesc') {
+      sortedNewParts.sort((a, b) => b.price - a.price);
+    }
+    setFilteredNewParts(sortedNewParts);
+  }, [newPartsFilter]);
 
   // 드론 그룹 아이디 1 => 전체 드론 조회라고 가정
   React.useEffect(() => {
@@ -530,11 +544,18 @@ const EstimatePage = () => {
                 justifyContent='flex-end'
                 marginBottom='1rem'
               >
-                {['점수 낮은 순', '가격 낮은 순', '가격 높은 순'].map(
-                  (item, index) => (
-                    <CheckBox key={index} label={item} />
-                  )
-                )}
+                {[
+                  { value: 'score', label: '점수 높은 순' },
+                  { value: 'priceAsc', label: '가격 낮은 순' },
+                  { value: 'priceDesc', label: '가격 높은 순' },
+                ].map((item) => (
+                  <RadioBtn
+                    value={item.value}
+                    label={item.label}
+                    checked={newPartsFilter === item.value}
+                    onChange={() => setNewPartsFilter(item.value)}
+                  />
+                ))}
               </Stack>
             </Stack>
             <Stack direction='row' gap='1rem' height='28rem'>
