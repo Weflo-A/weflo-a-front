@@ -3,14 +3,14 @@ import colors from 'src/constants/colors';
 import styled from 'styled-components';
 
 interface Props {
-  num: number;
+  name: string;
 }
 
-const DroneGroupBox: React.FC<Props> = ({ num }) => {
+const DroneGroupBox: React.FC<Props> = ({ name }) => {
   return (
     <Group>
       <Typography variant='caption' color='white'>
-        드론 그룹 {num}
+        {name}
       </Typography>
     </Group>
   );

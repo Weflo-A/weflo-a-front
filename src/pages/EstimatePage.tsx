@@ -675,7 +675,7 @@ const NewPartsBox = styled.div`
   height: 100%;
   padding: 1rem;
   border-radius: 0.75rem;
-  border: 1px solid ${colors.basic100});
+  border: 1px solid ${colors.basic100};
   background: ${colors.basic100};
   overflow-y: scroll;
 `;

@@ -6,7 +6,18 @@ import { Bigger } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
 import { DroneGroupBox } from './DroneGroupBox';
 
-function DroneLists() {
+interface DroneInfo {
+  name: string;
+  model: string;
+  year: number;
+  groupList: string[];
+}
+
+interface Props {
+  data: DroneInfo[];
+}
+
+function DroneLists({ data }: Props) {
   const navigate = useNavigate();
   const goToDashboard = (id: number) => {
     navigate(`/drone-group/drone/${id}/dashboard`, { state: id });
@@ -21,17 +32,17 @@ function DroneLists() {
           <Column>연식</Column>
           <Column>드론 그룹</Column>
         </Columns>
-        {droneListData.length > 0 ? (
+        {data.length > 0 ? (
           <Drones>
-            {droneListData.map((data) => {
+            {data.map((data, index) => {
               return (
-                <Drone key={data.id}>
+                <Drone key={index}>
                   <span>{data.name}</span>
                   <span>{data.model}</span>
                   <span>{data.year}</span>
                   <Groups>
-                    {data.group.map((num) => (
-                      <DroneGroupBox key={num} num={num} />
+                    {data.groupList.map((groupName, groupIndex) => (
+                      <DroneGroupBox key={groupIndex} name={groupName} />
                     ))}
                   </Groups>
                   <Button
@@ -41,7 +52,7 @@ function DroneLists() {
                       </>
                     }
                     buttonType='accentLight'
-                    onClick={() => goToDashboard(data.id)}
+                    onClick={() => goToDashboard(index)}
                     style={{ width: '110px', height: '32px', fontSize: '14px' }}
                   />
                 </Drone>

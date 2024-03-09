@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 import colors from 'src/constants/colors';
 import { InfoCircle } from 'src/assets';
 import { GroupCostList } from 'src/components/part/costpart/GroupCostList';
@@ -8,14 +8,20 @@ import YearSelect from 'src/components/YearSelect';
 import React, { useEffect, useState } from 'react';
 import { getCosts, getYearCosts } from 'src/api/parts';
 import CostPieChart from 'src/components/part/costpart/CostPieChart';
-import CostLineColumnChart from 'src/components/part/costpart/CostLineColumnChart';
 import MenuTab from 'src/components/common/MenuTab';
+import LineColumnChart from 'src/components/LineColumnChart';
+
+// interface GroupCostData {
+//   name: string;
+//   purpose: string;
+//   droneCount: number;
+//   monthCost: number;
+// }
 
 interface GroupCostData {
-  name: string;
-  purpose: string;
-  droneCount: number;
-  monthCost: number;
+  month: number;
+  totalAvgCost: number;
+  groupAvgCost: number;
 }
 
 interface GroupCostListProps {
@@ -31,6 +37,7 @@ const CostPartPage = () => {
   const year = parseInt(yearStr);
   const month = parseInt(monthStr);
   const [groupCosts, setGroupCosts] = useState([]);
+  const [groupAvgCost, setGroupAvgCost] = useState([]);
   const [totalCosts, setTotalCosts] = useState([]);
 
   useEffect(() => {
@@ -47,9 +54,13 @@ const CostPartPage = () => {
       .then((res) => {
         console.log('Costs Year', tyear, res.data); // 확인용
         const monthCosts = res.data.data.map(
-          (data: GroupCostData) => data.monthCost
+          (data: GroupCostData) => data.groupAvgCost
         );
-        setTotalCosts(monthCosts);
+        const yearCosts = res.data.data.map(
+          (data: GroupCostData) => data.groupAvgCost
+        );
+        setGroupAvgCost(monthCosts);
+        setTotalCosts(yearCosts);
       })
       .catch((err) => console.log(err));
   }, [totalYear]);
@@ -79,12 +90,46 @@ const CostPartPage = () => {
                 >
                   전체 투입 비용
                 </Typography>
-                <YearSelect
-                  value={totalYear}
-                  onChange={(e) => setTotalYear(Number(e.target.value))}
-                />
+                <Stack direction='row' gap='1rem' width='80%'>
+                  <ChartLabelBox>
+                    <Stack
+                      flexDirection='row'
+                      gap='0.3125rem'
+                      alignItems='center'
+                    >
+                      <LabelSquare color={colors.accent100} />
+                      <Typography
+                        variant='caption'
+                        fontWeight='regular'
+                        color={colors.basic500}
+                        lineHeight='100%'
+                      >
+                        누적 투입 비용
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      flexDirection='row'
+                      gap='0.3125rem'
+                      alignItems='center'
+                    >
+                      <LabelSquare color={colors.accent30} />
+                      <Typography
+                        variant='caption'
+                        fontWeight='regular'
+                        color={colors.basic500}
+                        lineHeight='100%'
+                      >
+                        월별 투입 비용
+                      </Typography>
+                    </Stack>
+                  </ChartLabelBox>
+                  <YearSelect
+                    value={totalYear}
+                    onChange={(e) => setTotalYear(Number(e.target.value))}
+                  />
+                </Stack>
               </Row>
-              <CostLineColumnChart lineChartData={totalCosts} />
+              {/* <LineColumnChart items={totalCosts} /> */}
             </Total>
             <Circle>
               <Typography
@@ -249,4 +294,26 @@ const Text = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+`;
+
+const ChartLabelBox = styled.div`
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: ${colors.basic100};
+  gap: 1.5rem;
+`;
+const LabelSquare = styled.div<{ color: string }>`
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  background-color: ${(props) => props.color};
+  align-items: center;
 `;

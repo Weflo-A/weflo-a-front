@@ -70,7 +70,11 @@ const EstimatePartPage = () => {
             </Line>
             <WeekCard>
               {periodData.map((data) => (
-                <WeekPartCard period={data.period} partsData={partsData} />
+                <WeekPartCard
+                  period={data.period}
+                  partsData={partsData}
+                  mode={selected}
+                />
               ))}
             </WeekCard>
           </Content>
