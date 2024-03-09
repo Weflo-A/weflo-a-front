@@ -11,17 +11,30 @@ interface GroupPart {
 
 interface Props {
   groupName: string;
-  parts: GroupPart[];
+  componentStatus: GroupPart[];
+  onSelect: (partName: string, partNum: number, checked: boolean) => void;
 }
 
-const GroupPartCard: React.FC<Props> = ({ groupName, parts }: Props) => {
-  const partsArray = Array.isArray(parts) ? parts : [];
+const GroupPartCard: React.FC<Props> = ({
+  groupName,
+  componentStatus,
+  onSelect,
+}: Props) => {
+  console.log('여기여기dd', componentStatus);
+
+  const partsArray = Array.isArray(componentStatus)
+    ? componentStatus // 이미 배열인 경우
+    : Object.entries(componentStatus).map(([name, quantity]) => ({
+        name,
+        quantity,
+      })); // 배열 아닌 경우
+
   return (
     <Card>
       <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
         {groupName}
       </Typography>
-      {partsArray.map((part, index) => (
+      {partsArray?.map((part, index) => (
         <Line key={index}>
           {part.name === 'MOTOR' && <Motor />}
           {part.name === 'BLADE' && <Blade />}
@@ -35,9 +48,13 @@ const GroupPartCard: React.FC<Props> = ({ groupName, parts }: Props) => {
           </Typography>
           <Row>
             <Typography variant='caption' color={colors.basic700}>
-              {part.quantity}개
+              {String(part.quantity)}개
             </Typography>
-            <CheckBox />
+            <CheckBox
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onSelect(part.name, Number(part.quantity), e.target.checked)
+              }
+            />
           </Row>
         </Line>
       ))}
@@ -79,5 +96,6 @@ const Line = styled.div`
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
 `;
