@@ -255,15 +255,6 @@ const DroneGroupPage = () => {
 
   React.useEffect(() => {
     getDroneGroupList().then((res) => setGroupList(res.data.data));
-    getDroneGroupInfo(Number(groupId), groupYear).then((res) =>
-      setGroupInfo(res.data.data)
-    );
-    getDroneStateInfo(Number(groupId), droneYear).then((res) =>
-      setDronesState(res.data.data)
-    );
-    getDroneInfoList(Number(groupId), 'cost').then((res) =>
-      setDroneList(res.data.data)
-    );
   }, []);
 
   React.useEffect(() => {
@@ -300,7 +291,7 @@ const DroneGroupPage = () => {
           title='드론 목록'
           sx={{ paddingTop: '2.5rem', marginBottom: '0' }}
         >
-          <Chip text='6개' />
+          <Chip text={`${droneList.length}개`} />
         </SectionHeader>
         <Stack
           flexDirection='row'
