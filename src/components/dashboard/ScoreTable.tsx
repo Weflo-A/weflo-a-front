@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import colors from 'src/constants/colors';
+import { ScoreItem } from 'src/pages/TestDetailPage';
 import styled from 'styled-components';
 
 const ScoreTableBox = styled.div`
@@ -45,16 +46,11 @@ const ScoreListItem = styled.div`
   background: white;
 `;
 
-const ScoreTable = () => {
-  // 임시 점수 리스트
-  const droneScoreList = Array(5).fill({
-    loc: '01',
-    motor: 11,
-    blade: 21,
-    esc: 31,
-    total: 63,
-  });
+interface ScoreTableProp {
+  items: ScoreItem[] | undefined;
+}
 
+const ScoreTable = ({ items }: ScoreTableProp) => {
   return (
     <ScoreTableBox>
       <ScoreTableHeader>
@@ -75,10 +71,10 @@ const ScoreTable = () => {
         </Typography>
       </ScoreTableHeader>
       <ScoreTableBody>
-        {droneScoreList.map((item, index) => (
+        {items?.map((item, index) => (
           <ScoreListItem key={index}>
             <Typography fontSize='11px' color={colors.basic700}>
-              {item.loc}
+              {item.num}
             </Typography>
             <Typography fontSize='11px' color={colors.basic700}>
               {item.motor}
