@@ -35,21 +35,6 @@ interface TimeLine {
 }
 
 const MixChart: React.FC<{ timeLine: TimeLine[] }> = ({ timeLine }) => {
-  // const data = {
-  //   labels: [
-  //     '23.12.01',
-  //     '23.12.20',
-  //     '24.01.02',
-  //     '24.02.04',
-  //     '24.02.29',
-  //     '24.03.02',
-  //     '24.04.20',
-  //   ],
-  //   motorScores: [85 / 3, 88 / 3, 90 / 3, 92 / 3, 65 / 3],
-  //   bladeScores: [75 / 3, 78 / 3, 80 / 3, 82 / 3, 65 / 3],
-  //   escScores: [90 / 3, 92 / 3, 95 / 3, 97 / 3, 78 / 3],
-  //   total: [250 / 3, 258 / 3, 265 / 3, 271 / 3, 208 / 3],
-  // };
   const labels = timeLine.map((entry) => entry.date);
   const motorScores = timeLine.map((entry) => entry.motorPoint);
   const bladeScores = timeLine.map((entry) => entry.bladePoint);
@@ -120,7 +105,7 @@ const MixChart: React.FC<{ timeLine: TimeLine[] }> = ({ timeLine }) => {
       y: {
         stacked: true,
         min: 0,
-        max: 100,
+        max: 300,
         ticks: {
           stepSize: 25,
         },

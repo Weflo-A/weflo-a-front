@@ -1,3 +1,4 @@
+import { yearFilterData } from 'src/assets/data/filterData';
 import client from './client';
 
 // 드론 그룹 리스트 조회
@@ -26,5 +27,20 @@ export const getDroneInfoList = async (groupId: number, filter: string) => {
   return await client.post(`/api/drone-group/drones`, {
     groupId: groupId,
     filter: filter,
+  });
+};
+
+// 드론 조회
+export const postSearch = async (
+  name: string,
+  model: string[],
+  year: string[],
+  group: string[]
+) => {
+  return await client.post(`/api/drone/search`, {
+    name: name,
+    model: model,
+    year: year,
+    group: group,
   });
 };

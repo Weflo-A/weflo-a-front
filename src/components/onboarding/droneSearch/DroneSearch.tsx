@@ -1,55 +1,119 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import FilterLine from './FilterLine';
 import Button from 'src/components/common/Button';
-import {
-  modelFilterData,
-  yearFilterData,
-  groupFilterData,
-} from 'src/assets/data/filterData';
+import { modelFilterData, yearFilterData } from 'src/assets/data/filterData';
 import colors from 'src/constants/colors';
 import { Search } from 'src/assets';
 import { Typography } from '@mui/material';
+import { postSearch } from 'src/api/monitoring';
+import { DroneLists } from './DroneLists';
 
 const DroneSearch: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedModels, setSelectedModels] = useState<string[]>([]);
+  const [selectedYears, setSelectedYears] = useState<string[]>([]);
+  const [selectedGroups, setSelectedGroups] = useState<string[]>([]);
+  const [searchResults, setSearchResults] = useState<{ groupInfo: any[] }>({
+    groupInfo: [],
+  });
+  const [searchDrones, setSearchDrones] = useState<{ droneInfo: any[] }>({
+    droneInfo: [],
+  });
+
+  useEffect(() => {
+    postSearch(searchTerm, selectedModels, selectedYears, selectedGroups).then(
+      (res) => {
+        setSearchResults(res.data.data);
+        setSearchDrones(res.data.data);
+        console.log('드론 조회 데이터:', res.data.data);
+        console.log(
+          'requestbody?',
+          searchTerm,
+          selectedModels,
+          selectedYears,
+          selectedGroups
+        );
+      }
+    );
+  }, []);
+
+  const groupFilterData = searchResults.groupInfo
+    ? searchResults.groupInfo.map((group: any) => ({
+        id: group.name,
+        label: group.name,
+        filterName: '드론그룹',
+      }))
+    : [];
+
+  const handleReset = () => {
+    setSearchTerm('');
+    setSelectedModels([]);
+    setSelectedYears([]);
+    setSelectedGroups([]);
+  };
 
   const handleSearch = () => {
-    console.log('검색어:', searchTerm);
-    alert('검색하기 성공');
+    // 검색하기 버튼 클릭 시 postSearch 호출
+    postSearch(searchTerm, selectedModels, selectedYears, selectedGroups).then(
+      (res) => {
+        setSearchResults(res.data.data);
+        setSearchDrones(res.data.data);
+        console.log('드론 조회 데이터:', res.data.data);
+      }
+    );
   };
 
   return (
-    <Container>
-      <SearchContainer>
-        <Typography fontSize='14px' color={colors.basic700}>
-          드론 ID로 검색
-        </Typography>
-        <SearchInputContainer>
-          <SearchInput
-            type='text'
-            placeholder='드론 ID를 입력하세요'
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <Search onClick={handleSearch} />
-        </SearchInputContainer>
-      </SearchContainer>
-      <FilterLine filterData={modelFilterData} />
-      <FilterLine filterData={yearFilterData} />
-      <FilterLine filterData={groupFilterData} />
-      <Bottom>
-        <Typography variant='body2' color={colors.basic400}>
-          설정값 초기화
-        </Typography>
-        <Button
-          text={<>검색하기</>}
-          buttonType='accent'
-          onClick={() => alert('검색하기 성공')}
-          style={{ width: '122px', height: '44px', fontSize: '18px' }}
+    <Gap>
+      <Container>
+        <SearchContainer>
+          <Typography fontSize='14px' color={colors.basic700}>
+            드론 ID로 검색
+          </Typography>
+          <SearchInputContainer>
+            <SearchInput
+              type='text'
+              placeholder='드론 ID를 입력하세요'
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <Search onClick={handleSearch} />
+          </SearchInputContainer>
+        </SearchContainer>
+        <FilterLine
+          filterData={modelFilterData}
+          selectedFilters={selectedModels}
+          setSelectedFilters={setSelectedModels}
         />
-      </Bottom>
-    </Container>
+        <FilterLine
+          filterData={yearFilterData}
+          selectedFilters={selectedYears}
+          setSelectedFilters={setSelectedYears}
+        />
+        <FilterLine
+          filterData={groupFilterData}
+          selectedFilters={selectedGroups}
+          setSelectedFilters={setSelectedGroups}
+        />
+        <Bottom>
+          <Typography
+            variant='body2'
+            color={colors.basic400}
+            onClick={handleReset}
+          >
+            설정값 초기화
+          </Typography>
+          <Button
+            text={<>검색하기</>}
+            buttonType='accent'
+            onClick={handleSearch}
+            style={{ width: '122px', height: '44px', fontSize: '18px' }}
+          />
+        </Bottom>
+      </Container>
+      <DroneLists data={searchDrones.droneInfo} />
+    </Gap>
   );
 };
 
@@ -111,4 +175,10 @@ const Bottom = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
+`;
+
+const Gap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 `;
