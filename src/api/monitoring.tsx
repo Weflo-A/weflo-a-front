@@ -20,3 +20,11 @@ export const getDroneStateInfo = async (groupId: number, year: number) => {
     year: year,
   });
 };
+
+// 드론 그룹 내 드론 정보 조회
+export const getDroneInfoList = async (groupId: number, filter: string) => {
+  return await client.post(`/api/drone-group/drones`, {
+    groupId: groupId,
+    filter: filter,
+  });
+};

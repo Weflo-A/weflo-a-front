@@ -13,7 +13,7 @@ interface DroneGroupCardProps {
     model: string;
     year: number;
     usage: string;
-    cost: string;
+    cost: number;
     groupSetupDate: string;
     groupId: number;
   };

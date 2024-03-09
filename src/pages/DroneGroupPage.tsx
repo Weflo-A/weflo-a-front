@@ -11,10 +11,14 @@ import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Chip from 'src/components/common/Chip';
 import CheckBox from 'src/components/common/CheckBox';
-import { DroneGroupList } from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
+import {
+  Drone,
+  DroneGroupList,
+} from 'src/components/onboarding/droneGroupSearch/DroneGroupList';
 import {
   getDroneGroupInfo,
   getDroneGroupList,
+  getDroneInfoList,
   getDroneStateInfo,
 } from 'src/api/monitoring';
 import { useParams } from 'react-router-dom';
@@ -99,6 +103,7 @@ const DroneGroupPage = () => {
   const [groupList, setGroupList] = React.useState<Group[]>([]);
   const [groupInfo, setGroupInfo] = React.useState<GroupInfo>();
   const [dronesState, setDronesState] = React.useState<DroneState>();
+  const [droneList, setDroneList] = React.useState<Drone[]>([]);
 
   /* Drone group info */
   const renderDroneGroupInfo = () => {
@@ -256,6 +261,9 @@ const DroneGroupPage = () => {
     getDroneStateInfo(Number(groupId), droneYear).then((res) =>
       setDronesState(res.data.data)
     );
+    getDroneInfoList(Number(groupId), 'cost').then((res) =>
+      setDroneList(res.data.data)
+    );
   }, []);
 
   React.useEffect(() => {
@@ -264,6 +272,9 @@ const DroneGroupPage = () => {
     );
     getDroneStateInfo(Number(groupId), droneYear).then((res) =>
       setDronesState(res.data.data)
+    );
+    getDroneInfoList(Number(groupId), 'cost').then((res) =>
+      setDroneList(res.data.data)
     );
   }, [droneYear, groupId]);
 
@@ -300,7 +311,7 @@ const DroneGroupPage = () => {
             <CheckBox key={index} label={item} />
           ))}
         </Stack>
-        <DroneGroupList />
+        <DroneGroupList items={droneList} />
       </div>
     </>
   );
