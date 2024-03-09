@@ -2,7 +2,7 @@ import { Box, Slider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import CheckBox from 'src/components/common/CheckBox';
 import ItemContainer from 'src/components/common/ItemContainer';
-import MenuTab from 'src/components/common/MenuTab';
+import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
 import Search from 'src/components/common/Search';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import colors from 'src/constants/colors';
@@ -27,6 +27,7 @@ import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import { useNavigate } from 'react-router-dom';
 import DateSelect from 'src/components/estimate/DateSelect';
+import { getDroneList } from 'src/api/dashboard';
 
 //
 //
@@ -102,6 +103,9 @@ const primceMarks = [
 
 const EstimatePage = () => {
   const navigate = useNavigate();
+
+  const [drones, setDrones] = React.useState<GroupDetail>();
+
   /* 날짜 Select */
   const [dateList, setDateList] = React.useState([]);
   const [date, setDate] = React.useState('');
@@ -164,7 +168,12 @@ const EstimatePage = () => {
     }
   };
 
-  console.log(filteredNewParts);
+  React.useEffect(() => {
+    getDroneList(1).then((res) => {
+      console.log(res.data.data);
+      setDrones(res.data.data);
+    });
+  }, []);
 
   /* 진단 날짜 리스트 */
   /* 수리 업체 정보 */
@@ -454,7 +463,7 @@ const EstimatePage = () => {
 
   return (
     <>
-      <MenuTab type='dashboard' />
+      <MenuTab type='dashboard' drones={drones} />
       <div className='page'>
         {renderPageHeader()}
 

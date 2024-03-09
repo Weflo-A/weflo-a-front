@@ -15,7 +15,8 @@ import { BackBlue } from 'src/assets';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderSelect from 'src/components/dashboard/OrderSelect';
-import MenuTab from 'src/components/common/MenuTab';
+import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
+import { getDroneList } from 'src/api/dashboard';
 
 const DroneInfoItemBox = styled.div`
   min-width: 10.375rem;
@@ -35,8 +36,16 @@ const DroneInfoItemBox = styled.div`
 
 const TestDetailPage = () => {
   const navigate = useNavigate();
+  const [drones, setDrones] = React.useState<GroupDetail>();
 
   const [scoreOrder, setScoreOrder] = React.useState('');
+
+  React.useEffect(() => {
+    getDroneList(1).then((res) => {
+      console.log(res.data.data);
+      setDrones(res.data.data);
+    });
+  }, []);
 
   /* 페이지 헤더 */
   const renderPageHeader = () => {
@@ -220,7 +229,7 @@ const TestDetailPage = () => {
 
   return (
     <>
-      <MenuTab type='dashboard' />
+      <MenuTab type='dashboard' drones={drones} />
       <div
         className='page'
         style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}

@@ -1,10 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getDashMain } from 'src/api/dashboard';
+import { getDashMain, getDroneList } from 'src/api/dashboard';
 import { BackBlue } from 'src/assets';
 import Button from 'src/components/common/Button';
-import MenuTab from 'src/components/common/MenuTab';
+import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
 import { DroneDetail } from 'src/components/dashboard/DroneDetail';
 import FailurePieChart from 'src/components/dashboard/FailurePieChart';
 import MixChart from 'src/components/dashboard/MixChart';
@@ -47,6 +47,7 @@ interface DroneGroup {
 
 const DashBoard = () => {
   const navigate = useNavigate();
+  const [drones, setDrones] = useState<GroupDetail>();
   const { groupId, id } = useParams();
   const [mainData, setMainData] = useState<{
     droneInfo: DroneInfo;
@@ -60,6 +61,13 @@ const DashBoard = () => {
   };
 
   useEffect(() => {
+    getDroneList(1).then((res) => {
+      console.log(res.data.data);
+      setDrones(res.data.data);
+    });
+  }, []);
+
+  useEffect(() => {
     getDashMain(Number(id))
       .then((res) => {
         console.log('Dashboard main', res); // 확인용
@@ -70,7 +78,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <MenuTab type='dashboard' />
+      <MenuTab type='dashboard' drones={drones} />
       <div className='page'>
         <Page>
           <Top>

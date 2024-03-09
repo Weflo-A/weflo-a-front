@@ -1,7 +1,18 @@
 import ReactApexChart from 'react-apexcharts';
 import colors from 'src/constants/colors';
 
-const LineColumnChart = () => {
+export interface AvgChartItem {
+  month: number;
+  totalAvgCost: number;
+  groupAvgCost: number;
+}
+interface LineColumnChartProp {
+  items?: AvgChartItem[];
+}
+
+const LineColumnChart = ({ items }: LineColumnChartProp) => {
+  const totalAvgCostList = items?.map((item) => item.totalAvgCost) || [];
+  const groupAvgCostList = items?.map((item) => item.groupAvgCost) || [];
   const options = {
     chart: {
       animations: {
@@ -18,17 +29,11 @@ const LineColumnChart = () => {
     series: [
       {
         type: 'column',
-        data: [
-          120000, 40000, 150000, 67000, 125000, 143000, 150000, 135300, 80000,
-          40000, 125000, 30000,
-        ],
+        data: totalAvgCostList,
       },
       {
         type: 'line',
-        data: [
-          100000, 120000, 110000, 80000, 50000, 60000, 90000, 93000, 103000,
-          113000, 83000, 120000,
-        ],
+        data: groupAvgCostList,
       },
     ],
     stroke: {
@@ -59,7 +64,7 @@ const LineColumnChart = () => {
     plotOptions: {
       bar: {
         columnWidth: '60%', // 막대의 너비
-        endingShape: 'rounded', // 막대의 끝 모양을 둥글게
+        borderRadius: 8,
       },
     },
     yaxis: {
