@@ -3,20 +3,65 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import DroneTestImage from 'src/components/dashboard/DroneTestImage';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
-import { brokenParts } from 'src/assets/data/estimateDummy';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import ScoreTable from 'src/components/dashboard/ScoreTable';
 import ScoreAvgBox from 'src/components/dashboard/ScoreAvgBox';
 import MultiplePieChart from 'src/components/dashboard/MultiplePieChart';
 import ScoreRadarChart from 'src/components/dashboard/ScoreRadarChart';
-import droneDefault from 'src/assets/images/test/drone-0.png';
+import droneDefault from 'src/assets/images/test/drone1_0.png';
 import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import OrderSelect from 'src/components/dashboard/OrderSelect';
 import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
-import { getDroneList } from 'src/api/dashboard';
+import { getDroneList, getTestDetail } from 'src/api/dashboard';
+import DateSelect, { Option } from 'src/components/estimate/DateSelect';
+import { getTestDateList } from 'src/api/estimate';
+
+interface AvgScore {
+  type: string;
+  score: number;
+}
+export interface ScoreItem {
+  num: string;
+  part: string;
+  motor: number;
+  blade: number;
+  esc: number;
+  total: number;
+}
+
+interface WarningItem {
+  part: string;
+  component: string;
+  score: number;
+}
+
+interface TestData {
+  scoreAvgs: AvgScore[];
+  scoreList: ScoreItem[];
+  testInfo: {
+    name: string;
+    testDate: string[];
+  };
+  testResult: {
+    droneScoreResponse: ScoreItem[];
+    totalScoreResponse: {
+      part1Avg: number;
+      part2Avg: number;
+      part3Avg: number;
+      part4Avg: number;
+    };
+    totalScore: number;
+  };
+  totalScore: {
+    accident: 11;
+    exchangeDate: string;
+    expectedDate: string;
+  };
+  warningList: WarningItem[];
+}
 
 const DroneInfoItemBox = styled.div`
   min-width: 10.375rem;
@@ -35,17 +80,77 @@ const DroneInfoItemBox = styled.div`
 //
 
 const TestDetailPage = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const { id } = useParams();
   const [drones, setDrones] = React.useState<GroupDetail>();
-
+  const [testData, setTestData] = React.useState<TestData>();
+  const [dateList, setDateList] = React.useState<Option[]>([]);
   const [scoreOrder, setScoreOrder] = React.useState('');
 
+  // 대시보드 메인 페이지의 리스트 아이템의 날짜값
+  const [testDate, setTestDate] = React.useState(location.state.date);
+  const [year, month, date] = testDate
+    ? testDate.split('.').map((item: string) => Number(item))
+    : []; // year, month, date 나누고 숫자로 만듦 => api 보낼때 형식
+  const [selectedDate, setSelectedDate] = React.useState(
+    `${year}-${month}-${date}`
+  ); // 선택된 값 형식
+
+  // 대시보드 메인에서 상세로 이동시 (날짜값)
   React.useEffect(() => {
     getDroneList(1).then((res) => {
-      console.log(res.data.data);
       setDrones(res.data.data);
     });
+    if (testDate) {
+      getTestDetail(Number(id), 2000 + year, month, date).then((res) => {
+        console.log('대시보드->메인', year, month, date);
+        setTestData(res.data.data);
+        const newDateList = res.data.data.testInfo.testDate?.map(
+          (item: string) => {
+            const [year_s, month_s, date_s] = item.split(' ');
+            return {
+              year: Number(year_s.slice(0, -1)),
+              month: Number(month_s.slice(0, -1)),
+              day: Number(date_s.slice(0, -1)),
+            };
+          }
+        );
+        setDateList(newDateList);
+      });
+    }
   }, []);
+
+  // 메뉴탭 이동시 id 변경
+  // 첫번째 날짜값으로 조회
+  React.useEffect(() => {
+    getTestDateList(Number(id)).then((res) => {
+      setDateList(res.data.data);
+      if (res.data.data.length > 0) {
+        const { year, month, day } = res.data.data[0];
+        console.log('탭이동', year, month, day);
+        setSelectedDate(`${year}-${month}-${day}`);
+        getTestDetail(Number(id), year, month, day).then((res) => {
+          console.log(res.data.data);
+          setTestData(res.data.data);
+        });
+      }
+    });
+  }, [id]);
+
+  // id는 고정인채 날짜만 변경시
+  React.useEffect(() => {
+    const [year, month, date] = selectedDate
+      .split('-')
+      .map((item) => Number(item));
+    if (year > 2000) {
+      console.log('selectedDate 변경', year, month, date);
+      getTestDetail(Number(id), year, month, date).then((res) => {
+        console.log(res.data.data);
+        setTestData(res.data.data);
+      });
+    }
+  }, [selectedDate]);
 
   /* 페이지 헤더 */
   const renderPageHeader = () => {
@@ -58,11 +163,16 @@ const TestDetailPage = () => {
       >
         <Stack direction='row' gap='0.5rem'>
           <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
-            Drone No.1
+            {testData?.testInfo.name}
           </Typography>
           <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
-            견적서
+            대시보드
           </Typography>
+          <DateSelect
+            value={selectedDate}
+            options={dateList}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
         </Stack>
         <Button
           text={
@@ -96,12 +206,17 @@ const TestDetailPage = () => {
           display='grid'
           gridTemplateColumns='1fr 1fr'
         >
-          <ScoreRadarChart />
+          <ScoreRadarChart
+            items={testData?.testResult.totalScoreResponse}
+            totalScore={testData?.testResult.totalScore}
+          />
           <Stack width='100%' display='grid' gridTemplateColumns='1fr 1fr'>
-            <MultiplePieChart title='구동부 01' series={[50, 30, 70]} />
-            <MultiplePieChart title='구동부 02' series={[40, 30, 50]} />
-            <MultiplePieChart title='구동부 03' series={[70, 30, 50]} />
-            <MultiplePieChart title='구동부 04' series={[90, 80, 70]} />
+            {testData?.testResult.droneScoreResponse.map((item) => (
+              <MultiplePieChart
+                title={item.part}
+                series={[item.motor, item.blade, item.esc]}
+              />
+            ))}
           </Stack>
         </Stack>
       </ItemContainer>
@@ -136,14 +251,13 @@ const TestDetailPage = () => {
               '블레이드 점수 순',
               'ESC 점수 순',
             ]}
-          ></OrderSelect>
+          />
         </Stack>
-        <ScoreTable />
+        <ScoreTable items={testData?.scoreList} />
         <Stack direction='row' gap='0.5rem'>
-          <ScoreAvgBox type='모터' score={70} />
-          <ScoreAvgBox type='모터' score={70} />
-          <ScoreAvgBox type='모터' score={70} />
-          <ScoreAvgBox type='모터' score={70} />
+          {testData?.scoreAvgs.map((item) => (
+            <ScoreAvgBox type={item.type} score={item.score} />
+          ))}
         </Stack>
       </ItemContainer>
     );
@@ -164,7 +278,7 @@ const TestDetailPage = () => {
               주행시 사고 확률
             </Typography>
             <Typography variant='body2' fontWeight='bold'>
-              11%
+              {testData?.totalScore.accident}%
             </Typography>
           </DroneInfoItemBox>
           <DroneInfoItemBox>
@@ -172,7 +286,7 @@ const TestDetailPage = () => {
               예상 부품 교체일
             </Typography>
             <Typography variant='body2' fontWeight='bold'>
-              06월 15일
+              {testData?.totalScore.exchangeDate}
             </Typography>
           </DroneInfoItemBox>
           <DroneInfoItemBox>
@@ -180,7 +294,7 @@ const TestDetailPage = () => {
               이전 부품 교체일
             </Typography>
             <Typography variant='body2' fontWeight='bold'>
-              02월 04일
+              {testData?.totalScore.expectedDate}
             </Typography>
           </DroneInfoItemBox>
         </Stack>
@@ -214,12 +328,12 @@ const TestDetailPage = () => {
           </Typography>
         </Stack>
         <Stack direction='column' gap='0.25rem'>
-          {brokenParts.map((item) => (
+          {testData?.warningList.map((item) => (
             <BrokenPartInfoBox
-              part={item.parts}
-              location={item.loc}
+              part={item.component}
+              location={item.part}
               score={item.score}
-              warning={item.warning}
+              warning={false}
             />
           ))}
         </Stack>

@@ -9,3 +9,18 @@ export const getDroneList = async (groupId: number) => {
 export const getDashMain = async (id: number) => {
   return await client.get(`/api/drone/detail?droneId=${id}`);
 };
+
+// 진단 상세
+export const getTestDetail = async (
+  droneId: number,
+  year: number,
+  month: number,
+  day: number
+) => {
+  return await client.post(`/api/drone/dashboard/detail`, {
+    droneId: droneId,
+    year: year,
+    month: month,
+    day: day,
+  });
+};
