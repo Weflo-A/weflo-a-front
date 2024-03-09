@@ -25,7 +25,7 @@ import {
 } from 'src/api/estimate';
 import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DateSelect from 'src/components/estimate/DateSelect';
 import { getDroneList } from 'src/api/dashboard';
 
@@ -103,6 +103,7 @@ const primceMarks = [
 
 const EstimatePage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [drones, setDrones] = React.useState<GroupDetail>();
 
@@ -168,29 +169,47 @@ const EstimatePage = () => {
     }
   };
 
+  // 드론 그룹 아이디 1 => 전체 드론 조회라고 가정
   React.useEffect(() => {
     getDroneList(1).then((res) => {
       console.log(res.data.data);
       setDrones(res.data.data);
     });
+    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
+      setRepairCompanies(res.data.data)
+    );
   }, []);
 
+  /* id 값 변경될 때마다 */
   /* 진단 날짜 리스트 */
   /* 수리 업체 정보 */
+  /* 견적서 정보 */
+  /* Top section 정보 */
   React.useEffect(() => {
-    getTestDateList(1)
+    getTestDateList(Number(id))
       .then((res) => {
         setDateList(res.data.data);
         if (res.data.data.length > 0) {
           const { year, month, day } = res.data.data[0];
           setDate(`${year}-${month}-${day}`);
+          getEstimateInfo(Number(id), `${year}-${month}-${day}`).then((res) => {
+            setNewParts(res.data.data);
+            const filteredParts = res.data.data.filter(
+              (item: NewParts) =>
+                priceRange[0] < item.price &&
+                item.price < priceRange[1] &&
+                scoreRange[0] < item.point &&
+                item.point < scoreRange[1]
+            );
+            setFilteredNewParts(filteredParts);
+          });
+          getTopSectionInfo(Number(id), `${year}-${month}-${day}`).then((res) =>
+            setTopSection(res.data.data)
+          );
         }
       })
       .catch((err) => console.log(err));
-    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
-      setRepairCompanies(res.data.data)
-    );
-  }, []);
+  }, [id]);
 
   /* 부품 필터링 */
   React.useEffect(() => {
@@ -204,10 +223,11 @@ const EstimatePage = () => {
     setFilteredNewParts(filteredParts);
   }, [scoreRange, priceRange]);
 
+  /* date 값 변경될 때마다 */
   /* 견적서 부품 조회*/
   React.useEffect(() => {
     if (date) {
-      getEstimateInfo(1, date).then((res) => {
+      getEstimateInfo(Number(id), date).then((res) => {
         setNewParts(res.data.data);
         const filteredParts = res.data.data.filter(
           (item: NewParts) =>
@@ -218,7 +238,9 @@ const EstimatePage = () => {
         );
         setFilteredNewParts(filteredParts);
       });
-      getTopSectionInfo(1, date).then((res) => setTopSection(res.data.data));
+      getTopSectionInfo(Number(id), date).then((res) =>
+        setTopSection(res.data.data)
+      );
     }
   }, [date]);
 

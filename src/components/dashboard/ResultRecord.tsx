@@ -47,9 +47,16 @@ function ResultRecord({ groupId, data }: ResultRecordProp) {
         <Column>진단 장소</Column>
         <Column>종합 점수</Column>
       </Columns>
-      <Drones onClick={() => navigate(`test`)}>
+      <Drones>
         {data.testList.map((data, index) => (
-          <Drone key={index}>
+          <Drone
+            key={index}
+            onClick={() =>
+              navigate(`/drone-group/drone/${location.state}/dashboard/test`, {
+                state: { id: location.state, date: data.testDate },
+              })
+            }
+          >
             <span>{data.testDate}</span>
             <span>{data.space}</span>
             <span>{data.point}</span>
