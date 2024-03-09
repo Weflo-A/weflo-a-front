@@ -3,8 +3,21 @@ import { DroneGroupCard } from './DroneGroupCard';
 import { droneListData } from 'src/assets/data/droneListData';
 import { useParams } from 'react-router-dom';
 
-const DroneGroupList = () => {
+export interface Drone {
+  droneId: number;
+  name: string;
+  model: string;
+  purpose: string;
+  year: number;
+  cost: number;
+  date: string;
+}
+interface DroneListProp {
+  items: Drone[];
+}
+const DroneGroupList = ({ items }: DroneListProp) => {
   const { groupId } = useParams();
+  console.log('items', items);
 
   return (
     <Stack
@@ -13,17 +26,17 @@ const DroneGroupList = () => {
       gridTemplateColumns='1fr 1fr'
       gap='1rem'
     >
-      {droneListData.map((drone, index) => (
+      {items.map((item, index) => (
         <DroneGroupCard
           key={index}
           data={{
-            id: drone.id,
-            name: drone.name,
-            model: drone.model,
-            usage: drone.usage,
-            year: drone.year,
-            cost: drone.cost,
-            groupSetupDate: drone.groupSetupDate,
+            id: item.droneId,
+            name: item.name,
+            model: item.model,
+            usage: item.purpose,
+            year: item.year,
+            cost: item.cost,
+            groupSetupDate: item.date,
             groupId: Number(groupId),
           }}
         />
