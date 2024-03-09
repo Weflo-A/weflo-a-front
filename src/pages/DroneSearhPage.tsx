@@ -46,7 +46,7 @@ const DroneSearchPage = () => {
             />
           </Header>
           <DroneSearch />
-          <DroneLists />
+          {/* <DroneLists /> */}
           {isPopupOpen && <Popup onClose={handleClosePopup} />}
         </Page>
       </div>

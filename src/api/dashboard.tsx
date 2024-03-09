@@ -9,8 +9,3 @@ export const getDroneList = async (groupId: number) => {
 export const getDashMain = async (id: number) => {
   return await client.get(`/api/drone/detail?droneId=${id}`);
 };
-
-// 드론 조회
-export const postSearch = async () => {
-  return await client.post(`/api/drone/search`);
-};

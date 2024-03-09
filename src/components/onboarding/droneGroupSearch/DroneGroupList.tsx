@@ -1,6 +1,5 @@
 import { Stack } from '@mui/material';
 import { DroneGroupCard } from './DroneGroupCard';
-import { droneListData } from 'src/assets/data/droneListData';
 import { useParams } from 'react-router-dom';
 
 export interface Drone {
