@@ -23,11 +23,11 @@ interface GroupCostListProps {
 }
 
 const CostPartPage = () => {
-  const [totalYear, setTotalYear] = React.useState('2024년');
+  const [totalYear, setTotalYear] = React.useState(2024);
   const [groupYear, setGroupYear] = React.useState('2024년 3월');
-  const [partYear, setPartYear] = React.useState('2024년');
+  const [partYear, setPartYear] = React.useState(2024);
   const [yearStr, monthStr] = groupYear.split(' ');
-  const tyear = parseInt(totalYear);
+  const tyear = totalYear;
   const year = parseInt(yearStr);
   const month = parseInt(monthStr);
   const [groupCosts, setGroupCosts] = useState([]);
@@ -81,7 +81,7 @@ const CostPartPage = () => {
                 </Typography>
                 <YearSelect
                   value={totalYear}
-                  onChange={(e) => setTotalYear(e.target.value)}
+                  onChange={(e) => setTotalYear(Number(e.target.value))}
                 />
               </Row>
               <CostLineColumnChart lineChartData={totalCosts} />
@@ -135,7 +135,7 @@ const CostPartPage = () => {
               </Typography>
               <YearSelect
                 value={groupYear}
-                onChange={(e) => setGroupYear(Number(e.target.value))}
+                onChange={(e) => setGroupYear(e.target.value)}
               />
             </Space>
             <GroupCostList groupCosts={groupCosts} />
