@@ -36,8 +36,8 @@ const GroupPartCard: React.FC<Props> = ({
       </Typography>
       {partsArray?.map((part, index) => (
         <Line key={index}>
-          {part.name === 'MOTOR' && <Motor />}
-          {part.name === 'BLADE' && <Blade />}
+          {part.name === '모터' && <Motor />}
+          {part.name === '블레이드' && <Blade />}
           {part.name === 'ESC' && <ESC />}
           <Typography
             variant='caption'

@@ -65,7 +65,7 @@ const DroneSearch: React.FC = () => {
   };
 
   return (
-    <div>
+    <Gap>
       <Container>
         <SearchContainer>
           <Typography fontSize='14px' color={colors.basic700}>
@@ -113,7 +113,7 @@ const DroneSearch: React.FC = () => {
         </Bottom>
       </Container>
       <DroneLists data={searchDrones.droneInfo} />
-    </div>
+    </Gap>
   );
 };
 
@@ -175,4 +175,10 @@ const Bottom = styled.div`
   justify-content: flex-end;
   align-items: center;
   gap: 16px;
+`;
+
+const Gap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 `;

@@ -126,11 +126,11 @@ const WeekPartCard: React.FC<Props> = ({ period, partsData, mode }: Props) => {
             </Typography>
             <AccentBox>
               <MotorAccent />
-              모터 {selectedParts['MOTOR'] || 0}개
+              모터 {selectedParts['모터'] || 0}개
             </AccentBox>
             <AccentBox>
               <BladeAccent />
-              블레이드 {selectedParts['BLADE'] || 0}개
+              블레이드 {selectedParts['블레이드'] || 0}개
             </AccentBox>
             <AccentBox>
               <ESCAccent />

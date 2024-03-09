@@ -19,6 +19,7 @@ const globalStyles = css`
   }
   .page {
     width: 100%;
+    min-width: 1150px;
     padding-top: 3.25rem;
     padding-left: 16.25rem;
     margin-bottom: 150px;
