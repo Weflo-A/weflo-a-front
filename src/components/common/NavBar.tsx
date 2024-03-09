@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { Typography } from '@mui/material';
 import { WefloLogo } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { getDroneList } from 'src/api/dashboard';
+import React from 'react';
 
 //
 //
@@ -74,16 +76,23 @@ const EmailBox = styled.div`
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
-  const isMonitoringNav = location.pathname.includes('/monitoring');
+  const [firstDroneId, setFirstDroneId] = React.useState(1);
 
   const handleMenu = (url: string) => {
-    navigate(url, { state: location.state });
+    navigate(url, {
+      state: location.state ? location.state.id : location.state,
+    });
   };
 
   //
   //
   //
+  /* 임시 드론 정보 전체 리스트 */
+  React.useEffect(() => {
+    getDroneList(1).then((res) => {
+      setFirstDroneId(res.data.data.droneList[0].id);
+    });
+  }, []);
 
   return (
     <NavContainer>
@@ -109,7 +118,7 @@ const NavBar = () => {
                 location.pathname.includes('/dashboard') ? 'active' : ''
               }
               onClick={() =>
-                handleMenu(`/drone-group/drone/${location.state}/dashboard`)
+                handleMenu(`/drone-group/drone/${firstDroneId}/dashboard`)
               }
             >
               <Typography fontSize='14px' fontWeight='regular'>
@@ -121,7 +130,7 @@ const NavBar = () => {
                 location.pathname.includes('/estimate') ? 'active' : ''
               }
               onClick={() =>
-                handleMenu(`/drone-group/drone/${location.state}/estimate`)
+                handleMenu(`/drone-group/drone/${firstDroneId}/estimate`)
               }
             >
               <Typography fontSize='14px' fontWeight='regular'>
