@@ -43,6 +43,7 @@ const ScoreRadarChart = ({ items, totalScore }: RadarChartProp) => {
   return (
     <div
       style={{
+        position: 'relative',
         maxWidth: 500,
         width: '100%',
         height: '100%',
@@ -59,6 +60,8 @@ const ScoreRadarChart = ({ items, totalScore }: RadarChartProp) => {
         width='300'
       />
       <Stack
+        position='absolute'
+        bottom={30}
         direction='row'
         alignItems='center'
         justifyContent='center'

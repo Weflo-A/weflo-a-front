@@ -3,13 +3,12 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import DroneTestImage from 'src/components/dashboard/DroneTestImage';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
-import { brokenParts } from 'src/assets/data/estimateDummy';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import ScoreTable from 'src/components/dashboard/ScoreTable';
 import ScoreAvgBox from 'src/components/dashboard/ScoreAvgBox';
 import MultiplePieChart from 'src/components/dashboard/MultiplePieChart';
 import ScoreRadarChart from 'src/components/dashboard/ScoreRadarChart';
-import droneDefault from 'src/assets/images/test/drone-0.png';
+import droneDefault from 'src/assets/images/test/drone1_0.png';
 import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import React from 'react';
@@ -89,10 +88,11 @@ const TestDetailPage = () => {
   const [dateList, setDateList] = React.useState<Option[]>([]);
   const [scoreOrder, setScoreOrder] = React.useState('');
 
-  const [testDate, setTestDate] = React.useState(location.state.date); // 이전 리스트 아이템의 날짜값
+  // 대시보드 메인 페이지의 리스트 아이템의 날짜값
+  const [testDate, setTestDate] = React.useState(location.state.date);
   const [year, month, date] = testDate
-    .split('.')
-    .map((item: string) => Number(item)); // year, month, date 나누고 숫자로 만듦 => api 보낼때 형식
+    ? testDate.split('.').map((item: string) => Number(item))
+    : []; // year, month, date 나누고 숫자로 만듦 => api 보낼때 형식
   const [selectedDate, setSelectedDate] = React.useState(
     `${year}-${month}-${date}`
   ); // 선택된 값 형식
@@ -152,8 +152,6 @@ const TestDetailPage = () => {
     }
   }, [selectedDate]);
 
-  // React.useEffect(() => {}, [id, date]);
-
   /* 페이지 헤더 */
   const renderPageHeader = () => {
     return (
@@ -165,7 +163,7 @@ const TestDetailPage = () => {
       >
         <Stack direction='row' gap='0.5rem'>
           <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
-            Drone No.1
+            {testData?.testInfo.name}
           </Typography>
           <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
             대시보드
