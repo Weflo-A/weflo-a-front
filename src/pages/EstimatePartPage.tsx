@@ -22,7 +22,7 @@ const EstimatePartPage = () => {
       .catch((err) => console.log(err));
   }, [selected]);
 
-  console.log('파파', partsData);
+  console.log('partsData', partsData);
 
   return (
     <>
