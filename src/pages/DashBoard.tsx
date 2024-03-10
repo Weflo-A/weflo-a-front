@@ -181,7 +181,7 @@ const DashBoard = () => {
               </Typography>
               {mainData && (
                 <ResultRecord
-                  groupId={Number(groupId)}
+                  droneId={Number(id)}
                   data={{ testList: mainData.testList }}
                 />
               )}
