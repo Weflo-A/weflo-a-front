@@ -14,8 +14,8 @@ import { BackBlue } from 'src/assets';
 import React from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import OrderSelect from 'src/components/dashboard/OrderSelect';
-import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
-import { getDroneList, getTestDetail } from 'src/api/dashboard';
+import MenuTab, { Drone, GroupDetail } from 'src/components/common/MenuTab';
+import { getAllDrones, getDroneList, getTestDetail } from 'src/api/dashboard';
 import DateSelect, { Option } from 'src/components/estimate/DateSelect';
 import { getTestDateList } from 'src/api/estimate';
 
@@ -83,7 +83,7 @@ const TestDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [drones, setDrones] = React.useState<GroupDetail>();
+  const [drones, setDrones] = React.useState<Drone[]>();
   const [testData, setTestData] = React.useState<TestData>();
   const [dateList, setDateList] = React.useState<Option[]>([]);
   const [scoreOrder, setScoreOrder] = React.useState('');
@@ -99,7 +99,7 @@ const TestDetailPage = () => {
 
   // 대시보드 메인에서 상세로 이동시 (날짜값)
   React.useEffect(() => {
-    getDroneList(1).then((res) => {
+    getAllDrones().then((res) => {
       setDrones(res.data.data);
     });
     if (testDate) {

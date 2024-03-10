@@ -2,7 +2,7 @@ import { Box, Slider, Stack, Typography } from '@mui/material';
 import React from 'react';
 import CheckBox from 'src/components/common/CheckBox';
 import ItemContainer from 'src/components/common/ItemContainer';
-import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
+import MenuTab, { Drone, GroupDetail } from 'src/components/common/MenuTab';
 import Search from 'src/components/common/Search';
 import BrokenPartInfoBox from 'src/components/estimate/BrokenPartInfoBox';
 import colors from 'src/constants/colors';
@@ -27,7 +27,8 @@ import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import { useNavigate, useParams } from 'react-router-dom';
 import DateSelect from 'src/components/estimate/DateSelect';
-import { getDroneList } from 'src/api/dashboard';
+import { getAllDrones, getDroneList } from 'src/api/dashboard';
+import RadioBtn from 'src/components/common/RadioBtn';
 
 //
 //
@@ -104,8 +105,8 @@ const primceMarks = [
 const EstimatePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-
-  const [drones, setDrones] = React.useState<GroupDetail>();
+  const [drones, setDrones] = React.useState<Drone[]>();
+  const [newPartsFilter, setNewPartsFilter] = React.useState('score');
 
   /* 날짜 Select */
   const [dateList, setDateList] = React.useState([]);
@@ -169,20 +170,29 @@ const EstimatePage = () => {
     }
   };
 
+  /* 교체가 필요한 부품 정렬 */
+  React.useEffect(() => {
+    const sortedNewParts = [...newParts];
+    if (newPartsFilter === 'score') {
+      sortedNewParts.sort((a, b) => b.point - a.point);
+    } else if (newPartsFilter === 'priceAsc') {
+      sortedNewParts.sort((a, b) => a.price - b.price);
+    } else if (newPartsFilter === 'priceDesc') {
+      sortedNewParts.sort((a, b) => b.price - a.price);
+    }
+    setFilteredNewParts(sortedNewParts);
+  }, [newPartsFilter]);
+
   // 드론 그룹 아이디 1 => 전체 드론 조회라고 가정
   React.useEffect(() => {
-    getDroneList(1).then((res) => {
+    getAllDrones().then((res) => {
       console.log(res.data.data);
       setDrones(res.data.data);
     });
-    getRepairCompany('Model1', ['Motor', 'Blade']).then((res) =>
-      setRepairCompanies(res.data.data)
-    );
   }, []);
 
   /* id 값 변경될 때마다 */
   /* 진단 날짜 리스트 */
-  /* 수리 업체 정보 */
   /* 견적서 정보 */
   /* Top section 정보 */
   React.useEffect(() => {
@@ -210,6 +220,27 @@ const EstimatePage = () => {
       })
       .catch((err) => console.log(err));
   }, [id]);
+
+  const getEnglishType = (type: string) => {
+    if (type === '모터') {
+      return 'Motor';
+    } else if (type === '블레이드') {
+      return 'Blade';
+    } else if (type === 'ESC') {
+      return 'ESC';
+    }
+  };
+
+  /* 수리 업체 정보 */
+  React.useEffect(() => {
+    const first =
+      getEnglishType(topSection?.components[0].type || '모터') || 'Motor';
+    const second =
+      getEnglishType(topSection?.components[1].type || '블레이드') || 'Blade';
+    getRepairCompany('Model1', [first, second]).then((res) =>
+      setRepairCompanies(res.data.data)
+    );
+  }, [topSection]);
 
   /* 부품 필터링 */
   React.useEffect(() => {
@@ -530,11 +561,18 @@ const EstimatePage = () => {
                 justifyContent='flex-end'
                 marginBottom='1rem'
               >
-                {['점수 낮은 순', '가격 낮은 순', '가격 높은 순'].map(
-                  (item, index) => (
-                    <CheckBox key={index} label={item} />
-                  )
-                )}
+                {[
+                  { value: 'score', label: '점수 높은 순' },
+                  { value: 'priceAsc', label: '가격 낮은 순' },
+                  { value: 'priceDesc', label: '가격 높은 순' },
+                ].map((item) => (
+                  <RadioBtn
+                    value={item.value}
+                    label={item.label}
+                    checked={newPartsFilter === item.value}
+                    onChange={() => setNewPartsFilter(item.value)}
+                  />
+                ))}
               </Stack>
             </Stack>
             <Stack direction='row' gap='1rem' height='28rem'>
@@ -588,9 +626,23 @@ const EstimatePage = () => {
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
                   <span style={{ color: colors.accent100 }}>Eagle</span>의
-                  <span style={{ color: colors.accent100 }}>모터</span>와
-                  <span style={{ color: colors.accent100 }}>블레이드</span>를
-                  수리할 수 있는 업체는 총{' '}
+                  {topSection?.components[0].type ===
+                  topSection?.components[1].type ? (
+                    <span style={{ color: colors.accent100 }}>
+                      {topSection?.components[0].type}
+                    </span>
+                  ) : (
+                    <>
+                      <span style={{ color: colors.accent100 }}>
+                        {topSection?.components[0].type}
+                      </span>
+                      와
+                      <span style={{ color: colors.accent100 }}>
+                        {topSection?.components[1].type}
+                      </span>
+                    </>
+                  )}
+                  를 수리할 수 있는 업체는 총{' '}
                   <span style={{ color: colors.accent100 }}>
                     {repairCompanies.length}
                   </span>
