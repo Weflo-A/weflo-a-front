@@ -30,7 +30,7 @@ const HeightCard: React.FC<ProductCardProps> = ({ data }) => {
           style={{ width: '66px', height: '22px' }}
         />
       </Small>
-      <Image>{data.image}</Image>
+      <img src={data.image} />
       <Content>
         <Typography
           height='32px'
