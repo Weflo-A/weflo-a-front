@@ -61,7 +61,7 @@ const RepairCompanyList = ({ items }: RepairCompanyProps) => {
           {currentPosts.map((item, index) => (
             <RepairCompanyCard
               key={index}
-              logo={logoImg1}
+              logo={item.image}
               cost={[item.minPrice, item.maxPrice]}
               name={item.name}
               tag={[...new Set(item.features)]}
