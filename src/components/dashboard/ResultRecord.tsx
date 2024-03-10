@@ -69,7 +69,7 @@ function ResultRecord({ droneId, data }: ResultRecordProp) {
               buttonType='accentLight'
               onClick={(e) => {
                 e.stopPropagation();
-                goToDashboard(location.state); // data.id 필요
+                goToDashboard(droneId); // data.id 필요
               }}
               style={{ width: '95px', height: '32px', fontSize: '14px' }}
             />

@@ -234,43 +234,39 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   /* 대시보드 내 드론 리스트 탭 */
   const renderDroneListTab = () => {
     return (
-      <>
-        <TabWrapper>
-          <Typography
-            variant='body2'
-            fontWeight='bold'
-            sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
-          >
-            전체 드론
-          </Typography>
-          <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
-          <TabList>
-            {drones?.map((item) => (
-              <TabItem
-                className={
-                  location.pathname.includes(`/drone/${item.id}`)
-                    ? 'active'
-                    : ''
-                }
-                onClick={() =>
-                  handleTabMenu(
-                    isEstimatePage
-                      ? `/drone-group/drone/${item.id}/estimate`
-                      : isTestDetailPage
-                        ? `/drone-group/drone/${item.id}/dashboard/test`
-                        : `/drone-group/drone/${item.id}/dashboard`,
-                    String(item.id)
-                  )
-                }
-              >
-                <Typography fontSize='14px' fontWeight={400}>
-                  {item.name}
-                </Typography>
-              </TabItem>
-            ))}
-          </TabList>
-        </TabWrapper>
-      </>
+      <TabWrapper>
+        <Typography
+          variant='body2'
+          fontWeight='bold'
+          sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
+        >
+          전체 드론
+        </Typography>
+        <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
+        <TabList>
+          {drones?.map((item) => (
+            <TabItem
+              className={
+                location.pathname.includes(`/drone/${item.id}/`) ? 'active' : ''
+              }
+              onClick={() =>
+                handleTabMenu(
+                  isEstimatePage
+                    ? `/drone-group/drone/${item.id}/estimate`
+                    : isTestDetailPage
+                      ? `/drone-group/drone/${item.id}/dashboard/test`
+                      : `/drone-group/drone/${item.id}/dashboard`,
+                  String(item.id)
+                )
+              }
+            >
+              <Typography fontSize='14px' fontWeight={400}>
+                {item.name}
+              </Typography>
+            </TabItem>
+          ))}
+        </TabList>
+      </TabWrapper>
     );
   };
 
