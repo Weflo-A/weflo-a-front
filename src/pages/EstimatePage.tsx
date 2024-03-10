@@ -123,6 +123,7 @@ const EstimatePage = () => {
   const [repairCompanies, setRepairCompanies] = React.useState<RepairCompany[]>(
     []
   );
+  const [repairFilter, setRepairFilter] = React.useState('recommend');
   const [partsSearch, setPartsSearch] = React.useState('');
   const [scoreRange, setScoreRange] = React.useState<number[]>([0, 100]);
   const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
@@ -185,16 +186,31 @@ const EstimatePage = () => {
     setFilteredNewParts(sortedNewParts);
   }, [newPartsFilter]);
 
+  /* 수리 업체 정렬 */
+  React.useEffect(() => {
+    const sortedRepairCompanies = [...repairCompanies];
+    if (repairFilter === 'recommend') {
+      sortedRepairCompanies.sort(
+        (a, b) => b.features.length - a.features.length
+      );
+    } else if (repairFilter === 'price') {
+      sortedRepairCompanies.sort((a, b) => a.minPrice - b.minPrice);
+    } else if (repairFilter === 'distance') {
+      sortedRepairCompanies.sort((a, b) => b.maxPrice - a.maxPrice);
+    }
+    setRepairCompanies(sortedRepairCompanies);
+  }, [repairFilter]);
+
   /* 재활용 부품 정렬 */
   React.useEffect(() => {
     const sortedRecycleParts = [...recycleParts];
-    if (newPartsFilter === 'part') {
+    if (recycleFilter === 'part') {
       sortedRecycleParts.sort(
         (a, b) => Number(b.part[-1]) - Number(a.part[-1])
       );
-    } else if (newPartsFilter === 'score') {
+    } else if (recycleFilter === 'score') {
       sortedRecycleParts.sort((a, b) => b.point - a.point);
-    } else if (newPartsFilter === 'price') {
+    } else if (recycleFilter === 'price') {
       sortedRecycleParts.sort((a, b) => b.price - a.price);
     }
     setFilteredNewParts(sortedRecycleParts);
@@ -257,12 +273,12 @@ const EstimatePage = () => {
       getEnglishType(topSection?.components[0].type || '모터') || 'Motor';
     const second =
       getEnglishType(topSection?.components[1].type || '블레이드') || 'Blade';
-    getRepairCompany('Model1', [first, second]).then((res) =>
-      setRepairCompanies(res.data.data)
+    getRepairCompany(currentDrone?.name || 'Model1', [first, second]).then(
+      (res) => setRepairCompanies(res.data.data)
     );
   }, [topSection]);
 
-  /* 부품 필터링 */
+  /* 교체 부품 가격 범위 & 점수 범위필터링 */
   React.useEffect(() => {
     const filteredParts = newParts.filter(
       (item) =>
@@ -673,8 +689,17 @@ const EstimatePage = () => {
                 </Typography>
               </CalloutBox>
               <Stack direction='row' gap='1.25rem'>
-                {['추천 순', '가격 낮은 순', '가까운 순'].map((item, index) => (
-                  <CheckBox key={index} label={item} />
+                {[
+                  { value: 'recommend', label: '추천 순' },
+                  { value: 'price', label: '가격 낮은 순' },
+                  { value: 'distance', label: '가까운 순' },
+                ].map((item) => (
+                  <RadioBtn
+                    value={item.value}
+                    label={item.label}
+                    checked={repairFilter === item.value}
+                    onChange={() => setRepairFilter(item.value)}
+                  />
                 ))}
               </Stack>
             </Stack>
