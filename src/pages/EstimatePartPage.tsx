@@ -14,7 +14,7 @@ const EstimatePartPage = () => {
   const [partsData, setPartsData] = useState([]);
 
   useEffect(() => {
-    getSortParts({ point: 30, mode: selected.toUpperCase() })
+    getSortParts({ point: 50, mode: selected.toUpperCase() })
       .then((res) => {
         console.log('모델&그룹별 부품 조회', res.data); // 확인용
         setPartsData(res.data.data);
@@ -22,7 +22,7 @@ const EstimatePartPage = () => {
       .catch((err) => console.log(err));
   }, [selected]);
 
-  console.log('파파', partsData);
+  console.log('partsData', partsData);
 
   return (
     <>

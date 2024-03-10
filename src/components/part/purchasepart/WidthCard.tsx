@@ -25,7 +25,7 @@ const WidthCard: React.FC<ProductCardProps> = ({ data }) => {
   return (
     <Card>
       <Top>
-        <Image></Image>
+        <Image>{data.image}</Image>
         <Content>
           <Small>
             <Typography variant='caption' color={colors.basic500}>
@@ -130,7 +130,7 @@ const Top = styled.div`
 const Image = styled.div`
   width: 122px;
   height: 122px;
-  background-color: #bdbdbd;
+  /* background-color: #bdbdbd; */
   display: flex;
   flex-direction: row;
 `;

@@ -74,8 +74,8 @@ const EmailBox = styled.div`
 //
 
 const NavBar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
   const [firstDroneId, setFirstDroneId] = React.useState(1);
 
   const handleMenu = (url: string) => {
@@ -97,7 +97,7 @@ const NavBar = () => {
   return (
     <NavContainer>
       <NavStack>
-        <WefloLogo />
+        <WefloLogo onClick={() => navigate('/monitoring/drone-search')} />
         <RightWrapper>
           <MenuList>
             <MenuItem
@@ -147,7 +147,7 @@ const NavBar = () => {
             </MenuItem>
             <MenuItem
               className={location.pathname.includes('/trade') ? 'active' : ''}
-              onClick={() => handleMenu(`/trade`)}
+              onClick={() => handleMenu(`/drone-group/drone/trade/upload`)}
             >
               <Typography fontSize='14px' fontWeight='regular'>
                 중고거래

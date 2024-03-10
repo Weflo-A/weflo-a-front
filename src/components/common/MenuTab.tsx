@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
-import { Plus } from 'src/assets';
+import { Plus, Weather } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
 import GroupPopup from '../onboarding/GroupPopup';
 import React from 'react';
@@ -28,7 +28,7 @@ export interface GroupDetail {
 export interface MenuTabProps {
   groups?: Group[];
   drones?: Drone[];
-  type: 'dashboard' | 'parts' | 'monitoring';
+  type: 'dashboard' | 'parts' | 'monitoring' | 'trade';
 }
 
 const TabContainer = styled.div`
@@ -102,6 +102,55 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
           {partsTabs.map((item) => {
+            return (
+              <TabItem
+                className={
+                  location.pathname.includes(`/${item.id}`) ? 'active' : ''
+                }
+                onClick={() => handleTabMenu(item.url)}
+              >
+                <Typography fontSize='14px' fontWeight={400}>
+                  {item.name}
+                </Typography>
+              </TabItem>
+            );
+          })}
+        </TabList>
+      </TabWrapper>
+    );
+  };
+
+  /* 중고거래 탭 */
+  const renderTradeTab = () => {
+    const tradeTabs = [
+      {
+        id: 'upload',
+        name: '상품 등록',
+        url: '/drone-group/drone/trade/upload',
+      },
+      {
+        id: 'result',
+        name: '검수 결과',
+        url: '/drone-group/drone/trade/result',
+      },
+      {
+        id: 'buy',
+        name: '상품 구매',
+        url: '/drone-group/drone/trade/buy',
+      },
+    ];
+    return (
+      <TabWrapper>
+        <Typography
+          variant='body2'
+          fontWeight='bold'
+          sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
+        >
+          중고 거래
+        </Typography>
+        <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
+        <TabList>
+          {tradeTabs.map((item) => {
             return (
               <TabItem
                 className={
@@ -222,15 +271,16 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   };
 
   return (
-    <>
-      <ItemContainer
-        style={{ minWidth: '12.5rem', position: 'fixed', marginTop: '3.25rem' }}
-      >
+    <div
+      style={{ minWidth: '12.5rem', position: 'fixed', marginTop: '3.25rem' }}
+    >
+      <ItemContainer>
         <TabContainer>
           {type === 'monitoring' ? renderDroneSearchTab() : null}
           {type === 'monitoring' ? renderDroneGroupTab() : null}
           {type === 'dashboard' ? renderDroneListTab() : null}
           {type === 'parts' ? renderPartsTab() : null}
+          {type === 'trade' ? renderTradeTab() : null}
           {type === 'monitoring' ? (
             <Button
               text={
@@ -244,10 +294,13 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
           ) : null}
         </TabContainer>
       </ItemContainer>
+      {type === 'dashboard' ? (
+        <Weather style={{ width: '12.5rem', padding: '0px' }} />
+      ) : null}
       {isGroupPopupOpen && (
         <GroupPopup onClose={() => setGroupPopupOpen(false)} />
       )}
-    </>
+    </div>
   );
 };
 

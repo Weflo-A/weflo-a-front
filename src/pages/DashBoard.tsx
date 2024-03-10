@@ -2,7 +2,7 @@ import { Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getAllDrones, getDashMain } from 'src/api/dashboard';
-import { BackBlue } from 'src/assets';
+import { BackBlue, Weather } from 'src/assets';
 import Button from 'src/components/common/Button';
 import MenuTab, { Drone as DroneType } from 'src/components/common/MenuTab';
 import { DroneDetail } from 'src/components/dashboard/DroneDetail';
@@ -78,7 +78,9 @@ const DashBoard = () => {
 
   return (
     <>
-      <MenuTab type='dashboard' drones={drones} />
+      <Column>
+        <MenuTab type='dashboard' drones={drones}></MenuTab>
+      </Column>
       <div className='page'>
         <Page>
           <Top>
@@ -242,6 +244,12 @@ const Page = styled.div`
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 const Component = styled.div`
