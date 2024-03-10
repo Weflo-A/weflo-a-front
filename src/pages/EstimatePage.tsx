@@ -193,7 +193,8 @@ const EstimatePage = () => {
     const sortedRepairCompanies = [...repairCompanies];
     if (repairFilter === 'recommend') {
       sortedRepairCompanies.sort(
-        (a, b) => b.features.length - a.features.length
+        (a, b) =>
+          [...new Set(b.features)].length - [...new Set(a.features)].length
       );
     } else if (repairFilter === 'price') {
       sortedRepairCompanies.sort((a, b) => a.minPrice - b.minPrice);
