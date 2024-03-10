@@ -327,12 +327,12 @@ const TestDetailPage = () => {
           </Typography>
         </Stack>
         <Stack direction='column' gap='0.25rem'>
-          {testData?.warningList.map((item) => (
+          {testData?.warningList.map((item, index) => (
             <BrokenPartInfoBox
               part={item.component}
               location={item.part}
               score={item.score}
-              warning={false}
+              warning={index < 2}
             />
           ))}
         </Stack>
