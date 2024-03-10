@@ -25,12 +25,14 @@ const PartsBox = styled.div`
 const PartsHeader = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 3fr 3fr 7fr 1.5fr 3fr 2fr;
-  padding: 0.75rem 1.6875rem;
+  grid-template-columns: 3fr 3fr 7fr 2fr 3fr 1fr;
+  justify-content: flex-start;
+  padding: 0.75rem 3rem 0.75rem 2rem;
   width: 100%;
   border: 1px solid ${colors.basic100};
   border-top-left-radius: 0.75rem;
   border-top-right-radius: 0.75rem;
+  text-align: left;
   background: white;
   /* shaow_sidebar */
   box-shadow: 0rem 1.5rem 1.625rem 0rem rgba(66, 82, 110, 0.06);

@@ -667,7 +667,7 @@ const EstimatePage = () => {
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
                   <span style={{ color: colors.accent100 }}>{droneModel}</span>
-                  의
+                  의{' '}
                   {topSection?.components[0].type ===
                   topSection?.components[1].type ? (
                     <span style={{ color: colors.accent100 }}>
@@ -678,7 +678,7 @@ const EstimatePage = () => {
                       <span style={{ color: colors.accent100 }}>
                         {topSection?.components[0].type}
                       </span>
-                      와
+                      와{' '}
                       <span style={{ color: colors.accent100 }}>
                         {topSection?.components[1].type}
                       </span>
@@ -733,14 +733,14 @@ const EstimatePage = () => {
             >
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
-                  재사용 가능 부품이 총
+                  재사용 가능 부품이 총{' '}
                   <span style={{ color: colors.accent100 }}>
-                    {recycleParts.length}개
+                    {recycleParts.length}개{' '}
                   </span>
                   있습니다.
                 </Typography>
               </CalloutBox>
-              <Stack direction='row' gap='1.25rem'>
+              <Stack direction='row' gap='1.25rem' whiteSpace={'nowrap'}>
                 {[
                   { value: 'part', label: '구동부 순' },
                   { value: 'score', label: '점수 높은 순' },
@@ -796,4 +796,5 @@ const CalloutBox = styled.div`
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   background: ${colors.basic100};
+  margin-right: 10px;
 `;
