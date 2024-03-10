@@ -25,7 +25,7 @@ const AreaChart = ({ items }: DroneStateChart) => {
     },
     series: [
       {
-        name: 'Series 1',
+        name: '그룹 드론 평가 점수',
         data: avgScoreList,
       },
     ],
