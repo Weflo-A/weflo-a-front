@@ -28,6 +28,11 @@ const ScoreRadarChart = ({ items, totalScore }: RadarChartProp) => {
         data: avgList,
       },
     ],
+    plotOptions: {
+      radar: {
+        size: 100,
+      },
+    },
     padding: 0,
     colors: [colors.accent100],
     chart: {
@@ -57,11 +62,12 @@ const ScoreRadarChart = ({ items, totalScore }: RadarChartProp) => {
         options={options}
         series={options.series}
         type='radar'
-        width='300'
+        width='350'
+        height='300'
       />
       <Stack
         position='absolute'
-        bottom={30}
+        bottom={10}
         direction='row'
         alignItems='center'
         justifyContent='center'
