@@ -40,7 +40,7 @@ const DroneSearch: React.FC = () => {
 
   const groupFilterData = searchResults.groupInfo
     ? searchResults.groupInfo.map((group: any) => ({
-        id: group.groupId,
+        id: group.name,
         label: group.name,
         filterName: '드론그룹',
       }))
@@ -63,6 +63,13 @@ const DroneSearch: React.FC = () => {
         setSearchResults(res.data.data);
         setSearchDrones(res.data.data);
         console.log('드론 조회 데이터:', res.data.data);
+        console.log(
+          'requestbody?',
+          searchTerm,
+          selectedModels,
+          selectedYears,
+          selectedGroups
+        );
       }
     );
   };
