@@ -59,7 +59,7 @@ const Basket = ({ items }: BasketProps) => {
               총 가격
             </Typography>
             <Typography variant='h3' color={colors.accent100} fontWeight='bold'>
-              {items?.totalCost}원
+              {items?.totalCost.toLocaleString()}원
             </Typography>
           </Stack>
           <Button
