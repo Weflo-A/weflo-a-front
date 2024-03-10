@@ -24,21 +24,19 @@ const FilterLine: React.FC<FilterLineProps> = ({
   const [selectedFilterIds, setSelectedFilterIds] = useState<string[]>([]);
 
   const handleCheckboxChange = (filterId: string) => {
-    if (filterId === 'all' || filterId === 'r') {
-      const allSelected = !selectedFilterIds.includes('all' || 'r');
+    if (filterId === 'all') {
+      const allSelected = !selectedFilterIds.includes('all');
       const updatedSelectedFilterIds = allSelected
         ? filterData.map((item) => item.id)
         : [];
       setSelectedFilterIds(updatedSelectedFilterIds);
       setSelectedFilters(updatedSelectedFilterIds);
-      console.log('all', selectedFilters);
     } else {
       const updatedSelectedFilterIds = selectedFilterIds.includes(filterId)
         ? selectedFilterIds.filter((id) => id !== filterId)
         : [...selectedFilterIds, filterId];
       setSelectedFilterIds(updatedSelectedFilterIds);
       setSelectedFilters(updatedSelectedFilterIds);
-      console.log(selectedFilters);
     }
   };
 
