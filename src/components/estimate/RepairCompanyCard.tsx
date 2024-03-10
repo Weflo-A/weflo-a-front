@@ -55,6 +55,7 @@ const RepairCompanyCard = ({
           style={{
             width: '13.1875rem',
             height: '4.375rem',
+            objectFit: 'contain',
           }}
           src={logo}
           alt={name}
