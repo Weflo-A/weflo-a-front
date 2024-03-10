@@ -7,6 +7,7 @@ import { Plus } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
 import GroupPopup from '../onboarding/GroupPopup';
 import { useState } from 'react';
+import React from 'react';
 
 //
 //
