@@ -83,6 +83,7 @@ const PopupOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 3000;
 `;
 
 const PopupContent = styled.div`
