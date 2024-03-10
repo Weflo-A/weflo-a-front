@@ -123,20 +123,18 @@ const TestDetailPage = () => {
   // 메뉴탭 이동시 id 변경
   // 첫번째 날짜값으로 조회
   React.useEffect(() => {
-    if (!testDate) {
-      getTestDateList(Number(id)).then((res) => {
-        setDateList(res.data.data);
-        if (res.data.data.length > 0) {
-          const { year, month, day } = res.data.data[0];
-          console.log('탭이동', year, month, day);
-          setSelectedDate(`${year}-${month}-${day}`);
-          getTestDetail(Number(id), year, month, day).then((res) => {
-            console.log(res.data.data);
-            setTestData(res.data.data);
-          });
-        }
-      });
-    }
+    getTestDateList(Number(id)).then((res) => {
+      setDateList(res.data.data);
+      if (res.data.data.length > 0) {
+        const { year, month, day } = res.data.data[0];
+        console.log('탭이동', year, month, day);
+        setSelectedDate(`${year}-${month}-${day}`);
+        getTestDetail(Number(id), year, month, day).then((res) => {
+          console.log(res.data.data);
+          setTestData(res.data.data);
+        });
+      }
+    });
   }, [id]);
 
   // id는 고정인채 날짜만 변경시
@@ -329,12 +327,12 @@ const TestDetailPage = () => {
           </Typography>
         </Stack>
         <Stack direction='column' gap='0.25rem'>
-          {testData?.warningList.map((item) => (
+          {testData?.warningList.map((item, index) => (
             <BrokenPartInfoBox
               part={item.component}
               location={item.part}
               score={item.score}
-              warning={false}
+              warning={index < 2}
             />
           ))}
         </Stack>
