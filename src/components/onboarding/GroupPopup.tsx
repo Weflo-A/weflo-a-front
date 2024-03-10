@@ -10,11 +10,16 @@ interface PopupProps {
 }
 
 const GroupPopup: React.FC<PopupProps> = ({ onClose }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValueId, setInputValueId] = useState('');
+  const [inputValueDate, setInputValueDate] = useState('');
 
-  const handleChange = (value: string) => {
-    setInputValue(value);
+  const handleIdChange = (value: string) => {
+    setInputValueId(value);
   };
+  const handleDateChange = (value: string) => {
+    setInputValueDate(value);
+  };
+
   return (
     <PopupOverlay>
       <PopupContent>
@@ -29,9 +34,9 @@ const GroupPopup: React.FC<PopupProps> = ({ onClose }) => {
               <Essential>필수</Essential>
             </Row>
             <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Drone ID'
+              value={inputValueId}
+              onChange={handleIdChange}
+              placeholder='드론 ID를 입력해주세요.'
             />
           </Line>
           <Line>
@@ -48,13 +53,13 @@ const GroupPopup: React.FC<PopupProps> = ({ onClose }) => {
           </Line>
           <Line>
             <Row>
-              <PopupText>시작일</PopupText>
+              <PopupText>그룹 시작일</PopupText>
               <Essential>필수</Essential>
             </Row>
             <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Year'
+              value={inputValueDate}
+              onChange={handleDateChange}
+              placeholder='그룹 시작일을 선택해주세요.'
             />
           </Line>
         </Content>
@@ -83,7 +88,7 @@ const PopupOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3000;
+  z-index: 1000;
 `;
 
 const PopupContent = styled.div`
@@ -170,6 +175,7 @@ const StyledSelect = styled.select`
   border: 1px solid ${colors.basic200};
   background: ${colors.basic50};
   outline: none;
+  padding: 5px;
 `;
 
 const StyledMenuItem = styled.option`

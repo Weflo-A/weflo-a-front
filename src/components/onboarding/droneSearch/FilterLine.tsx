@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CheckBox from 'src/components/common/CheckBox';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
