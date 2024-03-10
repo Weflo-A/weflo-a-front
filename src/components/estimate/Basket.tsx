@@ -66,7 +66,7 @@ const Basket = ({ items }: BasketProps) => {
             buttonType='basic'
             text='부품 구매 바로가기'
             onClick={() =>
-              navigate(`/drone-group/drone/parts/cost`, {
+              navigate(`/drone-group/drone/parts/purchase`, {
                 state: location.state,
               })
             }

@@ -1,10 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getDashMain, getDroneList } from 'src/api/dashboard';
+import { getAllDrones, getDashMain } from 'src/api/dashboard';
 import { BackBlue } from 'src/assets';
 import Button from 'src/components/common/Button';
-import MenuTab, { GroupDetail } from 'src/components/common/MenuTab';
+import MenuTab, { Drone as DroneType } from 'src/components/common/MenuTab';
 import { DroneDetail } from 'src/components/dashboard/DroneDetail';
 import FailurePieChart from 'src/components/dashboard/FailurePieChart';
 import MixChart from 'src/components/dashboard/MixChart';
@@ -47,7 +47,7 @@ interface DroneGroup {
 
 const DashBoard = () => {
   const navigate = useNavigate();
-  const [drones, setDrones] = useState<GroupDetail>();
+  const [drones, setDrones] = useState<DroneType[]>();
   const { groupId, id } = useParams();
   const [mainData, setMainData] = useState<{
     droneInfo: DroneInfo;
@@ -61,7 +61,7 @@ const DashBoard = () => {
   };
 
   useEffect(() => {
-    getDroneList(1).then((res) => {
+    getAllDrones().then((res) => {
       console.log(res.data.data);
       setDrones(res.data.data);
     });

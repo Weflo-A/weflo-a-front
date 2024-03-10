@@ -10,7 +10,7 @@ import MenuTab, { Group } from 'src/components/common/MenuTab';
 import Button from 'src/components/common/Button';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Chip from 'src/components/common/Chip';
-import CheckBox from 'src/components/common/CheckBox';
+import RadioBtn from 'src/components/common/RadioBtn';
 import {
   Drone,
   DroneGroupList,
@@ -104,6 +104,22 @@ const DroneGroupPage = () => {
   const [groupInfo, setGroupInfo] = React.useState<GroupInfo>();
   const [dronesState, setDronesState] = React.useState<DroneState>();
   const [droneList, setDroneList] = React.useState<Drone[]>([]);
+
+  const [filter, setFilter] = React.useState('cost');
+
+  React.useEffect(() => {
+    const sortedDrones = [...droneList];
+    if (filter === 'cost') {
+      sortedDrones.sort((a, b) => b.cost - a.cost);
+    } else if (filter === 'register') {
+      sortedDrones.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    } else if (filter === 'year') {
+      sortedDrones.sort((a, b) => b.year - a.year);
+    }
+    setDroneList(sortedDrones);
+  }, [filter]);
 
   /* Drone group info */
   const renderDroneGroupInfo = () => {
@@ -255,15 +271,6 @@ const DroneGroupPage = () => {
 
   React.useEffect(() => {
     getDroneGroupList().then((res) => setGroupList(res.data.data));
-    getDroneGroupInfo(Number(groupId), groupYear).then((res) =>
-      setGroupInfo(res.data.data)
-    );
-    getDroneStateInfo(Number(groupId), droneYear).then((res) =>
-      setDronesState(res.data.data)
-    );
-    getDroneInfoList(Number(groupId), 'cost').then((res) =>
-      setDroneList(res.data.data)
-    );
   }, []);
 
   React.useEffect(() => {
@@ -300,15 +307,24 @@ const DroneGroupPage = () => {
           title='드론 목록'
           sx={{ paddingTop: '2.5rem', marginBottom: '0' }}
         >
-          <Chip text='6개' />
+          <Chip text={`${droneList.length}개`} />
         </SectionHeader>
         <Stack
           flexDirection='row'
           justifyContent='flex-end'
           marginBottom='1rem'
         >
-          {['투입 비용 순', '등록 순', '연식 순'].map((item, index) => (
-            <CheckBox key={index} label={item} />
+          {[
+            { value: 'cost', label: '투입 비용 순' },
+            { value: 'register', label: '등록 순' },
+            { value: 'year', label: '연식 순' },
+          ].map((item) => (
+            <RadioBtn
+              value={item.value}
+              label={item.label}
+              checked={filter === item.value}
+              onChange={() => setFilter(item.value)}
+            />
           ))}
         </Stack>
         <DroneGroupList items={droneList} />

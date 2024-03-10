@@ -24,3 +24,7 @@ export const getTestDetail = async (
     day: day,
   });
 };
+
+export const getAllDrones = async () => {
+  return await client.get(`/api/drone`);
+};
