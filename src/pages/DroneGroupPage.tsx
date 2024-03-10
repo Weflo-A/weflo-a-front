@@ -256,7 +256,7 @@ const DroneGroupPage = () => {
                   fontWeight='regular'
                   color={colors.basic500}
                 >
-                  그룹1 드론 평가 점수
+                  그룹 드론 평가 점수
                 </Typography>
               </Stack>
             </ChartLabelBox>
@@ -294,7 +294,7 @@ const DroneGroupPage = () => {
     <>
       <MenuTab type='monitoring' groups={groupList} />
       <div className='page'>
-        <SectionHeader title='드롭 그룹'>
+        <SectionHeader title='드론 그룹 정보'>
           <Button
             text='해당 그룹에 드론 등록'
             buttonType='accentLight'
