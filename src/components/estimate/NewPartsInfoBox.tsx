@@ -53,7 +53,15 @@ const NewPartInfoBox = ({
 }: NewPartsProp) => {
   return (
     <PartsInfoBox style={{ gap: '1rem' }}>
-      <img src={imgUrl} alt={name} style={{ objectFit: 'contain' }} />
+      <img
+        src={imgUrl}
+        alt={name}
+        style={{
+          objectFit: 'contain',
+          maxWidth: '7.5rem',
+          borderRadius: '0.5rem',
+        }}
+      />
       <Stack width='100%' direction='column' justifyContent='center' gap='1rem'>
         <Stack
           direction='row'
