@@ -198,7 +198,7 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
           {drones?.map((item) => (
             <TabItem
               className={
-                location.pathname.includes(`/drone/${item.id}`) ? 'active' : ''
+                location.pathname.includes(`/drone/${item.id}/`) ? 'active' : ''
               }
               onClick={() =>
                 handleTabMenu(
