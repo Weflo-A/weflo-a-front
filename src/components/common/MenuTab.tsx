@@ -5,6 +5,8 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
 import { Plus, Weather } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
+import GroupPopup from '../onboarding/GroupPopup';
+import React from 'react';
 
 //
 //
@@ -63,6 +65,7 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   const location = useLocation();
   const isTestDetailPage = location.pathname.includes('/test');
   const isEstimatePage = location.pathname.includes('/estimate');
+  const [isGroupPopupOpen, setGroupPopupOpen] = React.useState(false);
 
   const handleTabMenu = (url: string, id?: string) => {
     navigate(url, { state: id });
@@ -290,7 +293,7 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
                 </>
               }
               buttonType='accentLight'
-              onClick={() => alert('클릭')}
+              onClick={() => setGroupPopupOpen(true)}
             />
           ) : null}
         </TabContainer>
@@ -298,6 +301,9 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
       {type === 'dashboard' ? (
         <Weather style={{ width: '12.5rem', padding: '0px' }} />
       ) : null}
+      {isGroupPopupOpen && (
+        <GroupPopup onClose={() => setGroupPopupOpen(false)} />
+      )}
     </div>
   );
 };

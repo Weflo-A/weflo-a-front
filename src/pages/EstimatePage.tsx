@@ -27,7 +27,7 @@ import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import { useNavigate, useParams } from 'react-router-dom';
 import DateSelect from 'src/components/estimate/DateSelect';
-import { getAllDrones, getDroneList } from 'src/api/dashboard';
+import { getAllDrones } from 'src/api/dashboard';
 import RadioBtn from 'src/components/common/RadioBtn';
 
 //
@@ -106,6 +106,7 @@ const EstimatePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [drones, setDrones] = React.useState<Drone[]>();
+  const [currentDrone, setCurrentDrone] = React.useState<Drone>();
   const [newPartsFilter, setNewPartsFilter] = React.useState('score');
 
   /* 날짜 Select */
@@ -122,6 +123,7 @@ const EstimatePage = () => {
   const [repairCompanies, setRepairCompanies] = React.useState<RepairCompany[]>(
     []
   );
+  const [repairFilter, setRepairFilter] = React.useState('recommend');
   const [partsSearch, setPartsSearch] = React.useState('');
   const [scoreRange, setScoreRange] = React.useState<number[]>([0, 100]);
   const [priceRange, setPriceRange] = React.useState<number[]>([0, 500000]);
@@ -153,6 +155,7 @@ const EstimatePage = () => {
 
   /* 폐기 전 재사용 가능 부품 */
   const recycleParts = newParts.filter((item) => item.point > 70);
+  const [recycleFilter, setRecycleFilter] = React.useState('part');
   const [recycleCheckedList, setRecycleCheckedList] = React.useState<string[]>(
     []
   );
@@ -183,11 +186,44 @@ const EstimatePage = () => {
     setFilteredNewParts(sortedNewParts);
   }, [newPartsFilter]);
 
-  // 드론 그룹 아이디 1 => 전체 드론 조회라고 가정
+  /* 수리 업체 정렬 */
+  React.useEffect(() => {
+    const sortedRepairCompanies = [...repairCompanies];
+    if (repairFilter === 'recommend') {
+      sortedRepairCompanies.sort(
+        (a, b) => b.features.length - a.features.length
+      );
+    } else if (repairFilter === 'price') {
+      sortedRepairCompanies.sort((a, b) => a.minPrice - b.minPrice);
+    } else if (repairFilter === 'distance') {
+      sortedRepairCompanies.sort((a, b) => b.maxPrice - a.maxPrice);
+    }
+    setRepairCompanies(sortedRepairCompanies);
+  }, [repairFilter]);
+
+  /* 재활용 부품 정렬 */
+  React.useEffect(() => {
+    const sortedRecycleParts = [...recycleParts];
+    if (recycleFilter === 'part') {
+      sortedRecycleParts.sort(
+        (a, b) => Number(b.part[-1]) - Number(a.part[-1])
+      );
+    } else if (recycleFilter === 'score') {
+      sortedRecycleParts.sort((a, b) => b.point - a.point);
+    } else if (recycleFilter === 'price') {
+      sortedRecycleParts.sort((a, b) => b.price - a.price);
+    }
+    setFilteredNewParts(sortedRecycleParts);
+  }, [recycleFilter]);
+
+  /* 전체 드론 조회 */
   React.useEffect(() => {
     getAllDrones().then((res) => {
       console.log(res.data.data);
       setDrones(res.data.data);
+      setCurrentDrone(
+        res.data.data?.filter((item: Drone) => item.id === Number(id))
+      );
     });
   }, []);
 
@@ -237,12 +273,12 @@ const EstimatePage = () => {
       getEnglishType(topSection?.components[0].type || '모터') || 'Motor';
     const second =
       getEnglishType(topSection?.components[1].type || '블레이드') || 'Blade';
-    getRepairCompany('Model1', [first, second]).then((res) =>
-      setRepairCompanies(res.data.data)
+    getRepairCompany(currentDrone?.name || 'Model1', [first, second]).then(
+      (res) => setRepairCompanies(res.data.data)
     );
   }, [topSection]);
 
-  /* 부품 필터링 */
+  /* 교체 부품 가격 범위 & 점수 범위필터링 */
   React.useEffect(() => {
     const filteredParts = newParts.filter(
       (item) =>
@@ -305,7 +341,7 @@ const EstimatePage = () => {
       >
         <Stack direction='row' gap='0.5rem'>
           <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
-            Drone No.1
+            {currentDrone?.name}
           </Typography>
           <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
             견적서
@@ -625,7 +661,10 @@ const EstimatePage = () => {
             >
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
-                  <span style={{ color: colors.accent100 }}>Eagle</span>의
+                  <span style={{ color: colors.accent100 }}>
+                    {currentDrone?.name}
+                  </span>
+                  의
                   {topSection?.components[0].type ===
                   topSection?.components[1].type ? (
                     <span style={{ color: colors.accent100 }}>
@@ -650,8 +689,17 @@ const EstimatePage = () => {
                 </Typography>
               </CalloutBox>
               <Stack direction='row' gap='1.25rem'>
-                {['추천 순', '가격 낮은 순', '가까운 순'].map((item, index) => (
-                  <CheckBox key={index} label={item} />
+                {[
+                  { value: 'recommend', label: '추천 순' },
+                  { value: 'price', label: '가격 낮은 순' },
+                  { value: 'distance', label: '가까운 순' },
+                ].map((item) => (
+                  <RadioBtn
+                    value={item.value}
+                    label={item.label}
+                    checked={repairFilter === item.value}
+                    onChange={() => setRepairFilter(item.value)}
+                  />
                 ))}
               </Stack>
             </Stack>
@@ -690,11 +738,18 @@ const EstimatePage = () => {
                 </Typography>
               </CalloutBox>
               <Stack direction='row' gap='1.25rem'>
-                {['구동부 순', '점수 높은 순', '가격 높은 순'].map(
-                  (item, index) => (
-                    <CheckBox key={index} label={item} />
-                  )
-                )}
+                {[
+                  { value: 'part', label: '구동부 순' },
+                  { value: 'score', label: '점수 높은 순' },
+                  { value: 'price', label: '가격 높은 순' },
+                ].map((item) => (
+                  <RadioBtn
+                    value={item.value}
+                    label={item.label}
+                    checked={recycleFilter === item.value}
+                    onChange={() => setRecycleFilter(item.value)}
+                  />
+                ))}
               </Stack>
             </Stack>
             <RecyclePartsBox

@@ -11,24 +11,29 @@ import TestDetailPage from './pages/TestDetailPage';
 import TradeUploadPage from './pages/TradeUploadPage';
 import TradePurchasePage from './pages/TradePurchasePage';
 import TradeResultPage from './pages/TradeResultPage';
+import ScrollToTop from './components/common/ScrollToTop';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route
-          path='/'
-          element={<Navigate replace to='/monitoring/drone-search' />}
-        />
-        {/* 드론 검색(조회) */}
-        <Route path='/monitoring/drone-search' element={<DroneSearchPage />} />
-        {/* 드론 목록 */}
-        <Route
-          path='/monitoring/drone-group/:groupId'
-          element={<DroneGroupPage />}
-        />
-        {/* 중고 거래 */}
+      <ScrollToTop>
+        <NavBar />
+        <Routes>
+          <Route
+            path='/'
+            element={<Navigate replace to='/monitoring/drone-search' />}
+          />
+          {/* 드론 검색(조회) */}
+          <Route
+            path='/monitoring/drone-search'
+            element={<DroneSearchPage />}
+          />
+          {/* 드론 목록 */}
+          <Route
+            path='/monitoring/drone-group/:groupId'
+            element={<DroneGroupPage />}
+          />
+          {/* 중고 거래 */}
         <Route
           path='/drone-group/drone/trade/upload'
           element={<TradeUploadPage />}
@@ -42,37 +47,38 @@ const Router = () => {
           element={<TradePurchasePage />}
         />
 
-        {/* 대시보드 메인 */}
-        <Route
-          path='/drone-group/drone/:id/dashboard'
-          element={<DashBoard />}
-        />
-        {/* 대시보드 진단 상세 */}
-        <Route
-          path='/drone-group/drone/:id/dashboard/test'
-          element={<TestDetailPage />}
-        />
-        {/* 견적서 */}
-        <Route
-          path='/drone-group/drone/:id/estimate'
-          element={<EstimatePage />}
-        />
-        {/* 부품 구매 */}
-        <Route
-          path='/drone-group/drone/parts/purchase'
-          element={<PurchasePartPage />}
-        />
-        {/* 부품 예측 관리 */}
-        <Route
-          path='/drone-group/drone/parts/manage'
-          element={<EstimatePartPage />}
-        />
-        {/* 투입 비용 현황 */}
-        <Route
-          path='/drone-group/drone/parts/cost'
-          element={<CostPartPage />}
-        />
-      </Routes>
+          {/* 대시보드 메인 */}
+          <Route
+            path='/drone-group/drone/:id/dashboard'
+            element={<DashBoard />}
+          />
+          {/* 대시보드 진단 상세 */}
+          <Route
+            path='/drone-group/drone/:id/dashboard/test'
+            element={<TestDetailPage />}
+          />
+          {/* 견적서 */}
+          <Route
+            path='/drone-group/drone/:id/estimate'
+            element={<EstimatePage />}
+          />
+          {/* 부품 구매 */}
+          <Route
+            path='/drone-group/drone/parts/purchase'
+            element={<PurchasePartPage />}
+          />
+          {/* 부품 예측 관리 */}
+          <Route
+            path='/drone-group/drone/parts/manage'
+            element={<EstimatePartPage />}
+          />
+          {/* 투입 비용 현황 */}
+          <Route
+            path='/drone-group/drone/parts/cost'
+            element={<CostPartPage />}
+          />
+        </Routes>
+      </ScrollToTop>
     </BrowserRouter>
   );
 };
