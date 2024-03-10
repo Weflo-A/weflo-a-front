@@ -81,7 +81,7 @@ const RepairCompanyCard = ({
             예상 수리 비용
           </Typography>
           <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
-            {`${cost[0]} ~ ${cost[1]}`}
+            {`${cost[0].toLocaleString()}원 ~ ${cost[1].toLocaleString()}원`}
           </Typography>
         </Stack>
       </Stack>

@@ -70,7 +70,7 @@ const NewPartInfoBox = ({
           </Stack>
           <Stack direction='row' alignItems='center' gap='1rem'>
             <Typography variant='h4' fontWeight='bold'>
-              {price} 원
+              {price.toLocaleString()} 원
             </Typography>
             <CheckBox
               key={id}

@@ -1,14 +1,9 @@
 {
   "compilerOptions": {
+    "downlevelIteration": true,
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "types": [
-      "node",
-      "react",
-      "react-dom",
-      "@types/apexcharts",
-      "axios"
-    ],
+    "types": ["node", "react", "react-dom", "@types/apexcharts", "axios"],
     "typeRoots": ["./node_modules/@types"],
     "allowJs": true,
     "skipLibCheck": true,

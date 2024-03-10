@@ -85,7 +85,7 @@ const DroneGroupCard: React.FC<DroneGroupCardProps> = ({ data }) => {
               투입 비용
             </Typography>
             <Typography variant='caption' color={colors.basic500}>
-              {data.cost}
+              {data.cost.toLocaleString()}원
             </Typography>
           </Box>
           <Box>
