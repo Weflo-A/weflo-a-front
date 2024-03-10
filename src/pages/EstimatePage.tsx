@@ -183,7 +183,6 @@ const EstimatePage = () => {
     setFilteredNewParts(sortedNewParts);
   }, [newPartsFilter]);
 
-  // 드론 그룹 아이디 1 => 전체 드론 조회라고 가정
   React.useEffect(() => {
     getAllDrones().then((res) => {
       console.log(res.data.data);
