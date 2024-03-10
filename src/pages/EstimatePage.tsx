@@ -623,7 +623,7 @@ const EstimatePage = () => {
                     <NewPartInfoBox
                       id={index}
                       name={item.name}
-                      imgUrl={partsImg}
+                      imgUrl={item.image}
                       loc={item.part}
                       parts={item.type}
                       score={item.point}
