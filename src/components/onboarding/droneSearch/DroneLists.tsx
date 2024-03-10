@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { DroneGroupBox } from './DroneGroupBox';
 
 interface DroneInfo {
+  droneId: number;
   name: string;
   model: string;
   year: number;
@@ -52,7 +53,7 @@ function DroneLists({ data }: Props) {
                       </>
                     }
                     buttonType='accentLight'
-                    onClick={() => goToDashboard(index)}
+                    onClick={() => goToDashboard(data.droneId)}
                     style={{ width: '110px', height: '32px', fontSize: '14px' }}
                   />
                 </Drone>
