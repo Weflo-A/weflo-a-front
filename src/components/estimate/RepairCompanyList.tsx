@@ -65,7 +65,13 @@ const RepairCompanyList = ({ items }: RepairCompanyProps) => {
               cost={[item.minPrice, item.maxPrice]}
               name={item.name}
               tag={item.features}
-              type='best'
+              type={
+                item.features.length >= 3
+                  ? 'best'
+                  : item.features.length >= 2
+                    ? 'recommend'
+                    : undefined
+              }
             />
           ))}
         </Stack>

@@ -17,10 +17,10 @@ interface ResultRecordProp {
   data: {
     testList: TestItem[];
   };
-  groupId: number;
+  droneId: number;
 }
 
-function ResultRecord({ groupId, data }: ResultRecordProp) {
+function ResultRecord({ droneId, data }: ResultRecordProp) {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,7 +52,7 @@ function ResultRecord({ groupId, data }: ResultRecordProp) {
           <Drone
             key={index}
             onClick={() =>
-              navigate(`/drone-group/drone/${location.state}/dashboard/test`, {
+              navigate(`/drone-group/drone/${droneId}/dashboard/test`, {
                 state: { id: location.state, date: data.testDate },
               })
             }
