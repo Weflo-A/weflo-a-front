@@ -26,6 +26,16 @@ const MultiplePieChart = ({ title, series }: MultiplePieChartProp) => {
           total: {
             show: true,
             label: 'Total',
+            formatter: function (w: any) {
+              return (
+                (
+                  w.globals.seriesTotals.reduce((a: any, b: any) => a + b, 0) /
+                  w.globals.series.length
+                )
+                  .toFixed(0)
+                  .toString() + '%'
+              );
+            },
           },
         },
       },
