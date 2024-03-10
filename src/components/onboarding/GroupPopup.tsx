@@ -9,7 +9,7 @@ interface PopupProps {
   onClose: () => void;
 }
 
-const Popup: React.FC<PopupProps> = ({ onClose }) => {
+const GroupPopup: React.FC<PopupProps> = ({ onClose }) => {
   const [inputValue, setInputValue] = useState('');
 
   const handleChange = (value: string) => {
@@ -19,13 +19,13 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
     <PopupOverlay>
       <PopupContent>
         <SpaceBetween>
-          <PopupTitle>드론 신규 등록</PopupTitle>
+          <PopupTitle>그룹 생성</PopupTitle>
           <Close onClick={onClose} />
         </SpaceBetween>
         <Content>
           <Line>
             <Row>
-              <PopupText>드론 ID</PopupText>
+              <PopupText>그룹명</PopupText>
               <Essential>필수</Essential>
             </Row>
             <Input
@@ -36,19 +36,19 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
           </Line>
           <Line>
             <Row>
-              <PopupText>드론 모델</PopupText>
+              <PopupText>사용 용도</PopupText>
               <Essential>필수</Essential>
             </Row>
             <StyledSelect>
-              <StyledMenuItem>EAGLE</StyledMenuItem>
-              <StyledMenuItem>MDT-1600</StyledMenuItem>
-              <StyledMenuItem>SHIFT</StyledMenuItem>
-              <StyledMenuItem>VL-2240R</StyledMenuItem>
+              <StyledMenuItem>편의점 배달</StyledMenuItem>
+              <StyledMenuItem>농업용</StyledMenuItem>
+              <StyledMenuItem>촬영용</StyledMenuItem>
+              <StyledMenuItem>군용</StyledMenuItem>
             </StyledSelect>
           </Line>
           <Line>
             <Row>
-              <PopupText>연식</PopupText>
+              <PopupText>시작일</PopupText>
               <Essential>필수</Essential>
             </Row>
             <Input
@@ -57,33 +57,10 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               placeholder='Year'
             />
           </Line>
-          <Line>
-            <Row>
-              <PopupText>사용 용도</PopupText>
-              <Essential>필수</Essential>
-            </Row>
-            <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Purpose of use'
-            />
-          </Line>
-          <Line>
-            <Row>
-              <PopupText>드론 그룹</PopupText>
-              <Essential>선택</Essential>
-            </Row>
-            <StyledSelect>
-              <StyledMenuItem>그룹 1</StyledMenuItem>
-              <StyledMenuItem>그룹 2</StyledMenuItem>
-              <StyledMenuItem>그룹 3</StyledMenuItem>
-              <StyledMenuItem>그룹 4</StyledMenuItem>
-            </StyledSelect>
-          </Line>
         </Content>
         <RightAlignedButton>
           <Button
-            text={<>등록하기</>}
+            text={<>그룹 생성하기</>}
             buttonType='accent'
             onClick={onClose}
             style={{ width: '122px', height: '44px', fontSize: '16px' }}
@@ -94,7 +71,7 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
   );
 };
 
-export default Popup;
+export default GroupPopup;
 
 const PopupOverlay = styled.div`
   position: fixed;
@@ -110,7 +87,7 @@ const PopupOverlay = styled.div`
 
 const PopupContent = styled.div`
   width: 632px;
-  height: 426px;
+  height: 314px;
   background-color: white;
   padding: 20px;
   border-radius: 12px;
