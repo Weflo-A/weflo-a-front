@@ -3,6 +3,7 @@ import colors from 'src/constants/colors';
 import { Typography } from '@mui/material';
 import CheckBox from 'src/components/common/CheckBox';
 import { Blade, ESC, Motor } from 'src/assets';
+import { useEffect, useState } from 'react';
 
 interface GroupPart {
   name: string;
@@ -34,30 +35,38 @@ const GroupPartCard: React.FC<Props> = ({
       <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
         {groupName}
       </Typography>
-      {partsArray?.map((part, index) => (
-        <Line key={index}>
-          {part.name === '모터' && <Motor />}
-          {part.name === '블레이드' && <Blade />}
-          {part.name === 'ESC' && <ESC />}
-          <Typography
-            variant='caption'
-            fontWeight='regular'
-            color={colors.basic500}
-          >
-            {part.name}
+      {partsArray.length === 0 ? (
+        <Center>
+          <Typography fontSize='12px' color={colors.basic500}>
+            결과 없음
           </Typography>
-          <Row>
-            <Typography variant='caption' color={colors.basic700}>
-              {String(part.quantity)}개
+        </Center>
+      ) : (
+        partsArray.map((part, index) => (
+          <Line key={index}>
+            {part.name === '모터' && <Motor />}
+            {part.name === '블레이드' && <Blade />}
+            {part.name === 'ESC' && <ESC />}
+            <Typography
+              variant='caption'
+              fontWeight='regular'
+              color={colors.basic500}
+            >
+              {part.name}
             </Typography>
-            <CheckBox
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onSelect(part.name, Number(part.quantity), e.target.checked)
-              }
-            />
-          </Row>
-        </Line>
-      ))}
+            <Row>
+              <Typography variant='caption' color={colors.basic700}>
+                {String(part.quantity)}개
+              </Typography>
+              <CheckBox
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  onSelect(part.name, Number(part.quantity), e.target.checked)
+                }
+              />
+            </Row>
+          </Line>
+        ))
+      )}
     </Card>
   );
 };
@@ -98,4 +107,12 @@ const Row = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 10px;
+`;
+
+const Center = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

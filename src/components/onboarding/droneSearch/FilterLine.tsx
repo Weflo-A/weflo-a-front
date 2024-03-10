@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckBox from 'src/components/common/CheckBox';
 import colors from 'src/constants/colors';
 import styled from 'styled-components';
@@ -24,19 +24,21 @@ const FilterLine: React.FC<FilterLineProps> = ({
   const [selectedFilterIds, setSelectedFilterIds] = useState<string[]>([]);
 
   const handleCheckboxChange = (filterId: string) => {
-    if (filterId === 'all') {
-      const allSelected = !selectedFilterIds.includes('all');
+    if (filterId === 'all' || filterId === '전체') {
+      const allSelected = !selectedFilterIds.includes('all' || '전체');
       const updatedSelectedFilterIds = allSelected
         ? filterData.map((item) => item.id)
         : [];
       setSelectedFilterIds(updatedSelectedFilterIds);
       setSelectedFilters(updatedSelectedFilterIds);
+      console.log('all', selectedFilters);
     } else {
       const updatedSelectedFilterIds = selectedFilterIds.includes(filterId)
         ? selectedFilterIds.filter((id) => id !== filterId)
         : [...selectedFilterIds, filterId];
       setSelectedFilterIds(updatedSelectedFilterIds);
       setSelectedFilters(updatedSelectedFilterIds);
+      console.log(selectedFilters);
     }
   };
 
@@ -69,7 +71,7 @@ const Line = styled.div`
   border-radius: 8px;
   background: ${colors.primaryOpacity10};
   display: grid;
-  grid-template-columns: 1fr 0.8fr 1.2fr 1.2fr 1.2fr 1.2fr 3fr;
+  grid-template-columns: 1fr 0.8fr 1.2fr 1.2fr 1.2fr 1.2fr 1.2fr 2fr;
   white-space: nowrap;
 `;
 

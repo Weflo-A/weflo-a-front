@@ -6,7 +6,7 @@ import Button from 'src/components/common/Button';
 import { useNavigate } from 'react-router-dom';
 import { BladeAccent, ESCAccent, MotorAccent } from 'src/assets';
 import { GroupPartCard } from './GroupPartCard';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Pagination, {
   PaginationHandles,
 } from 'src/components/common/Pagination';
@@ -39,15 +39,24 @@ const WeekPartCard: React.FC<Props> = ({ period, partsData, mode }: Props) => {
     partNum: number,
     checked: boolean
   ) => {
-    setSelectedParts((prevState) => ({
-      ...prevState,
-      [partName]: checked ? (prevState[partName] || 0) + partNum : 0,
-    }));
-    console.log('hello', partName);
-  };
+    setSelectedParts((prevState) => {
+      const updatedSelectedParts = { ...prevState };
 
-  const handleButtonClick = () => {
-    navigate('/drone-group/drone/parts/purchase');
+      if (checked) {
+        // 체크박스가 체크되었을 때
+        updatedSelectedParts[partName] = (prevState[partName] || 0) + partNum;
+      } else {
+        // 체크박스가 해제되었을 때
+        if (prevState[partName] !== undefined) {
+          updatedSelectedParts[partName] = prevState[partName] - partNum;
+          if (updatedSelectedParts[partName] <= 0) {
+            delete updatedSelectedParts[partName]; // 0개 이하이면 삭제
+          }
+        }
+      }
+
+      return updatedSelectedParts;
+    });
   };
 
   // 필터된 결과를 페이지별로 나누는 함수
@@ -71,6 +80,11 @@ const WeekPartCard: React.FC<Props> = ({ period, partsData, mode }: Props) => {
 
   const handlePageChange = (pageNumber: number) => {
     setPage(pageNumber);
+  };
+
+  const handleButtonClick = () => {
+    setSelectedParts({});
+    navigate('/drone-group/drone/parts/purchase');
   };
 
   console.log('파트 데이터', partsData);
@@ -136,24 +150,6 @@ const WeekPartCard: React.FC<Props> = ({ period, partsData, mode }: Props) => {
               <ESCAccent />
               ESC {selectedParts['ESC'] || 0}개
             </AccentBox>
-            {/* {selectedParts['MOTOR'] > 0 && (
-              <AccentBox>
-                <MotorAccent />
-                모터 {selectedParts['MOTOR'] || 0}개
-              </AccentBox>
-            )}
-            {selectedParts['BLADE'] > 0 && (
-              <AccentBox>
-                <BladeAccent />
-                블레이드 {selectedParts['BLADE'] || 0}개
-              </AccentBox>
-            )}
-            {selectedParts['ESC'] > 0 && (
-              <AccentBox>
-                <ESCAccent />
-                ESC {selectedParts['ESC'] || 0}개
-              </AccentBox>
-            )} */}
           </Box>
           <Button
             text={

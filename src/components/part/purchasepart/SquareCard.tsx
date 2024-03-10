@@ -35,7 +35,7 @@ const SquareCard: React.FC<ProductCardProps> = ({ data }) => {
           {data.store}
         </Typography>
       </Store>
-      <Image></Image>
+      <Image>{data.image}</Image>
       <Content>
         <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
           {data.name}
@@ -102,7 +102,7 @@ const Store = styled.div`
 const Image = styled.div`
   width: 329px;
   height: 187px;
-  background-color: #b1b1b1;
+  /* background-color: #b1b1b1; */
 `;
 
 const Content = styled.div`

@@ -8,6 +8,9 @@ import CostPartPage from './pages/CostPartPage';
 import EstimatePartPage from './pages/EstimatePartPage';
 import PurchasePartPage from './pages/PurchasePartPage';
 import TestDetailPage from './pages/TestDetailPage';
+import TradeUploadPage from './pages/TradeUploadPage';
+import TradePurchasePage from './pages/TradePurchasePage';
+import TradeResultPage from './pages/TradeResultPage';
 import ScrollToTop from './components/common/ScrollToTop';
 
 const Router = () => {
@@ -31,7 +34,19 @@ const Router = () => {
             element={<DroneGroupPage />}
           />
           {/* 중고 거래 */}
-          <Route path='/trade' element={<PurchasePartPage />} />
+        <Route
+          path='/drone-group/drone/trade/upload'
+          element={<TradeUploadPage />}
+        />
+        <Route
+          path='/drone-group/drone/trade/result'
+          element={<TradeResultPage />}
+        />
+        <Route
+          path='/drone-group/drone/trade/buy'
+          element={<TradePurchasePage />}
+        />
+
           {/* 대시보드 메인 */}
           <Route
             path='/drone-group/drone/:id/dashboard'
