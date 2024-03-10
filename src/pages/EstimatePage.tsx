@@ -27,7 +27,7 @@ import Button from 'src/components/common/Button';
 import { BackBlue } from 'src/assets';
 import { useNavigate, useParams } from 'react-router-dom';
 import DateSelect from 'src/components/estimate/DateSelect';
-import { getAllDrones, getDroneList } from 'src/api/dashboard';
+import { getAllDrones } from 'src/api/dashboard';
 import RadioBtn from 'src/components/common/RadioBtn';
 
 //
@@ -106,6 +106,7 @@ const EstimatePage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [drones, setDrones] = React.useState<Drone[]>();
+  const [currentDrone, setCurrentDrone] = React.useState<Drone>();
   const [newPartsFilter, setNewPartsFilter] = React.useState('score');
 
   /* 날짜 Select */
@@ -187,6 +188,9 @@ const EstimatePage = () => {
     getAllDrones().then((res) => {
       console.log(res.data.data);
       setDrones(res.data.data);
+      setCurrentDrone(
+        res.data.data?.filter((item: Drone) => item.id === Number(id))
+      );
     });
   }, []);
 
@@ -304,7 +308,7 @@ const EstimatePage = () => {
       >
         <Stack direction='row' gap='0.5rem'>
           <Typography variant='h2' fontWeight='bold' color={colors.accent100}>
-            Drone No.1
+            {currentDrone?.name}
           </Typography>
           <Typography variant='h2' fontWeight='bold' color={colors.basic700}>
             견적서
@@ -624,7 +628,10 @@ const EstimatePage = () => {
             >
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
-                  <span style={{ color: colors.accent100 }}>Eagle</span>의
+                  <span style={{ color: colors.accent100 }}>
+                    {currentDrone?.name}
+                  </span>
+                  의
                   {topSection?.components[0].type ===
                   topSection?.components[1].type ? (
                     <span style={{ color: colors.accent100 }}>
