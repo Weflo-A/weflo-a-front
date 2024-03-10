@@ -93,9 +93,7 @@ const TestDetailPage = () => {
   const [year, month, date] = testDate
     ? testDate.split('.').map((item: string) => Number(item))
     : []; // year, month, date 나누고 숫자로 만듦 => api 보낼때 형식
-  const [selectedDate, setSelectedDate] = React.useState(
-    `${year}-${month}-${date}`
-  ); // 선택된 값 형식
+  const [selectedDate, setSelectedDate] = React.useState(''); // 선택된 값 형식
 
   // 대시보드 메인에서 상세로 이동시 (날짜값)
   React.useEffect(() => {
@@ -105,6 +103,7 @@ const TestDetailPage = () => {
     if (testDate) {
       getTestDetail(Number(id), 2000 + year, month, date).then((res) => {
         console.log('대시보드->메인', year, month, date);
+        setSelectedDate(`${2000 + year}-${month}-${date}`);
         setTestData(res.data.data);
         const newDateList = res.data.data.testInfo.testDate?.map(
           (item: string) => {
@@ -124,18 +123,20 @@ const TestDetailPage = () => {
   // 메뉴탭 이동시 id 변경
   // 첫번째 날짜값으로 조회
   React.useEffect(() => {
-    getTestDateList(Number(id)).then((res) => {
-      setDateList(res.data.data);
-      if (res.data.data.length > 0) {
-        const { year, month, day } = res.data.data[0];
-        console.log('탭이동', year, month, day);
-        setSelectedDate(`${year}-${month}-${day}`);
-        getTestDetail(Number(id), year, month, day).then((res) => {
-          console.log(res.data.data);
-          setTestData(res.data.data);
-        });
-      }
-    });
+    if (!testDate) {
+      getTestDateList(Number(id)).then((res) => {
+        setDateList(res.data.data);
+        if (res.data.data.length > 0) {
+          const { year, month, day } = res.data.data[0];
+          console.log('탭이동', year, month, day);
+          setSelectedDate(`${year}-${month}-${day}`);
+          getTestDetail(Number(id), year, month, day).then((res) => {
+            console.log(res.data.data);
+            setTestData(res.data.data);
+          });
+        }
+      });
+    }
   }, [id]);
 
   // id는 고정인채 날짜만 변경시
