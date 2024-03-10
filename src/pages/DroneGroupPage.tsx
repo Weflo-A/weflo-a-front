@@ -107,6 +107,8 @@ const DroneGroupPage = () => {
 
   const [filter, setFilter] = React.useState('cost');
 
+  console.log(groupInfo);
+
   React.useEffect(() => {
     const sortedDrones = [...droneList];
     if (filter === 'cost') {
@@ -127,7 +129,7 @@ const DroneGroupPage = () => {
       <ItemContainer style={{ padding: '0rem 1.25rem' }}>
         <DroneInfoWrapper>
           <Typography variant='body1' fontWeight='bold'>
-            드론 그룹 1 정보
+            드론 그룹 정보
           </Typography>
           <Stack direction='column' gap='0.5rem'>
             <DroneInfoItemBox>
@@ -283,7 +285,7 @@ const DroneGroupPage = () => {
     getDroneInfoList(Number(groupId), 'cost').then((res) =>
       setDroneList(res.data.data)
     );
-  }, [droneYear, groupId]);
+  }, [groupYear, droneYear, groupId]);
 
   //
   //
@@ -292,7 +294,7 @@ const DroneGroupPage = () => {
     <>
       <MenuTab type='monitoring' groups={groupList} />
       <div className='page'>
-        <SectionHeader title='드롭 그룹 1'>
+        <SectionHeader title='드롭 그룹'>
           <Button
             text='해당 그룹에 드론 등록'
             buttonType='accentLight'
