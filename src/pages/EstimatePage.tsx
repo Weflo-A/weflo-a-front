@@ -154,6 +154,7 @@ const EstimatePage = () => {
 
   /* 폐기 전 재사용 가능 부품 */
   const recycleParts = newParts.filter((item) => item.point > 70);
+  const [recycleFilter, setRecycleFilter] = React.useState('part');
   const [recycleCheckedList, setRecycleCheckedList] = React.useState<string[]>(
     []
   );
@@ -184,6 +185,22 @@ const EstimatePage = () => {
     setFilteredNewParts(sortedNewParts);
   }, [newPartsFilter]);
 
+  /* 재활용 부품 정렬 */
+  React.useEffect(() => {
+    const sortedRecycleParts = [...recycleParts];
+    if (newPartsFilter === 'part') {
+      sortedRecycleParts.sort(
+        (a, b) => Number(b.part[-1]) - Number(a.part[-1])
+      );
+    } else if (newPartsFilter === 'score') {
+      sortedRecycleParts.sort((a, b) => b.point - a.point);
+    } else if (newPartsFilter === 'price') {
+      sortedRecycleParts.sort((a, b) => b.price - a.price);
+    }
+    setFilteredNewParts(sortedRecycleParts);
+  }, [recycleFilter]);
+
+  /* 전체 드론 조회 */
   React.useEffect(() => {
     getAllDrones().then((res) => {
       console.log(res.data.data);
@@ -696,11 +713,18 @@ const EstimatePage = () => {
                 </Typography>
               </CalloutBox>
               <Stack direction='row' gap='1.25rem'>
-                {['구동부 순', '점수 높은 순', '가격 높은 순'].map(
-                  (item, index) => (
-                    <CheckBox key={index} label={item} />
-                  )
-                )}
+                {[
+                  { value: 'part', label: '구동부 순' },
+                  { value: 'score', label: '점수 높은 순' },
+                  { value: 'price', label: '가격 높은 순' },
+                ].map((item) => (
+                  <RadioBtn
+                    value={item.value}
+                    label={item.label}
+                    checked={recycleFilter === item.value}
+                    onChange={() => setRecycleFilter(item.value)}
+                  />
+                ))}
               </Stack>
             </Stack>
             <RecyclePartsBox
