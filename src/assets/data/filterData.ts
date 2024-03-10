@@ -16,8 +16,8 @@ export const modelFilterData: FilterDataType[] = [
     filterName: '드론모델',
   },
   {
-    id: 'mdt-1600',
-    label: 'MDT-1600',
+    id: 'mdt_1600',
+    label: 'MDT_1600',
     filterName: '드론모델',
   },
   {
@@ -26,8 +26,8 @@ export const modelFilterData: FilterDataType[] = [
     filterName: '드론모델',
   },
   {
-    id: 'vl-2240r',
-    label: 'VL-2240R',
+    id: 'vl_2240r',
+    label: 'VL_2240R',
     filterName: '드론모델',
   },
 ];

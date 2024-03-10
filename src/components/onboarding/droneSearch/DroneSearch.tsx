@@ -40,11 +40,14 @@ const DroneSearch: React.FC = () => {
 
   const groupFilterData = searchResults.groupInfo
     ? searchResults.groupInfo.map((group: any) => ({
-        id: group.name,
+        id: group.groupId,
         label: group.name,
         filterName: '드론그룹',
       }))
     : [];
+
+  console.log('mm', modelFilterData);
+  console.log('gg', groupFilterData);
 
   const handleReset = () => {
     setSearchTerm('');
