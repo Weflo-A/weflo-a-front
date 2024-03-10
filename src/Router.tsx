@@ -26,8 +26,7 @@ const Router = () => {
           element={<DroneGroupPage />}
         />
         {/* 중고 거래 */}
-        <Route path='/monitoring/trade' element={<DroneSearchPage />} />
-        <Route path='/trade' element={<DroneSearchPage />} />
+        <Route path='/trade' element={<PurchasePartPage />} />
         {/* 대시보드 메인 */}
         <Route
           path='/drone-group/drone/:id/dashboard'
