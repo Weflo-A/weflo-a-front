@@ -28,10 +28,12 @@ const LineColumnChart = ({ items }: LineColumnChartProp) => {
     colors: [colors.accent30, colors.accent100],
     series: [
       {
+        name: '월별 그룹 평균 투입 비용',
         type: 'column',
         data: groupAvgCostList,
       },
       {
+        name: '월별 드론 평균 투입 비용',
         type: 'line',
         data: totalAvgCostList,
       },
