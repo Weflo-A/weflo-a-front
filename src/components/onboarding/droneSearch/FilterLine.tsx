@@ -24,8 +24,8 @@ const FilterLine: React.FC<FilterLineProps> = ({
   const [selectedFilterIds, setSelectedFilterIds] = useState<string[]>([]);
 
   const handleCheckboxChange = (filterId: string) => {
-    if (filterId === 'all' || filterId === '전체') {
-      const allSelected = !selectedFilterIds.includes('all' || '전체');
+    if (filterId === 'all' || filterId === 'r') {
+      const allSelected = !selectedFilterIds.includes('all' || 'r');
       const updatedSelectedFilterIds = allSelected
         ? filterData.map((item) => item.id)
         : [];

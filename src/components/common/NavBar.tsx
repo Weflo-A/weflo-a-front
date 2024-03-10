@@ -19,6 +19,7 @@ const NavContainer = styled.div`
   background: ${colors.secondary};
   padding: 0rem 5rem;
   z-index: 3000;
+  white-space: nowrap;
 `;
 const NavStack = styled.div`
   height: 100%;

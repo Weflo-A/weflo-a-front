@@ -32,7 +32,12 @@ const HeightCard: React.FC<ProductCardProps> = ({ data }) => {
       </Small>
       <Image>{data.image}</Image>
       <Content>
-        <Typography fontSize='14px' fontWeight='bold' color={colors.basic700}>
+        <Typography
+          height='32px'
+          fontSize='14px'
+          fontWeight='bold'
+          color={colors.basic700}
+        >
           {data.name}
         </Typography>
         <Gap>
