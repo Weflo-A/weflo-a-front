@@ -560,7 +560,7 @@ const EstimatePage = () => {
       <MenuTab type='dashboard' drones={drones} />
       <div className='page'>
         {renderPageHeader()}
-
+        <img src='/assets/images/drone-parts.png' />
         <Stack direction='column' gap='3.25rem'>
           {/* 교체가 피필요한 부품 및 총 점수 */}
           <Stack direction='row' gap='1rem'>
