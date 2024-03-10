@@ -29,11 +29,11 @@ const LineColumnChart = ({ items }: LineColumnChartProp) => {
     series: [
       {
         type: 'column',
-        data: totalAvgCostList,
+        data: groupAvgCostList,
       },
       {
         type: 'line',
-        data: groupAvgCostList,
+        data: totalAvgCostList,
       },
     ],
     stroke: {

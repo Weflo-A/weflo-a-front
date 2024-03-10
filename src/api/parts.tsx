@@ -2,7 +2,7 @@ import client from './client';
 
 // 전체 부품
 export const getCategoryParts = async () => {
-  return await client.get(`/api/drone-components`);
+  return await client.get(`/api/components`);
 };
 
 // 드론 부품
