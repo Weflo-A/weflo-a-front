@@ -21,8 +21,6 @@ const DroneSearch: React.FC = () => {
     droneInfo: [],
   });
 
-  console.log('search', searchDrones);
-
   useEffect(() => {
     postSearch(searchTerm, selectedModels, selectedYears, selectedGroups).then(
       (res) => {
