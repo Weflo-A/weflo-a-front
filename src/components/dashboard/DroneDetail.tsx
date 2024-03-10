@@ -94,7 +94,7 @@ const DroneDetail = ({ data }: Props) => {
           </Typography>
           <Row>
             <Typography variant='h3' fontWeight='bold' color={colors.accent100}>
-              {cost}
+              {cost.toLocaleString()}
             </Typography>
             <Typography variant='body2' color={colors.accent100}>
               원

@@ -64,7 +64,7 @@ const RepairCompanyList = ({ items }: RepairCompanyProps) => {
               logo={logoImg1}
               cost={[item.minPrice, item.maxPrice]}
               name={item.name}
-              tag={item.features}
+              tag={[...new Set(item.features)]}
               type={
                 item.features.length >= 3
                   ? 'best'

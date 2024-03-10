@@ -278,8 +278,8 @@ const EstimatePage = () => {
       getEnglishType(topSection?.components[0].type || '모터') || 'Motor';
     const second =
       getEnglishType(topSection?.components[1].type || '블레이드') || 'Blade';
-    getRepairCompany(currentDrone?.name || 'Model1', [first, second]).then(
-      (res) => setRepairCompanies(res.data.data)
+    getRepairCompany(droneModel || 'EAGEL', [first, second]).then((res) =>
+      setRepairCompanies(res.data.data)
     );
   }, [topSection]);
 
