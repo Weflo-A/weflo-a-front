@@ -1,12 +1,9 @@
 import { Typography } from '@mui/material';
 import {
-  TTradeResult3,
-  TTradeResult4,
-  Trade1,
-  Trade2,
-  Trade3,
   TradeResult1,
   TradeResult2,
+  TradeResult3,
+  TradeResult4,
 } from 'src/assets';
 import MenuTab from 'src/components/common/MenuTab';
 import colors from 'src/constants/colors';
@@ -24,8 +21,9 @@ const TradeResultPage = () => {
           <Grid>
             <TradeResult1 />
             <TradeResult2 />
-            <TTradeResult3 />
-            <TTradeResult4 />
+            <TradeResult3 />
+            <TradeResult4 />
+            {/* <img src={`/src/assets/images/TradeResult4.png`}></img> */}
           </Grid>
         </Page>
       </div>

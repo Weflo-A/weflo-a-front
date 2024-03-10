@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import colors from 'src/constants/colors';
 import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
-import { Plus, Weather } from 'src/assets';
+import { Plus } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
-import GroupPopup from '../onboarding/GroupPopup';
-import React from 'react';
 
 //
 //
@@ -65,7 +63,6 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   const location = useLocation();
   const isTestDetailPage = location.pathname.includes('/test');
   const isEstimatePage = location.pathname.includes('/estimate');
-  const [isGroupPopupOpen, setGroupPopupOpen] = React.useState(false);
 
   const handleTabMenu = (url: string, id?: string) => {
     navigate(url, { state: id });
@@ -134,7 +131,7 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
         url: '/drone-group/drone/trade/result',
       },
       {
-        id: 'buy',
+        id: 'purchase ',
         name: '상품 구매',
         url: '/drone-group/drone/trade/buy',
       },
@@ -275,36 +272,28 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   };
 
   return (
-    <div
+    <ItemContainer
       style={{ minWidth: '12.5rem', position: 'fixed', marginTop: '3.25rem' }}
     >
-      <ItemContainer>
-        <TabContainer>
-          {type === 'monitoring' ? renderDroneSearchTab() : null}
-          {type === 'monitoring' ? renderDroneGroupTab() : null}
-          {type === 'dashboard' ? renderDroneListTab() : null}
-          {type === 'parts' ? renderPartsTab() : null}
-          {type === 'trade' ? renderTradeTab() : null}
-          {type === 'monitoring' ? (
-            <Button
-              text={
-                <>
-                  <Plus /> 그룹 생성하기
-                </>
-              }
-              buttonType='accentLight'
-              onClick={() => setGroupPopupOpen(true)}
-            />
-          ) : null}
-        </TabContainer>
-      </ItemContainer>
-      {type === 'dashboard' ? (
-        <Weather style={{ width: '12.5rem', padding: '0px' }} />
-      ) : null}
-      {isGroupPopupOpen && (
-        <GroupPopup onClose={() => setGroupPopupOpen(false)} />
-      )}
-    </div>
+      <TabContainer>
+        {type === 'monitoring' ? renderDroneSearchTab() : null}
+        {type === 'monitoring' ? renderDroneGroupTab() : null}
+        {type === 'dashboard' ? renderDroneListTab() : null}
+        {type === 'parts' ? renderPartsTab() : null}
+        {type === 'trade' ? renderTradeTab() : null}
+        {type === 'monitoring' ? (
+          <Button
+            text={
+              <>
+                <Plus /> 그룹 생성하기
+              </>
+            }
+            buttonType='accentLight'
+            onClick={() => alert('클릭')}
+          />
+        ) : null}
+      </TabContainer>
+    </ItemContainer>
   );
 };
 

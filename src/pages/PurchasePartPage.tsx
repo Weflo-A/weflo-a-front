@@ -42,7 +42,7 @@ const PurchasePartPage = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log('ㅑㄴ냐', categoryPartData);
+  console.log('categoryPartData', categoryPartData);
 
   return (
     <>
