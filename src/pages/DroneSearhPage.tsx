@@ -6,7 +6,6 @@ import { Typography } from '@mui/material';
 import React, { useState } from 'react';
 import colors from 'src/constants/colors';
 import DroneSearch from 'src/components/onboarding/droneSearch/DroneSearch';
-import { DroneLists } from 'src/components/onboarding/droneSearch/DroneLists';
 import Popup from 'src/components/onboarding/Popup';
 import { getDroneGroupList } from 'src/api/monitoring';
 
