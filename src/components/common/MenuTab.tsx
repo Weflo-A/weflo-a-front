@@ -10,6 +10,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 //
 //
 
+export interface Drone {
+  id: number;
+  name: string;
+}
+
 export interface Group {
   groupId: number;
   name: string;
@@ -20,7 +25,7 @@ export interface GroupDetail {
 }
 export interface MenuTabProps {
   groups?: Group[];
-  drones?: GroupDetail;
+  drones?: Drone[];
   type: 'dashboard' | 'parts' | 'monitoring';
 }
 
@@ -183,11 +188,11 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
           fontWeight='bold'
           sx={{ padding: '0rem 0.5rem', marginBottom: '0.5rem' }}
         >
-          {drones?.groupName}
+          전체 드론
         </Typography>
         <Divider sx={{ margin: '0rem 0.5rem 0.5rem' }} />
         <TabList>
-          {drones?.droneList.map((item) => (
+          {drones?.map((item) => (
             <TabItem
               className={
                 location.pathname.includes(`/drone/${item.id}`) ? 'active' : ''
