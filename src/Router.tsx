@@ -34,18 +34,18 @@ const Router = () => {
             element={<DroneGroupPage />}
           />
           {/* 중고 거래 */}
-        <Route
-          path='/drone-group/drone/trade/upload'
-          element={<TradeUploadPage />}
-        />
-        <Route
-          path='/drone-group/drone/trade/result'
-          element={<TradeResultPage />}
-        />
-        <Route
-          path='/drone-group/drone/trade/buy'
-          element={<TradePurchasePage />}
-        />
+          <Route
+            path='/drone-group/drone/trade/upload'
+            element={<TradeUploadPage />}
+          />
+          <Route
+            path='/drone-group/drone/trade/result'
+            element={<TradeResultPage />}
+          />
+          <Route
+            path='/drone-group/drone/trade/buy'
+            element={<TradePurchasePage />}
+          />
 
           {/* 대시보드 메인 */}
           <Route
