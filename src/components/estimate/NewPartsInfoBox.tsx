@@ -33,6 +33,10 @@ const PartsInfoBox = styled.div`
   border-radius: 8px;
   border: 1px solid ${colors.basic200};
   background: white;
+  &.active {
+    border: 1px solid ${colors.primary100};
+    background: ${colors.primary10};
+  }
 `;
 
 //
@@ -52,7 +56,7 @@ const NewPartInfoBox = ({
   onChange,
 }: NewPartsProp) => {
   return (
-    <PartsInfoBox style={{ gap: '1rem' }}>
+    <PartsInfoBox style={{ gap: '1rem' }} className={checked ? 'active' : ''}>
       <img
         src={imgUrl}
         alt={name}
