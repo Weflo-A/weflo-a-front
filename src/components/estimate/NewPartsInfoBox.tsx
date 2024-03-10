@@ -28,7 +28,7 @@ interface NewPartsProp {
 const PartsInfoBox = styled.div`
   width: 100%;
   display: flex;
-  flex-direciton: row;
+  flex-direction: row;
   padding: 1rem;
   border-radius: 8px;
   border: 1px solid ${colors.basic200};

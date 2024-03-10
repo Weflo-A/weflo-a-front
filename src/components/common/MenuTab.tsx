@@ -5,6 +5,8 @@ import ItemContainer from 'src/components/common/ItemContainer';
 import Button from 'src/components/common/Button';
 import { Plus } from 'src/assets';
 import { useLocation, useNavigate } from 'react-router-dom';
+import GroupPopup from '../onboarding/GroupPopup';
+import { useState } from 'react';
 
 //
 //
@@ -63,7 +65,15 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
   const location = useLocation();
   const isTestDetailPage = location.pathname.includes('/test');
   const isEstimatePage = location.pathname.includes('/estimate');
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  const handleButtonClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
   const handleTabMenu = (url: string, id?: string) => {
     navigate(url, { state: id });
   };
@@ -285,10 +295,11 @@ const MenuTab = ({ groups, drones, type }: MenuTabProps) => {
               </>
             }
             buttonType='accentLight'
-            onClick={() => alert('클릭')}
+            onClick={handleButtonClick}
           />
         ) : null}
       </TabContainer>
+      {isPopupOpen && <GroupPopup onClose={handleClosePopup} />}
     </ItemContainer>
   );
 };

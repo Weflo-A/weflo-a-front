@@ -10,11 +10,20 @@ interface PopupProps {
 }
 
 const Popup: React.FC<PopupProps> = ({ onClose }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValueId, setInputValueId] = useState('');
+  const [inputValueYear, setInputValueYear] = useState('');
+  const [inputValueUsage, setInputValueUsage] = useState('');
 
-  const handleChange = (value: string) => {
-    setInputValue(value);
+  const handleIdChange = (value: string) => {
+    setInputValueId(value);
   };
+  const handleYearChange = (value: string) => {
+    setInputValueYear(value);
+  };
+  const handleUsageChange = (value: string) => {
+    setInputValueUsage(value);
+  };
+
   return (
     <PopupOverlay>
       <PopupContent>
@@ -29,9 +38,9 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <Essential>필수</Essential>
             </Row>
             <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Drone ID'
+              value={inputValueId}
+              onChange={handleIdChange}
+              placeholder='드론 ID를 입력해주세요.'
             />
           </Line>
           <Line>
@@ -40,6 +49,9 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <Essential>필수</Essential>
             </Row>
             <StyledSelect>
+              <StyledMenuItem disabled selected value=''>
+                드론 모델을 선택해주세요.
+              </StyledMenuItem>
               <StyledMenuItem>EAGLE</StyledMenuItem>
               <StyledMenuItem>MDT-1600</StyledMenuItem>
               <StyledMenuItem>SHIFT</StyledMenuItem>
@@ -52,9 +64,9 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <Essential>필수</Essential>
             </Row>
             <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Year'
+              value={inputValueYear}
+              onChange={handleYearChange}
+              placeholder='연식을 입력해주세요.'
             />
           </Line>
           <Line>
@@ -63,9 +75,9 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <Essential>필수</Essential>
             </Row>
             <Input
-              value={inputValue}
-              onChange={handleChange}
-              placeholder='Purpose of use'
+              value={inputValueUsage}
+              onChange={handleUsageChange}
+              placeholder='사용 용도를 입력해주세요.'
             />
           </Line>
           <Line>
@@ -74,6 +86,9 @@ const Popup: React.FC<PopupProps> = ({ onClose }) => {
               <Essential>선택</Essential>
             </Row>
             <StyledSelect>
+              <StyledMenuItem disabled selected value=''>
+                소속될 드론 그룹을 선택해주세요.
+              </StyledMenuItem>
               <StyledMenuItem>그룹 1</StyledMenuItem>
               <StyledMenuItem>그룹 2</StyledMenuItem>
               <StyledMenuItem>그룹 3</StyledMenuItem>
@@ -106,6 +121,7 @@ const PopupOverlay = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 `;
 
 const PopupContent = styled.div`
@@ -192,6 +208,7 @@ const StyledSelect = styled.select`
   border: 1px solid ${colors.basic200};
   background: ${colors.basic50};
   outline: none;
+  padding: 5px;
 `;
 
 const StyledMenuItem = styled.option`

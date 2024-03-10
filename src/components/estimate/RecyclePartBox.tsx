@@ -20,7 +20,8 @@ interface RecyclePartBoxProp {
 const PartBox = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 2fr 2fr 5fr 1fr 2fr 1fr;
+  grid-template-columns: 3fr 3fr 7fr 2fr 3fr 1fr;
+  justify-content: flex-start;
   border-radius: 0.5rem;
   border: 1px solid ${colors.primary100};
   background: ${colors.primary10};

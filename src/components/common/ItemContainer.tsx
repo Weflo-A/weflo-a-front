@@ -6,7 +6,7 @@ const ItemContainer = styled.div`
   border-radius: 0.75rem;
   border: 1px solid ${colors.basic200};
   background: white;
-  z-index: 1000;
+  z-index: 500;
 `;
 
 export default ItemContainer;
