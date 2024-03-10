@@ -11,13 +11,6 @@ import CostPieChart from 'src/components/part/costpart/CostPieChart';
 import MenuTab from 'src/components/common/MenuTab';
 import LineColumnChart from 'src/components/LineColumnChart';
 
-// interface GroupCostData {
-//   name: string;
-//   purpose: string;
-//   droneCount: number;
-//   monthCost: number;
-// }
-
 interface GroupCostData {
   month: number;
   totalAvgCost: number;
@@ -39,6 +32,7 @@ const CostPartPage = () => {
   const [groupCosts, setGroupCosts] = useState([]);
   const [groupAvgCost, setGroupAvgCost] = useState([]);
   const [totalCosts, setTotalCosts] = useState([]);
+  const [avgChartData, setAvgChartData] = useState<GroupCostData[]>([]);
 
   useEffect(() => {
     getCosts({ year, month })
@@ -53,14 +47,7 @@ const CostPartPage = () => {
     getYearCosts({ year: tyear })
       .then((res) => {
         console.log('Costs Year', tyear, res.data); // 확인용
-        const monthCosts = res.data.data.map(
-          (data: GroupCostData) => data.groupAvgCost
-        );
-        const yearCosts = res.data.data.map(
-          (data: GroupCostData) => data.groupAvgCost
-        );
-        setGroupAvgCost(monthCosts);
-        setTotalCosts(yearCosts);
+        setAvgChartData(res.data.data);
       })
       .catch((err) => console.log(err));
   }, [totalYear]);
@@ -129,7 +116,7 @@ const CostPartPage = () => {
                   />
                 </Stack>
               </Row>
-              {/* <LineColumnChart items={totalCosts} /> */}
+              <LineColumnChart items={avgChartData} />
             </Total>
             <Circle>
               <Typography
