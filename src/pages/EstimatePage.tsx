@@ -18,6 +18,7 @@ import TotalScoreChart from 'src/components/estimate/TotalScoreChart';
 import SectionTab from 'src/components/estimate/SectionTab';
 import {
   getBasketList,
+  getDroneModel,
   getEstimateInfo,
   getRepairCompany,
   getTestDateList,
@@ -107,6 +108,7 @@ const EstimatePage = () => {
   const { id } = useParams();
   const [drones, setDrones] = React.useState<Drone[]>();
   const [currentDrone, setCurrentDrone] = React.useState<Drone>();
+  const [droneModel, setDroneModel] = React.useState();
   const [newPartsFilter, setNewPartsFilter] = React.useState('score');
 
   /* 날짜 Select */
@@ -222,9 +224,12 @@ const EstimatePage = () => {
       console.log(res.data.data);
       setDrones(res.data.data);
       setCurrentDrone(
-        res.data.data?.filter((item: Drone) => item.id === Number(id))
+        res.data.data?.filter((item: Drone) => item.id === Number(id))[0]
       );
     });
+    getDroneModel(Number(id)).then((res) =>
+      setDroneModel(res.data.data.modelName)
+    );
   }, []);
 
   /* id 값 변경될 때마다 */
@@ -661,9 +666,7 @@ const EstimatePage = () => {
             >
               <CalloutBox>
                 <Typography variant='body1' color={colors.basic700}>
-                  <span style={{ color: colors.accent100 }}>
-                    {currentDrone?.name}
-                  </span>
+                  <span style={{ color: colors.accent100 }}>{droneModel}</span>
                   의
                   {topSection?.components[0].type ===
                   topSection?.components[1].type ? (

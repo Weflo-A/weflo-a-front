@@ -34,6 +34,12 @@ export const getRepairCompany = async (model: string, type: string[]) => {
   return await client.get(`/api/repair-stores?model=${model}&type=${type}`);
 };
 
+// 장바구니 총합 조회
 export const getBasketList = async (checkedList: string[]) => {
   return await client.get(`api/components?names=${checkedList}`);
+};
+
+// 드론 모델 명 조회
+export const getDroneModel = async (droneId: number) => {
+  return await client.get(`api/drone/${droneId}`);
 };
