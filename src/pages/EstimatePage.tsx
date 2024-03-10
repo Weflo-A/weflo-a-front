@@ -278,8 +278,8 @@ const EstimatePage = () => {
       getEnglishType(topSection?.components[0].type || '모터') || 'Motor';
     const second =
       getEnglishType(topSection?.components[1].type || '블레이드') || 'Blade';
-    getRepairCompany(currentDrone?.name || 'Model1', [first, second]).then(
-      (res) => setRepairCompanies(res.data.data)
+    getRepairCompany(droneModel || 'EAGEL', [first, second]).then((res) =>
+      setRepairCompanies(res.data.data)
     );
   }, [topSection]);
 
@@ -560,7 +560,6 @@ const EstimatePage = () => {
       <MenuTab type='dashboard' drones={drones} />
       <div className='page'>
         {renderPageHeader()}
-        <img src='/assets/images/drone-parts.png' />
         <Stack direction='column' gap='3.25rem'>
           {/* 교체가 피필요한 부품 및 총 점수 */}
           <Stack direction='row' gap='1rem'>

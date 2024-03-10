@@ -47,7 +47,7 @@ const RecyclePartBox = ({
       <Typography fontSize='14px'>{name}</Typography>
       <Typography fontSize='14px'>{score}점</Typography>
       <Typography variant='h4' fontWeight='bold' color={colors.accent100}>
-        {price} 원
+        {price.toLocaleString()} 원
       </Typography>
       <CheckBox value={name} checked={checked} onChange={onChange} />
     </PartBox>
