@@ -36,7 +36,6 @@ const SelectBox = styled.select`
 const YearSelect = ({ value, onChange }: YearSelectProp) => {
   const today = new Date();
   const currentYear = today.getFullYear();
-  // const currentMonth = today.getMonth() + 1;
 
   const yearOptions = Array.from({ length: currentYear - 2019 }, (_, index) => {
     const year = 2020 + index;

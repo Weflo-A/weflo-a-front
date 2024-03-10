@@ -21,7 +21,7 @@ const GroupPartCard: React.FC<Props> = ({
   componentStatus,
   onSelect,
 }: Props) => {
-  console.log('여기여기dd', componentStatus);
+  console.log('componentStatus', componentStatus);
 
   const partsArray = Array.isArray(componentStatus)
     ? componentStatus // 이미 배열인 경우
