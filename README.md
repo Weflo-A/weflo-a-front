@@ -13,7 +13,7 @@
 [프로젝트 결과물 확인하기](http://weflow-a-bucket.s3-website.ap-northeast-2.amazonaws.com/monitoring/drone-search) (데스크탑/노트북/태블릿 환경에서 이용 가능)<br>
 
 📔
-[Weflo A조 프론트 개발 파트 노션]([https://www.notion.so/03a7b74e66884ab2ab160365e9f84459?pvs=21](https://octagonal-guppy-90d.notion.site/6da7670140354df48e234d19d5fedc3e?pvs=4))
+[Weflo A조 프론트 개발 파트 노션](https://octagonal-guppy-90d.notion.site/6da7670140354df48e234d19d5fedc3e)
 <br><br>
 
 # ✈ 프로젝트 소개
@@ -23,7 +23,7 @@ AI 진단/예지 알고리즘으로 대량 드론 점검 시 많은 인력과 �
 >
 
 ## 🧡 주제
-**드론 점검 서비스에 연결될 신규 서비스와 비지니스 모델 기획 및 프로토타입 개발**
+**드론 점검 서비스에 연결될 신규 서비스와 비지니스 모델 기획 및 프로토타입 개발**<br>
 본 프로젝트에서 저희는 위플로 서비스가 제공하는 가치를 향상시켜, 신규 사용자(드론 서비스 사용자)를 유치할 수 있는 서비스를 기획하고, [관련 프로토타입 페이지](http://weflow-a-bucket.s3-website.ap-northeast-2.amazonaws.com/monitoring/drone-search)를 제작하였습니다.
 <br><br>
 
@@ -81,7 +81,7 @@ AI 진단/예지 알고리즘으로 대량 드론 점검 시 많은 인력과 �
 ### 개발 
 #### - Front-end (React 🌐)
 
-| <img src="https://avatars.githubusercontent.com/u/89841486?v=4" width=80px alt="이효원"/> | <img src="https://avatars.githubusercontent.com/u/102593738?v=4" width=80px alt="유진주"/> |
+| <img src="https://avatars.githubusercontent.com/u/89841486?v=4" width=90px alt="이효원"/> | <img src="https://avatars.githubusercontent.com/u/102593738?v=4" width=90px alt="유진주"/> |
 | --- | --- |
 | [이효원](https://github.com/ymj07168) | [유진주](https://github.com/yyypearl) |
 
