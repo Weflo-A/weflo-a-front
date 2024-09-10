@@ -47,27 +47,27 @@ AI 진단/예지 알고리즘으로 대량 드론 점검 시 많은 인력과 �
 ### 🧡 모니터링
 - 드론 모델별, 연식별, 그룹별 검색이 가능합니다.
 - 그룹 정보 분석 및 그룹별 드론 평균 상태 분석으로 편리한 드론 목록 관리가 가능합니다.
-<img src="https://github.com/Weflo-A/weflo-a-front/assets/102593738/1c3c4a74-70ad-48b1-8fb0-f85ef732f064" width="70%" />
+<img src="https://github.com/Weflo-A/weflo-a-front/assets/102593738/1c3c4a74-70ad-48b1-8fb0-f85ef732f064" width="50%" /><img src="https://github.com/user-attachments/assets/d2845512-ae3f-46ce-8972-354ba774966b" width="50%" />
 <br>
 
 ### 🧡 대시보드
 - 메인 페이지에서는 부품 점수 추이를 통한 예상 진단일 정보, 진단 일시별 관리 및 견적서 확인, 또한 고장 유형과 평균 수명 파악을 통해 부품을 관리할 수 있습니다.
 - 상세 페이지에서는 부품별 정렬을 통한 체계적인 관리와 효과적인 데이터 시각화로 빠른 부품 교체 우선순위를 결정할 수 있습니다.<br><br>
-<img src="https://github.com/Weflo-A/weflo-a-front/assets/102593738/1c3c4a74-70ad-48b1-8fb0-f85ef732f064" width="50%" /><img src="https://github.com/Weflo-A/weflo-a-front/assets/102593738/1c3c4a74-70ad-48b1-8fb0-f85ef732f064" width="50%" />
+<img src="https://github.com/user-attachments/assets/c08ed835-9029-495f-8b83-95971a723f68" width="50%" />
 
 <br>
 
 ### 🧡 견적서
 - 제공된 진단 데이터에서 얻은 교체가 필요한 부품들을 점수와 가격 범위에 따라 필터링할 수 있고, 구매를 원하는 부품들을 선택해 장바구니에 담을 수 있습니다.
 - 또한, 수리업체 정보 및 페기 전 재사용 가능 부품 목록을 제공합니다.
-<img src="https://github.com/Weflo-A/weflo-a-front/assets/102593738/1c3c4a74-70ad-48b1-8fb0-f85ef732f064" width="70%" />
+<img src="https://github.com/user-attachments/assets/09f0b2ac-d7e6-41af-b35c-08aa441bea26" width="50%" />
 <br>
 
 ### 🧡 부품
 - 그룹별 누적 비용 순위와 전체 투입 비용을 제공합니다.
 - 부품 예측 관리를 통해 필요한 부품들의 수량을 기간 및 종류별로 한눈에 보여줍니다.
 - 부품 예측을 토대로 우선순위에 따른 부품 추천 서비스를 제공합니다.
-<img src="https://github.com/Weflo-A/weflo-a-front/assets/102593738/1c3c4a74-70ad-48b1-8fb0-f85ef732f064" width="70%" />
+<img src="https://github.com/user-attachments/assets/efc1fd94-9b3a-420f-80ef-b0b50c6bc870" width="50%" />
 <br>
 <br>
 
